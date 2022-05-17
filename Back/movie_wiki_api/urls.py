@@ -23,5 +23,5 @@ urlpatterns = [
     path('api/v1/accounts/', include('dj_rest_auth.urls')),
     
     # 회원가입 
-    path('api/v1/accounts/signup/', include('dj_rest_auth.registrations.urls')),
+    path('api/v1/accounts/signup/', include('dj_rest_auth.registration.urls')),
 ]
