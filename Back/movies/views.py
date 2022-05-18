@@ -16,18 +16,25 @@ def movieList_info(request):
 def moviedetail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     serializer = MovieSerializer(movie)
-    # for similar_movie_id in serializer.data.get('movie_similar'):
-    #     print(similar_movie_id)
-        # similar_movie = get_object_or_404(Movie, pk=similar_movie_id)
-        # similar_serializer = MovieListSerializer(similar_movie)
-        # print(similar_serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
-def genre_list(request, q):
-    
-    results = Movie.objects.filter(title__icontains = q.replace(" ", ""))
-    serializer = MovieGenreListSerializer(results, many=True)
+def search(request, q):
+    results = Movie.objects.filter(title__icontains = q)
+    serializer = MovieListSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    # .replace(" ", "")
 
+
+@api_view(['GET'])
+def genre_filter(request, genre_id):
+    movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def country_filter(request, country_id):
+    movies = Movie.objects.filter(production_countries=country_id).order_by('-popularity')
+    serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
