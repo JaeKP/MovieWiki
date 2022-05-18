@@ -10,7 +10,7 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'overview')
+        fields = ('id', 'title', 'overview', 'poster_path',)
 
 
 # 상세 정보용
@@ -30,4 +30,4 @@ class MovieGenreListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id','genre_ids', 'title')
+        fields = ('id','genre_ids', 'title',)

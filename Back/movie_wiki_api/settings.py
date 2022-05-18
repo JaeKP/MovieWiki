@@ -33,6 +33,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.UserCreateSerializer',
+}
 
 REST_FRAMEWORK = {
     # 기본 인증방식 설정
