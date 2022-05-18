@@ -22,6 +22,10 @@ urlpatterns = [
     path('api/v1/movie/', include('movies.urls')),
 
 
+
+    # articles
+    path('api/v1/article/', include('articles.urls')),
+    
     # 로그인
     path('api/v1/accounts/', include('dj_rest_auth.urls')),
     
