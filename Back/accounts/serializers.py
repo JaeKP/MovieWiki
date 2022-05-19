@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from articles.models import Article, ArticleComment, ArticleType
 from movies.models import MovieReview, Movie
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -11,10 +12,17 @@ class UserInfoSerializer(serializers.ModelSerializer):
         fields = ('username','nickname', 'profile_image',)
 
 # 회원가입 
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'password', 'nickname', 'region','age', 'profile_image',)
+class UserCreateSerializer(RegisterSerializer):
+    age = serializers.IntegerField(required=True)
+    nickname = serializers.CharField(max_length=10, required=True)
+    region = serializers.CharField(max_length=10, required=True)
+    
+    def get_cleaned_data(self):
+        data = super().get_cleaned_data()
+        data['age'] = self.validated_data.get('age', '')
+        data['nickname'] = self.validated_data.get('nickname', '')
+        data['region'] = self.validated_data.get('region', '')
+        return data
 
 # 회원 정보 수정
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
