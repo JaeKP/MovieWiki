@@ -8,14 +8,8 @@ urlpatterns = [
     # 인기 게시판 (최근 30일 이내 인기글)
     path('popular/', views.article_list_popular),
 
-    # 자유 게시판 (ArticleType 1)
-    path('general/', views.article_list_general),
-
-    # 영화 게시판 (ArticleType 2)
-    path('movie/', views.article_list_movie),
-
-    # 배우 게시판 (ArticleType 3)
-    path('actor/', views.article_list_actor),
+    # 게시반 선택 (ArticleType 1~3)
+    path('articlelist', views.article_list_select),
 
     # 게시판 상세 페이지 조회 및 수정, 삭제
     path('<int:article_id>/', views.article_detail_or_update_or_delete),

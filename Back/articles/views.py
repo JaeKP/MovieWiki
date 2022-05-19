@@ -8,6 +8,7 @@ from .serializers.article import ArticleListSerializer, ArticleSerializer, Searc
 from .serializers.article_comment import ArticleCommentSerializer
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 
 
 @api_view(['GET', 'POST'])
@@ -48,31 +49,10 @@ def article_list_popular(reqeust):
 
 
 @api_view(['GET'])
-def article_list_general(request):
+def article_list_select(request):
+    num = request.GET.get('num')
     articles = Article.objects.filter(
-        article_type=1
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-pk')
-    serialzers = ArticleListSerializer(articles, many=True)
-    return Response(serialzers.data)
-
-
-@api_view(['GET'])
-def article_list_movie(request):
-    articles = Article.objects.filter(
-        article_type=2
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-pk')
-    serialzers = ArticleListSerializer(articles, many=True)
-    return Response(serialzers.data)
-
-
-@api_view(['GET'])
-def article_list_actor(request):
-    articles = Article.objects.filter(
-        article_type=3
+        article_type=num
     ).annotate(
         like_count=Count('like_users', distinct=True)
     ).order_by('-pk')
@@ -97,6 +77,7 @@ def article_detail_or_update_or_delete(request, article_id):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
+
 
     # 게시글 삭제
     def article_delete():
@@ -185,16 +166,19 @@ def comment_like(request, article_id, comment_id):
 @api_view(['GET'])
 def search_article(request):
     query = request.GET.get('query')
-    search_type = request.GET.get('type')
-    print(search_type)
-    results = ''
-    if search_type == 'title':
-        results = Article.objects.filter(title__icontains = query)[:10]
-    elif search_type == 'content':
-        results = Article.objects.filter(content__icontains = query)[:10]
-    elif search_type == 'nickname':
-        results = Article.objects.filter(nickname__icontains = query)[:10]
-    serializer = SearchArticleSerializer(results, many=True)
+    title = request.GET.getlist('title', None)
+    content = request.GET.getlist('content', None)
+    nickname = request.GET.get('nickname', None)
+    
+    q=Q()
+    if title:
+        q |= Q(title__icontains = query)
+    if content:
+        q |= Q(content__icontains = query)
+    if nickname:
+        q |= Q(user_id__nickname__icontains=query)
+    results = Article.objects.filter(q)[:10]
+
+    serializer = ArticleSerializer(results, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-    # .replace(" ", "")
 
