@@ -1,4 +1,7 @@
 import requests
+import json
+import re
+from django.http import JsonResponse  
 from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers.movie import MovieListSerializer, MovieSerializer
@@ -231,3 +234,193 @@ def weather(request, area):
     movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[:10]
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+TMDB_API_KEY =  '9a1be42b20cb9255e18beb22379b225e' 
+BASE_URL = 'https://api.themoviedb.org/3/movie'
+actor_pk = 1
+
+def genre_country_data(request):
+    GENRE_URL = 'https://api.themoviedb.org/3/genre/movie/list'
+    response = requests.get(
+        GENRE_URL,
+        params={
+            'api_key': TMDB_API_KEY,
+            'language': 'ko-kr',            
+        }
+    ).json()
+
+    for genre in response.get('genres'):
+        Genres.objects.create(
+            id=genre.get('id'),
+            name=genre.get('name')
+        )
+
+    # ISO 3166-1 변환용 json
+    with open("movies/fixtures/language_info.json", 'r', encoding="utf-8") as file:
+        language_info = json.load(file)
+    
+    for country in language_info:
+        ProductionCountry.objects.create(
+            id=country.get('id'),
+            name=country.get('name')
+        )
+    return JsonResponse(response)
+
+def get_youtube_key(movie_dict):  
+    movie_id = movie_dict.get('id')
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}/videos',
+        params={
+            'api_key': TMDB_API_KEY
+        }
+    ).json()
+    for video in response.get('results'):
+        if video.get('site') == 'YouTube':
+            return video.get('key')
+    return 'nothing'
+
+def get_actors(movie):
+    global actor_pk
+    movie_id = movie.id
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}/credits',
+        params={
+            'api_key': TMDB_API_KEY,
+            'language': 'ko-kr',
+        }
+    ).json()
+    for person in response.get('cast'):
+        if person.get('known_for_department') != 'Acting': continue
+        actor_id = person.get('id')
+        character_name = person.get('character')
+        request_url_person = f'https://api.themoviedb.org/3/person/{actor_id}?api_key={TMDB_API_KEY}&language=ko-KR'
+        response = requests.get(request_url_person).json()
+        korean_name = 0
+        for _name in response.get('also_known_as'):
+            hanCount = len(re.findall(u'[\u3130-\u318F\uAC00-\uD7A3]+', _name))
+            if hanCount:
+                name = _name
+                korean_name = 1
+                break
+        if korean_name == 0:
+            name = response.get('name')
+        if not Actor.objects.filter(pk=actor_id).exists():
+            Actor.objects.create(
+                id=response.get('id'),
+                name=name,
+                profile_path= response.get('profile_path'),
+            )
+        movie.actors.add(actor_id)
+        character = Characters.objects.get(pk=actor_pk)
+        character.character_name = character_name
+        character.save()
+        actor_pk += 1
+        if movie.actors.count() == 5:
+            break
+
+def get_director(movie):
+    movie_id = movie.id
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}/credits',
+        params={
+            'api_key': TMDB_API_KEY,
+            'language': 'ko-kr',
+        }
+    ).json()
+    for person in response.get('crew'):
+        if person.get('job') != 'Director': continue
+        director_id = person.get('id')
+        request_url_person = f'https://api.themoviedb.org/3/person/{director_id}?api_key={TMDB_API_KEY}&language=ko-KR'
+        response = requests.get(request_url_person).json()
+        korean_name = 0
+        for _name in response.get('also_known_as'):
+            hanCount = len(re.findall(u'[\u3130-\u318F\uAC00-\uD7A3]+', _name))
+            if hanCount:
+                name = _name
+                korean_name = 1
+                break
+        if korean_name == 0:
+            name = response.get('name')
+        if not Director.objects.filter(pk=director_id).exists():
+            Director.objects.create(
+                id=response.get('id'),
+                name=name,
+                profile_path= response.get('profile_path'),
+            )
+        movie.director.add(director_id)
+        if movie.director.count() == 1:
+            break
+    
+@api_view(['GET'])
+def data(request):
+    global country_pk
+    with open("movies/fixtures/language_id_info.json", 'r', encoding="utf-8") as file:
+        language_id_info = json.load(file)
+    print('인기 영화 목록')
+    print('--------------------------------------------------------------')
+    cnt = 1
+    
+    for i in range(1, 21):
+
+        # popular api
+        request_url = f"{BASE_URL}/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        movies = requests.get(request_url).json()
+        
+        
+        for movie_dict in movies.get('results'): 
+            if not movie_dict.get('release_date'):
+                continue 
+            trailer_key = get_youtube_key(movie_dict)
+
+            movie_id = movie_dict.get('id')
+
+            movie_name = movie_dict.get('title') 
+            print(f'#{cnt} {movie_name}')
+            cnt+=1 
+            
+            # 디테일 api
+            request_url_detail = f"{BASE_URL}/{movie_id}?api_key={TMDB_API_KEY}&language=ko-KR"
+            movie_detail = requests.get(request_url_detail).json()
+
+            # 비슷한 영화 api
+            request_url_similar= f'{BASE_URL}/{movie_id}/similar?api_key={TMDB_API_KEY}&language=ko-KR&page=1'
+            movie_similars = requests.get(request_url_similar).json()
+
+            # 비슷한 영화 id
+            similar_movies = []
+            for similar in movie_similars.get('results'):
+                similar_movies.append(similar.get('id'))
+            
+            if not Movie.objects.filter(pk=movie_detail.get('id')).exists():
+                movie = Movie.objects.create(
+                    id=movie_detail.get('id'),
+                    title= movie_name,
+                    released_date= movie_detail.get('release_date'),
+                    popularity= movie_detail.get('popularity'),
+                    vote_avg= movie_detail.get('vote_average'),
+                    overview= movie_detail.get('overview'),
+                    poster_path= movie_detail.get('poster_path'),
+                    adult= movie_detail.get('adult'),
+                    # 'production_countries': countries,
+                    runtime= movie_detail.get('runtime'),
+                    status= movie_detail.get('status'),
+                    tagline= movie_detail.get('tagline'),
+                    trailer_youtube_key= trailer_key,
+                    movie_similar= similar_movies,
+                )
+
+            for genre_id in movie_dict.get('genre_ids', []):
+                movie.genre_ids.add(genre_id)
+            
+            for country in movie_detail.get('production_countries'):
+                country_name = country.get('iso_3166_1')
+                if language_id_info.get(country_name.lower()):
+                    country_id = language_id_info[country_name.lower()]
+                else:
+                    country_id = -1
+                movie.production_countries.add(country_id)
+            get_actors(movie)
+            get_director(movie)
+
+
+    return JsonResponse(movie)
