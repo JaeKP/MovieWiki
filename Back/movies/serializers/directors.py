@@ -6,3 +6,10 @@ class DirectorSerializer(serializers.ModelSerializer):
         class Meta:
             model = Director
             fields = ('name', 'profile_path')
+
+
+class DirectorDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Director
+        fields = '__all__'

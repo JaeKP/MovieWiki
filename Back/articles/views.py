@@ -4,10 +4,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Article, ArticleComment
-from .serializers.article import ArticleListSerializer, ArticleSerializer
+from .serializers.article import ArticleListSerializer, ArticleSerializer, SearchArticleSerializer
 from .serializers.article_comment import ArticleCommentSerializer
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 
 
 @api_view(['GET', 'POST'])
@@ -18,15 +19,15 @@ def article_list_or_create(request):
         articles = Article.objects.annotate(
             like_count=Count('like_users', distinct=True)
         ).order_by('-pk')
-        serializers = ArticleListSerializer(articles, many=True)
-        return Response(serializers.data)
+        serializer = ArticleListSerializer(articles, many=True)
+        return Response(serializer.data)
 
     # 게시글 생성
     def article_create():
-        serializers = ArticleSerializer(data=request.data)
-        if serializers.is_valid(raise_exception=True):
-            serializers.save(user_id=request.user)
-            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user_id=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     if request.method == 'GET':
         return article_list()
@@ -43,36 +44,15 @@ def article_list_popular(reqeust):
     ).annotate(
         like_count=Count('like_users', distinct=True)
     ).order_by('-like_count')
-    serializers = ArticleListSerializer(articles, many=True)
-    return Response(serializers.data)
+    serializer = ArticleListSerializer(articles, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
-def article_list_general(request):
+def article_list_select(request):
+    num = request.GET.get('num')
     articles = Article.objects.filter(
-        article_type=1
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-pk')
-    serialzers = ArticleListSerializer(articles, many=True)
-    return Response(serialzers.data)
-
-
-@api_view(['GET'])
-def article_list_movie(request):
-    articles = Article.objects.filter(
-        article_type=2
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-pk')
-    serialzers = ArticleListSerializer(articles, many=True)
-    return Response(serialzers.data)
-
-
-@api_view(['GET'])
-def article_list_actor(request):
-    articles = Article.objects.filter(
-        article_type=3
+        article_type=num
     ).annotate(
         like_count=Count('like_users', distinct=True)
     ).order_by('-pk')
@@ -86,17 +66,18 @@ def article_detail_or_update_or_delete(request, article_id):
 
     # 게시글 상세 페이지
     def article_detail():
-        serializers = ArticleSerializer(article)
-        return Response(serializers.data)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
 
     # 게시글 수정
     def article_update():
         if request.user == article.user_id:
-            serializers = ArticleSerializer(
+            serializer = ArticleSerializer(
                 instance=article, data=request.data)
-            if serializers.is_valid(raise_exception=True):
-                serializers.save()
-                return Response(serializers.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+
 
     # 게시글 삭제
     def article_delete():
@@ -118,23 +99,23 @@ def article_like(request, article_id):
     user = request.user
     if article.like_users.filter(pk=user.pk).exists():
         article.like_users.remove(user)
-        serializers = ArticleSerializer(article)
-        return Response(serializers.data)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
     else:
         article.like_users.add(user)
-        serializers = ArticleSerializer(article)
-        return Response(serializers.data)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
 def comment_create(request, article_id):
     article = get_object_or_404(Article, pk=article_id)
-    serializers = ArticleCommentSerializer(data=request.data)
-    if serializers.is_valid(raise_exception=True):
-        serializers.save(user=request.user, article=article)
+    serializer = ArticleCommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user, article=article)
         comments = article.comment.all()
-        serializers = ArticleCommentSerializer(comments, many=True)
-        return Response(serializers.data, status=status.HTTP_201_CREATED)
+        serializer = ArticleCommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT', 'DELETE'])
@@ -144,20 +125,20 @@ def comment_update_or_delete(request, article_id, comment_id):
 
     def comment_update():
         if request.user == comment.user:
-            serializers = ArticleCommentSerializer(
+            serializer = ArticleCommentSerializer(
                 instance=comment, data=request.data)
-            if serializers.is_valid(raise_exception=True):
-                serializers.save()
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
                 comments = article.comment.all()
-                serializers = ArticleCommentSerializer(comments, many=True)
-                return Response(serializers.data)
+                serializer = ArticleCommentSerializer(comments, many=True)
+                return Response(serializer.data)
 
     def comment_delete():
         if request.user == comment.user:
             comment.delete()
             comments = article.comment.all()
-            serializers = ArticleCommentSerializer(comments, many=True)
-            return Response(serializers.data, status=status.HTTP_204_NO_CONTENT)
+            serializer = ArticleCommentSerializer(comments, many=True)
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
     if request.method == 'PUT':
         return comment_update()
@@ -173,10 +154,31 @@ def comment_like(request, article_id, comment_id):
     if comment.like_users.filter(pk=user.pk).exists():
         comment.like_users.remove(user)
         comments = article.comment.all()
-        serializers = ArticleCommentSerializer(comments, many=True)
-        return Response(serializers.data)
+        serializer = ArticleCommentSerializer(comments, many=True)
+        return Response(serializer.data)
     else:
         comment.like_users.add(user)
         comments = article.comment.all()
         serializers = ArticleCommentSerializer(comments, many=True)
         return Response(serializers.data)
+
+# 검색
+@api_view(['GET'])
+def search_article(request):
+    query = request.GET.get('query')
+    title = request.GET.getlist('title', None)
+    content = request.GET.getlist('content', None)
+    nickname = request.GET.get('nickname', None)
+    
+    q=Q()
+    if title:
+        q |= Q(title__icontains = query)
+    if content:
+        q |= Q(content__icontains = query)
+    if nickname:
+        q |= Q(user_id__nickname__icontains=query)
+    results = Article.objects.filter(q)[:10]
+
+    serializer = ArticleSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

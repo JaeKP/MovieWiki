@@ -37,6 +37,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.UserCreateSerializer',
 }
 
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+
 REST_FRAMEWORK = {
     # 기본 인증방식 설정
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -166,3 +168,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # UserModel
 AUTH_USER_MODEL = 'accounts.User'
+
+# ImageFields
+MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
