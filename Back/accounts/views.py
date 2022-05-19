@@ -12,17 +12,17 @@ User = get_user_model()
 def user_profile_or_update_or_delete(request, username):
     user = get_object_or_404(User, username=username)
     def user_profile():
-        serializers = UserProfileSerializer(user)
-        return Response(serializers.data)
+        serializer = UserProfileSerializer(user)
+        return Response(serializer.data)
 
     def user_update():
         if request.user == user:
-            serializers = UserProfileUpdateSerializer(
+            serializer = UserProfileUpdateSerializer(
                 instance=user, data=request.data
             )
-            if serializers.is_valid(raise_exception=True):
-                serializers.save()
-                return Response(serializers.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
 
     def user_delete():
         if request.user == user:
