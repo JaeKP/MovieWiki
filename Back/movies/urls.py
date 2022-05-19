@@ -38,4 +38,7 @@ urlpatterns = [
     path('weather/<str:area>/', views.weather),
     path('data/', views.data),
     path('basedata/', views.genre_country_data),
+
+    # 영화 트레일러
+    path('trailer/', views.movie_trailer_list),
 ]
