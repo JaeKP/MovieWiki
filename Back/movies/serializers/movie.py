@@ -15,11 +15,11 @@ class MovieListSerializer(serializers.ModelSerializer):
 
 # 상세 정보용
 class MovieSerializer(serializers.ModelSerializer):
-
     actors = ActorSerializer(many=True, read_only=True)
     production_countries = CountrySerializer(many=True, read_only=True)
     genre_ids = GenreSerializer(many=True, read_only=True)
     director = DirectorSerializer(many=True, read_only=True)
+    like_count = serializers.IntegerField(source="like_users.count", read_only=True)
 
     class Meta:
         model = Movie

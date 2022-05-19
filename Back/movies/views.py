@@ -1,12 +1,13 @@
 import requests
-import json
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404
 from .models import *
-from .serializers.movie import MovieListSerializer, MovieSerializer, MovieGenreListSerializer
-from .serializers.actor import ActorSerializer
+from .serializers.movie import MovieListSerializer, MovieSerializer
+from .serializers.movie_review import MovieReviewSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Count
+
 
 @api_view(['GET'])
 def popular_movie_list_info(request):
@@ -20,6 +21,142 @@ def moviedetail(request, movie_id):
     serializer = MovieSerializer(movie)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+def moviedetail_like(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    user = request.user
+    if movie.like_users.filter(pk=user.pk).exists():
+        movie.like_users.remove(user)
+        serialzer = MovieSerializer(movie)
+        return Response(serialzer.data)
+    else:
+        movie.like_users.add(user)
+        serialzer = MovieSerializer(movie)
+        return Response(serialzer.data)
+
+@api_view(['GET', 'POST'])
+def moviedetail_review_or_create(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    def moviedetail_review():
+        review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+        serializer = MovieReviewSerializer(review, many=True)
+        return Response(serializer.data)
+
+    def moviedatail_review_create():
+        serializer = MovieReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user_id=request.user, movie_id=movie)
+            review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            serializer = MovieReviewSerializer(review, many=True)
+            return Response(serializer.data)
+
+    if request.method == 'GET':
+        return moviedetail_review()
+    elif request.method == 'POST':
+        return moviedatail_review_create()
+
+@api_view(['PUT', 'DELETE'])
+def moviedetail_review_update_delete(request, movie_id, review_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    review = get_object_or_404(MovieReview, pk=review_id)
+    def moviedetail_review_update():
+        if request.user == review.user_id:
+            serializer = MovieReviewSerializer(instance=review, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+                serializer = MovieReviewSerializer(review_list, many=True)
+                return Response(serializer.data)
+
+    def moviedatail_review_delete():
+        if request.user == review.user_id:
+            review.delete()
+            review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            serializer = MovieReviewSerializer(review_list, many=True)
+            return Response(serializer.data)
+
+    if request.method == 'PUT':
+        return moviedetail_review_update()
+    elif request.method == 'DELETE':
+        return moviedatail_review_delete()
+
+@api_view(['POST'])
+def moviedetail_review_like(request, movie_id, review_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    review = get_object_or_404(MovieReview, pk=review_id)
+    user = request.user
+    if review.like_users.filter(pk=user.pk).exists():
+        review.like_users.remove(user)
+        review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+        serializer = MovieReviewSerializer(review_list, many=True)
+        return Response(serializer.data)
+    else:
+        review.like_users.add(user)
+        review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+        serializer = MovieReviewSerializer(review_list, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def moviedetail_review_latest_or_create(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    def moviedetail_review_latest():
+        review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+        serializer = MovieReviewSerializer(review, many=True)
+        return Response(serializer.data)
+
+    def moviedatail_review_latest_create():
+        serializer = MovieReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user_id=request.user, movie_id=movie)
+            review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer = MovieReviewSerializer(review, many=True)
+            return Response(serializer.data)
+
+    if request.method == 'GET':
+        return moviedetail_review_latest()
+    elif request.method == 'POST':
+        return moviedatail_review_latest_create()
+
+@api_view(['PUT', 'DELETE'])
+def moviedetail_review_latest_update_delete(request, movie_id, review_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    review = get_object_or_404(MovieReview, pk=review_id)
+    def moviedetail_review_latest_update():
+        if request.user == review.user_id:
+            serializer = MovieReviewSerializer(instance=review, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+                serializer = MovieReviewSerializer(review_list, many=True)
+                return Response(serializer.data)
+
+    def moviedatail_review_latest_delete():
+        if request.user == review.user_id:
+            review.delete()
+            review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer = MovieReviewSerializer(review_list, many=True)
+            return Response(serializer.data)
+
+    if request.method == 'PUT':
+        return moviedetail_review_latest_update()
+    elif request.method == 'DELETE':
+        return moviedatail_review_latest_delete()
+
+@api_view(['POST'])
+def moviedetail_review_latest_like(request, movie_id, review_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    review = get_object_or_404(MovieReview, pk=review_id)
+    user = request.user
+    if review.like_users.filter(pk=user.pk).exists():
+        review.like_users.remove(user)
+        review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+        serializer = MovieReviewSerializer(review_list, many=True)
+        return Response(serializer.data)
+    else:
+        review.like_users.add(user)
+        review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+        serializer = MovieReviewSerializer(review_list, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def search(request, q):

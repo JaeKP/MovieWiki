@@ -24,15 +24,15 @@ def user_profile_or_update_or_delete(request, username):
                 serializers.save()
                 return Response(serializers.data)
 
-    # def user_delete():
-    #     if request.user == user:
-    #         request.user.delete()
-    #         logout(request)
-    #         return Response(status=status.HTTP_204_NO_CONTENT)
+    def user_delete():
+        if request.user == user:
+            request.user.delete()
+            logout(request)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
     if request.method == 'GET':
         return user_profile()
     elif request.method == 'PUT':
         return user_update()
-    # elif request.method == 'DELETE':
-    #     return user_delete()
+    elif request.method == 'DELETE':
+        return user_delete()
