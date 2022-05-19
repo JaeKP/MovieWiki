@@ -168,12 +168,15 @@ def comment_update_or_delete(request, article_id, comment_id):
 @api_view(['POST'])
 def comment_like(request, article_id, comment_id):
     comment = get_object_or_404(ArticleComment, pk=comment_id)
+    article = get_object_or_404(Article, pk=article_id)
     user = request.user
     if comment.like_users.filter(pk=user.pk).exists():
         comment.like_users.remove(user)
-        serializers = ArticleCommentSerializer(comment)
+        comments = article.comment.all()
+        serializers = ArticleCommentSerializer(comments, many=True)
         return Response(serializers.data)
     else:
         comment.like_users.add(user)
-        serializers = ArticleCommentSerializer(comment)
+        comments = article.comment.all()
+        serializers = ArticleCommentSerializer(comments, many=True)
         return Response(serializers.data)

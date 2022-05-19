@@ -44,7 +44,7 @@ REST_FRAMEWORK = {
     ],
     #기본 권한 설정
     'DEFAULT_PERMISSION_CLASSES': [        
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ]
 }
 
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
+    'allauth.socialaccount',
 
     # native apps
     'django.contrib.admin',
