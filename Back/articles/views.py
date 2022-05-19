@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Article, ArticleComment
-from .serializers.article import ArticleListSerializer, ArticleSerializer
+from .serializers.article import ArticleListSerializer, ArticleSerializer, SearchArticleSerializer
 from .serializers.article_comment import ArticleCommentSerializer
 from django.utils import timezone
 from datetime import timedelta
@@ -180,3 +180,20 @@ def comment_like(request, article_id, comment_id):
         comments = article.comment.all()
         serializers = ArticleCommentSerializer(comments, many=True)
         return Response(serializers.data)
+
+# 검색
+@api_view(['GET'])
+def search_article(request):
+    query = request.GET.get('query')
+    search_type = request.GET.get('type')
+    print(search_type)
+    results = ''
+    if search_type == 'title':
+        results = Article.objects.filter(title__icontains = query)[:10]
+    elif search_type == 'content':
+        results = Article.objects.filter(content__icontains = query)[:10]
+    elif search_type == 'nickname':
+        results = Article.objects.filter(nickname__icontains = query)[:10]
+    serializer = SearchArticleSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    # .replace(" ", "")

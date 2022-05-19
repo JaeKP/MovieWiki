@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.movie_review import MovieReviewSerializer
+from .serializers.actor import ActorDetailSerializer
+from .serializers.directors import DirectorDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -162,12 +164,26 @@ def moviedetail_review_latest_like(request, movie_id, review_id):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def search(request, q):
-    results = Movie.objects.filter(title__icontains = q)[:10]
+def search(request):
+    query = request.GET.get('query')
+    results = Movie.objects.filter(title__icontains = query)[:10]
     serializer = MovieListSerializer(results, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
     # .replace(" ", "")
 
+@api_view(['GET'])
+def search_actor(request):
+    query = request.GET.get('query')
+    results = Actor.objects.filter(name__icontains = query)[:10]
+    serializer = ActorDetailSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def search_director(request):
+    query = request.GET.get('query')
+    results = Director.objects.filter(name__icontains = query)[:10]
+    serializer = DirectorDetailSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def genre_filter(request, genre_id):

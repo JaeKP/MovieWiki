@@ -29,3 +29,8 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('pk', 'article_type', 'user_id', 'title', 'content','created_at', 'like_count', 'comment', )
+
+class SearchArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+            model = Article
+            fields = '__all__'

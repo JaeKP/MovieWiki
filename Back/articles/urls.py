@@ -28,8 +28,11 @@ urlpatterns = [
 
     # 게시판 상세글 댓글 수정 및 삭제
     path('<int:article_id>/comment/<int:comment_id>/',
-         views.comment_update_or_delete),
+        views.comment_update_or_delete),
 
     # 게시판 댓글 좋아요
     path('<int:article_id>/comment/<int:comment_id>/like/', views.comment_like),
+
+    # 게시글 검색
+    path('search', views.search_article),
 ]

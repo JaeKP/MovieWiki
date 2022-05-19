@@ -23,7 +23,12 @@ urlpatterns = [
     # 영화 리뷰(최신순) 좋아요
     path('<int:movie_id>/review/latest/<int:review_id>/like/', views.moviedetail_review_latest_like),
     # 영화 타이틀 검색
-    path('search/<str:q>/', views.search),
+    path('search', views.search),
+    # 배우 이름 검색
+    path('searchactor', views.search_actor),
+    # 감독 이름 검색
+    path('searchdirector', views.search_director),
+
     # 장르 필터
     path('genre/<int:genre_id>/', views.genre_filter),
     # 국가 필터
