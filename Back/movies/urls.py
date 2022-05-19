@@ -28,7 +28,6 @@ urlpatterns = [
     path('searchactor', views.search_actor),
     # 감독 이름 검색
     path('searchdirector', views.search_director),
-
     # 장르 필터
     path('genre/<int:genre_id>/', views.genre_filter),
     # 국가 필터
@@ -41,10 +40,9 @@ urlpatterns = [
     path('year/<int:year>/', views.year_filter),
     # 날씨
     path('weather/<str:area>/', views.weather),
-    
     # 영화 트레일러
     path('trailer/', views.movie_trailer_list),
-    
+
     # 데이터 베이스 구축용
     path('data/', views.data),
     path('basedata/', views.genre_country_data),

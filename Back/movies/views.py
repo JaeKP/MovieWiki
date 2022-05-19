@@ -270,6 +270,7 @@ def recommendation(request, type):
         return Response(serializer.data)
 
 
+
 TMDB_API_KEY =  '9a1be42b20cb9255e18beb22379b225e' 
 BASE_URL = 'https://api.themoviedb.org/3/movie'
 actor_pk = 1
