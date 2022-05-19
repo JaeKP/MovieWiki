@@ -4,8 +4,6 @@ from ..models import ArticleType
 from accounts.serializers import UserInfoSerializer
 from .article_comment import ArticleCommentSerializer
 
-
-
 class ArticleListSerializer(serializers.ModelSerializer):
     class ArticleTypeSerializer(serializers.ModelSerializer):
         class Meta:
@@ -18,8 +16,6 @@ class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('pk', 'article_type', 'user_id','title', 'created_at', 'like_count',)
-
-
 
 class ArticleSerializer(serializers.ModelSerializer):
     user_id = UserInfoSerializer(read_only=True)

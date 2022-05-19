@@ -26,9 +26,17 @@ class MovieSerializer(serializers.ModelSerializer):
     production_countries = CountrySerializer(many=True, read_only=True)
     genre_ids = GenreSerializer(many=True, read_only=True)
     director = DirectorSerializer(many=True, read_only=True)
+    like_count = serializers.IntegerField(source="like_users.count", read_only=True)
 
     class Meta:
         model = Movie
         # fields = '__all__'
         exclude = ('actors',)
 
+
+# 트레일러 게시판
+class MovieTrailerSerializer(serializers.ModelSerializer):
+    like_count = serializers.IntegerField(source="like_users.count", read_only=True)
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'trailer_youtube_key', 'like_users', 'like_count',)

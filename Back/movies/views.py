@@ -4,7 +4,7 @@ import re
 from django.http import JsonResponse  
 from django.shortcuts import get_object_or_404
 from .models import *
-from .serializers.movie import MovieListSerializer, MovieSerializer
+from .serializers.movie import MovieListSerializer, MovieSerializer, MovieTrailerSerializer
 from .serializers.movie_review import MovieReviewSerializer
 from .serializers.actor import ActorDetailSerializer
 from .serializers.directors import DirectorDetailSerializer
@@ -12,6 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Count
+from django.db.models import Q
 
 
 @api_view(['GET'])
@@ -20,12 +21,14 @@ def popular_movie_list_info(request):
     serializer = MovieListSerializer(movielist, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+# 영화 상세 페이지
 @api_view(['GET'])
 def moviedetail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     serializer = MovieSerializer(movie)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+# 영화 상세 페이지 좋아요
 @api_view(['POST'])
 def moviedetail_like(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -39,6 +42,7 @@ def moviedetail_like(request, movie_id):
         serialzer = MovieSerializer(movie)
         return Response(serialzer.data)
 
+# 영화 상세 페이지 리뷰 (인기순)
 @api_view(['GET', 'POST'])
 def moviedetail_review_or_create(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -101,6 +105,7 @@ def moviedetail_review_like(request, movie_id, review_id):
         serializer = MovieReviewSerializer(review_list, many=True)
         return Response(serializer.data)
 
+# 영화 상세 페이지 리뷰 (최신순)
 @api_view(['GET','POST'])
 def moviedetail_review_latest_or_create(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -162,6 +167,13 @@ def moviedetail_review_latest_like(request, movie_id, review_id):
         review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
         serializer = MovieReviewSerializer(review_list, many=True)
         return Response(serializer.data)
+
+# 트레일러 게시판
+@api_view(['GET'])
+def movie_trailer_list(reuquest):
+    movie = Movie.objects.filter(~Q(trailer_youtube_key='nothing') ,popularity__gt=99).order_by('?')
+    serializer = MovieTrailerSerializer(movie, many=True)
+    return Response(serializer.data)    
 
 @api_view(['GET'])
 def search(request):
