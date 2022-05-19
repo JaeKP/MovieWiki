@@ -10,18 +10,10 @@ urlpatterns = [
     path('<int:movie_id>/', views.moviedetail),
     # 영화 좋아요
     path('<int:movie_id>/like/', views.moviedetail_like),
-    # 영화 리뷰(인기도순)
-    path('<int:movie_id>/review/', views.moviedetail_review_or_create),
-    # 영화 리뷰 수정 및 삭제 
-    path('<int:movie_id>/review/<int:review_id>/', views.moviedetail_review_update_delete),
-    # 영화 리뷰 좋아요
-    path('<int:movie_id>/review/<int:review_id>/like/', views.moviedetail_review_like),
-    # 영화 리뷰(최신순)
-    path('<int:movie_id>/review/latest/', views.moviedetail_review_latest_or_create),
-    # 영화 리뷰(최신순) 수정 및 삭제
-    path('<int:movie_id>/review/latest/<int:review_id>/', views.moviedetail_review_latest_update_delete),    
-    # 영화 리뷰(최신순) 좋아요
-    path('<int:movie_id>/review/latest/<int:review_id>/like/', views.moviedetail_review_latest_like),
+    # 영화 리뷰
+    path('<int:movie_id>/review/<int:filter_type>/', views.moviedetail_review_or_create),
+    # 영화 리뷰 수정, 삭제, 좋아요
+    path('<int:movie_id>/review/<int:filter_type>/detail/<int:review_id>/', views.moviedetail_review_update_or_delete_or_like),
     # 영화 타이틀 검색
     path('search', views.search),
     # 배우 이름 검색
@@ -42,6 +34,8 @@ urlpatterns = [
     path('weather/<str:area>/', views.weather),
     # 영화 트레일러
     path('trailer/', views.movie_trailer_list),
+    # latest: 최근에 개봉한 영화 , interest: 최근 관심 , season: 계절 추천
+    path('recommendation/<str:type>/', views.recommendation),
 
     # 데이터 베이스 구축용
     path('data/', views.data),

@@ -268,7 +268,16 @@ def recommendation(request, type):
         movies = Movie.objects.filter(genre_ids=genre_id, popularity__gt=99).order_by('?')[:21]
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
-
+    
+    # 영화 추천 10. 같은 나이대의 유저가 좋아요한 랭크
+    elif type == 'age':
+        movies = Movie.objects.annotate(
+            like_users_count=Count(
+                'like_users', distinct=True, filter = Q(
+                    like_users__age__range=[request.user.age -3, request.user.age + 3]
+                    ))).order_by('-like_users_count')[:21]
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
 
 
 TMDB_API_KEY =  '9a1be42b20cb9255e18beb22379b225e' 
