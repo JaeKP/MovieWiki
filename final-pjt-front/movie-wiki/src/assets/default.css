@@ -1,75 +1,175 @@
 html {
-	font-family:'Noto Sans KR','Apple SD Gothic Neo', NanumGothic, 'Malgun Gothic', sans-serif;
-	line-height: 1.2;
-	word-wrap: break-word;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", NanumGothic,
+    "Malgun Gothic", sans-serif;
+  line-height: 1.2;
+  word-wrap: break-word;
 }
 body {
-	background: #2F3136;
-	-webkit-font-smoothing: antialiased;
+  background: #2f3136;
+  -webkit-font-smoothing: antialiased;
 }
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
-div, span, article, section, header, footer, aside, p, ul, li, fieldset, legend, label, a, nav, form {
-	box-sizing: border-box;
-	/* content-box */
+div,
+span,
+article,
+section,
+header,
+footer,
+aside,
+p,
+ul,
+li,
+fieldset,
+legend,
+label,
+a,
+nav,
+form {
+  box-sizing: border-box;
+  /* content-box */
 }
-ol, ul, li {
-	list-style: none;
+ol,
+ul,
+li {
+  list-style: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 img {
-	max-width: 100%;
-	height: auto;
-	border: 0;
+  max-width: 100%;
+  height: auto;
+  border: 0;
 }
 a {
-	display: inline-block;
+  display: inline-block;
 }
 button {
-	border: 0;
-	background: transparent;
-	cursor: pointer;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-.bg-content-grey{
-  background-color: #2F3136;
+.bg-content-grey {
+  background-color: #2f3136;
 }
 
-.bg-navbar-black{
+.bg-navbar-black {
   background-color: #202225;
 }
 
-.bg-dark-gray{
-  background-color: #36393F;
+.bg-dark-gray {
+  background-color: #36393f;
 }
 
-.bg-medium-gray{
-  background-color: #40444B ;
+.bg-medium-gray {
+  background-color: #40444b;
 }
 
 .bg-real-black {
   background-color: black;
+}
+
+.bg-real-white {
+  background-color: white;
 }
 
 .bg-modal-black {
@@ -77,38 +177,50 @@ button {
   opacity: 0.8;
 }
 
-.bg-icon-gray{
-  background-color: #B9BBBE;
+.bg-icon-gray {
+  background-color: #b9bbbe;
 }
 
-.bg-icon-red{
-  background-color: #ED4245;
+.bg-icon-red {
+  background-color: #ed4245;
 }
 
-.bg-icon-yellow{
-  background-color: #FAA81A;
+.bg-icon-yellow {
+  background-color: #faa81a;
 }
 
-.bg-icon-green{
-  background-color: #3BA55D ;
+.bg-icon-green {
+  background-color: #3ba55d;
 }
 
-.bj-icon-blue{
-  background-color: #3BA55D;
+.bg-icon-blue {
+  background-color: #5865f2;
 }
 
-.font-real-white{
+.font-real-white {
   color: white;
 }
 
-.font-white{
-  color: #EEEEEE;
+.font-white {
+  color: #eeeeee;
 }
 
-.font-basic{
-  color: #DCDDDE;
+.font-basic {
+  color: #dcddde;
 }
 
-.font-gray{
-  color: #96989D;
+.font-gray {
+  color: #96989d;
+}
+
+.font-icon-gray {
+  color: #b9bbbe;
+}
+
+.font-nav-black {
+  color: #202225;
+}
+
+.noto-sans {
+  font-family: "Noto Sans KR", sans-serif;
 }
