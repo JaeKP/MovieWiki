@@ -3,19 +3,30 @@
     <nav-bar
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
+      @show-profile-modal="showProfileModal"
     ></nav-bar>
     <router-view />
     <the-sign-up-modal
       v-if="signUp"
       class="modal"
       @hide-sign-up-modal="hideSignUpModal"
+      @show-log-in-modal="showLogInModal"
     />
+    <the-log-in-modal
+      v-if="logIn"
+      class="modal"
+      @hide-log-in-modal="hideLogInModal"
+      @show-sign-up-modal="showSignUpModal"
+    ></the-log-in-modal>
+    <the-profile-modal v-if="profileModal"></the-profile-modal>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
 import TheSignUpModal from "@/components/TheSignUpModal.vue";
+import TheLogInModal from "@/components/TheLogInModal.vue";
+import TheProfileModal from "@/components/TheProfileModal.vue";
 
 export default {
   name: "App",
@@ -23,9 +34,10 @@ export default {
     return {
       signUp: false,
       logIn: false,
+      profileModal: false,
     };
   },
-  components: { NavBar, TheSignUpModal },
+  components: { NavBar, TheSignUpModal, TheLogInModal, TheProfileModal },
   methods: {
     showSignUpModal(data) {
       this.signUp = data;
@@ -36,6 +48,12 @@ export default {
     hideSignUpModal(data) {
       this.signUp = data;
     },
+    hideLogInModal(data) {
+      this.logIn = data;
+    },
+    showProfileModal(data) {
+      this.profileModal = data;
+    },
   },
 };
 </script>
@@ -43,10 +61,6 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 @import "@/assets/default.css";
-
-body {
-  font-family: "Noto Sans KR", sans-serif;
-}
 
 .modal {
   width: 100vw;
