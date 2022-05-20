@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
-    <router-view></router-view>
+    <nav-bar @signup-modal="signupModal" @login-modal="loginModal"></nav-bar>
+    <router-view />
   </div>
 </template>
 
@@ -10,7 +10,21 @@ import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "App",
+  data() {
+    return {
+      signUp: false,
+      login: false,
+    };
+  },
   components: { NavBar },
+  methods: {
+    signupModal(data) {
+      console.log(data);
+    },
+    loginModal(data) {
+      console.log(data);
+    },
+  },
 };
 </script>
 

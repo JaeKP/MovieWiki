@@ -20,17 +20,17 @@ const routes = [
   {
     path: "/",
     name: "home",
-    components: HomeView,
+    component: HomeView,
   },
   {
     path: "/trailer",
     name: "trailer",
-    components: TrailerView,
+    component: TrailerView,
   },
   {
     path: "/articles",
     name: "articles",
-    components: ArticleListView,
+    component: ArticleListView,
   },
 ];
 
