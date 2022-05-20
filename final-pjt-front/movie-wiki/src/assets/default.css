@@ -172,11 +172,6 @@ button {
   background-color: white;
 }
 
-.bg-modal-black {
-  background-color: #202225;
-  opacity: 0.8;
-}
-
 .bg-icon-gray {
   background-color: #b9bbbe;
 }
@@ -195,6 +190,10 @@ button {
 
 .bg-icon-blue {
   background-color: #5865f2;
+}
+
+.bg-real-white {
+  color: white;
 }
 
 .font-real-white {
@@ -219,6 +218,10 @@ button {
 
 .font-nav-black {
   color: #202225;
+}
+
+.font-medium-gray {
+  color: #40444b;
 }
 
 .noto-sans {

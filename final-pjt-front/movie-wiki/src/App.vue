@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <nav-bar @signup-modal="signupModal" @login-modal="loginModal"></nav-bar>
+    <nav-bar
+      @show-sign-up-modal="showSignUpModal"
+      @show-log-in-modal="showLogInModal"
+    ></nav-bar>
     <router-view />
+    <the-sign-up-modal v-if="signUp" class="modal" />
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import TheSignUpModal from "@/components/TheSignUpModal.vue";
 
 export default {
   name: "App",
   data() {
     return {
       signUp: false,
-      login: false,
+      logIn: false,
     };
   },
-  components: { NavBar },
+  components: { NavBar, TheSignUpModal },
   methods: {
-    signupModal(data) {
-      console.log(data);
+    showSignUpModal(data) {
+      this.signUp = data;
     },
-    loginModal(data) {
-      console.log(data);
+    showLogInModal(data) {
+      this.logIn = data;
     },
   },
 };
@@ -34,5 +39,19 @@ export default {
 
 body {
   font-family: "Noto Sans KR", sans-serif;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(32, 34, 37, 0.8);
 }
 </style>

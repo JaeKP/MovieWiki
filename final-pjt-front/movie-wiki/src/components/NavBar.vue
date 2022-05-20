@@ -20,13 +20,13 @@
       />
       <button
         class="bg-icon-blue font-real-white nav-button-item"
-        @click="signupModal"
+        @click="showSignUpModal"
       >
         회원가입
       </button>
       <button
         class="bg-real-white font-nav-black nav-button-item"
-        @click="loginModal"
+        @click="showLogInModal"
       >
         로그인
       </button>
@@ -54,12 +54,12 @@ export default {
     return {};
   },
   computed: {},
-  mothods: {
-    signUpModal() {
-      this.$emit("signup-modal", true);
+  methods: {
+    showSignUpModal() {
+      this.$emit("show-sign-up-modal", true);
     },
-    loginModal() {
-      this.$emit("login-modal", true);
+    showLogInModal() {
+      this.$emit("show-log-in-modal", true);
     },
   },
 };
