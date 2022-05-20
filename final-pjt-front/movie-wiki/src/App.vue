@@ -4,6 +4,7 @@
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
     ></nav-bar>
+    <card-list></card-list>
     <router-view />
     <the-sign-up-modal
       v-if="signUp"
@@ -16,6 +17,7 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import TheSignUpModal from "@/components/TheSignUpModal.vue";
+import CardList from "./components/CardList.vue";
 
 export default {
   name: "App",
@@ -25,7 +27,7 @@ export default {
       logIn: false,
     };
   },
-  components: { NavBar, TheSignUpModal },
+  components: { NavBar, TheSignUpModal, CardList },
   methods: {
     showSignUpModal(data) {
       this.signUp = data;

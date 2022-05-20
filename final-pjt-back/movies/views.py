@@ -19,7 +19,7 @@ from datetime import timedelta
 
 @api_view(['GET'])
 def popular_movie_list_info(request):
-    movielist = Movie.objects.order_by('-popularity')[:10]
+    movielist = Movie.objects.order_by('-popularity')[:21]
     serializer = MovieListSerializer(movielist, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
