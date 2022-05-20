@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers.movie import MovieListSerializer, MovieSerializer, MovieTrailerSerializer
 from .serializers.movie_review import MovieReviewSerializer
+from .serializers.actor import ActorDetailSerializer
+from .serializers.directors import DirectorDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -137,12 +139,26 @@ def movie_trailer_list(reuquest):
     return Response(serializer.data)    
 
 @api_view(['GET'])
-def search(request, q):
-    results = Movie.objects.filter(title__icontains = q)[:10]
+def search(request):
+    query = request.GET.get('query')
+    results = Movie.objects.filter(title__icontains = query)[:10]
     serializer = MovieListSerializer(results, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
     # .replace(" ", "")
 
+@api_view(['GET'])
+def search_actor(request):
+    query = request.GET.get('query')
+    results = Actor.objects.filter(name__icontains = query)[:10]
+    serializer = ActorDetailSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def search_director(request):
+    query = request.GET.get('query')
+    results = Director.objects.filter(name__icontains = query)[:10]
+    serializer = DirectorDetailSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def genre_filter(request, genre_id):
@@ -250,6 +266,16 @@ def recommendation(request, type):
         }
         genre_id = season_code.get(season)
         movies = Movie.objects.filter(genre_ids=genre_id, popularity__gt=99).order_by('?')[:21]
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
+    
+    # 영화 추천 10. 같은 나이대의 유저가 좋아요한 랭크
+    elif type == 'age':
+        movies = Movie.objects.annotate(
+            like_users_count=Count(
+                'like_users', distinct=True, filter = Q(
+                    like_users__age__range=[request.user.age -3, request.user.age + 3]
+                    ))).order_by('-like_users_count')[:21]
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 

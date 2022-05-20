@@ -18,7 +18,7 @@ class CharactersSerializer(serializers.ModelSerializer):
     # movie_id = MovieListSerializer()
     class Meta:
         model = Characters
-        fields = ('actor_id', 'character_name')
+        fields = ('actor_id', 'character_name',)
 
 # 상세 정보용
 class MovieSerializer(serializers.ModelSerializer):
@@ -30,6 +30,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
+        # fields = '__all__'
         exclude = ('actors',)
 
 
