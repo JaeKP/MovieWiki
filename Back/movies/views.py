@@ -48,7 +48,9 @@ def moviedetail_like(request, movie_id):
 # filter_type: 1 => 인기순
 # filter_type: 2 => 최신순 
 @api_view(['GET', 'POST'])
-def moviedetail_review_or_create(request, movie_id, filter_type):
+def moviedetail_review_or_create(request):
+    movie_id = request.GET.get('movie_id')
+    filter_type  = request.GET.get('type')
     movie = get_object_or_404(Movie, pk=movie_id) 
     def moviedetail_review():
         if filter_type == 1: 
@@ -75,7 +77,10 @@ def moviedetail_review_or_create(request, movie_id, filter_type):
         return moviedatail_review_create()
 
 @api_view(['POST', 'PUT', 'DELETE'])
-def moviedetail_review_update_or_delete_or_like(request, movie_id, filter_type, review_id):
+def moviedetail_review_update_or_delete_or_like(request):
+    movie_id = request.GET.get('movie_id')
+    filter_type  = request.GET.get('type')
+    review_id  = request.GET.get('review_id')
     movie = get_object_or_404(Movie, pk=movie_id)
     review = get_object_or_404(MovieReview, pk=review_id)
 
@@ -138,60 +143,26 @@ def movie_trailer_list(reuquest):
     serializer = MovieTrailerSerializer(movie, many=True)
     return Response(serializer.data)    
 
+# 검색 기능
 @api_view(['GET'])
 def search(request):
     query = request.GET.get('query')
-    results = Movie.objects.filter(title__icontains = query)[:10]
-    serializer = MovieListSerializer(results, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-    # .replace(" ", "")
+    filter_type = request.GET.get('type')
 
-@api_view(['GET'])
-def search_actor(request):
-    query = request.GET.get('query')
-    results = Actor.objects.filter(name__icontains = query)[:10]
-    serializer = ActorDetailSerializer(results, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if filter_type == 'title':
+        results = Movie.objects.filter(title__icontains = query)[:21]
+        serializer = MovieListSerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif filter_type == 'actor':
+        results = Actor.objects.filter(name__icontains = query)[:21]
+        serializer = ActorDetailSerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif filter_type == 'director':
+        results = Director.objects.filter(name__icontains = query)[:21]
+        serializer = DirectorDetailSerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def search_director(request):
-    query = request.GET.get('query')
-    results = Director.objects.filter(name__icontains = query)[:10]
-    serializer = DirectorDetailSerializer(results, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def genre_filter(request, genre_id):
-    movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[:10]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def country_filter(request, country_id):
-    movies = Movie.objects.filter(production_countries=country_id).order_by('-popularity')[:10]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def director_filter(request, director_id):
-    movies = Movie.objects.filter(director=director_id).order_by('-popularity')[:10]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def actor_filter(request, actor_id):
-    movies = Movie.objects.filter(actors=actor_id).order_by('-popularity')[:10]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def year_filter(request, year):
-    movies = Movie.objects.filter(released_date__startswith=year).order_by('-popularity')[:10]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def weather(request, area):
+def weather(area):
     API_KEY = "5d654e5750cf87fe1521ba1afb50a11a"
     area_data = {'서울': ( 37.56667, 126.97806),
             '인천': ( 37.469221, 126.573234),
@@ -218,13 +189,35 @@ def weather(request, area):
         'Thunderstorm': 53, 'Rain': 53, 'Drizzle': 18, 'Clouds': 18, 'Clear': 10402, 'Snow': 10751,
     }
     if Weather_condition_codes.get(weather):
-        genre_id = Weather_condition_codes.get(weather)
+        return Weather_condition_codes.get(weather)
     else:
-        genre_id = 80
-    
-    movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[:10]
+        return 80
+
+
+# 종류별 필터
+@api_view(['GET'])
+def movie_filter(request):
+    query = request.GET.get('query')
+    filter_type = request.GET.get('type')
+
+    if filter_type == 'genre':
+        movies = Movie.objects.filter(genre_ids=query).order_by('-popularity')[:21]
+    elif filter_type == 'country':
+        movies = Movie.objects.filter(production_countries=query).order_by('-popularity')[:21]
+    elif filter_type == 'director':
+        movies = Movie.objects.filter(director=query).order_by('-popularity')[:21]
+    elif filter_type == 'actor':
+        movies = Movie.objects.filter(actors=query).order_by('-popularity')[:21]
+    elif filter_type == 'year':
+        movies = Movie.objects.filter(released_date__startswith=query).order_by('-popularity')[:21]
+    elif filter_type == 'weather':
+        genre_id = weather(query)
+        movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[:21]
+
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 # 추천기능 (데이터 20개 뽑기)
 @api_view(['GET'])
