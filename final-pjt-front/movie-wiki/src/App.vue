@@ -6,7 +6,11 @@
     ></nav-bar>
     <card-list></card-list>
     <router-view />
-    <the-sign-up-modal v-if="signUp" class="modal" />
+    <the-sign-up-modal
+      v-if="signUp"
+      class="modal"
+      @hide-sign-up-modal="hideSignUpModal"
+    />
   </div>
 </template>
 
@@ -30,6 +34,9 @@ export default {
     },
     showLogInModal(data) {
       this.logIn = data;
+    },
+    hideSignUpModal(data) {
+      this.signUp = data;
     },
   },
 };
