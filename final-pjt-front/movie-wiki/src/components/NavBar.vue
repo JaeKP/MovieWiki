@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-navbar-black nav-container">
-    <ul class="font-icon-gray nav-title">
+  <div class="bg-navbar-black nav">
+    <ul class="font-icon-gray nav__title">
       <li>
-        <router-link :to="{ name: 'home' }" class="nav-content">
+        <router-link :to="{ name: 'home' }" class="nav__content">
           홈
         </router-link>
       </li>
@@ -13,47 +13,44 @@
         <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
       </li>
     </ul>
-    <ul class="nav-button">
+    <ul class="nav__button" v-show="!isLoggedIn">
       <font-awesome-icon
         icon="fa-solid fa-magnifying-glass"
-        class="font-real-white nav-button-item"
+        class="font-real-white nav__button__item"
       />
       <button
-        class="bg-icon-blue font-real-white nav-button-item"
+        class="bg-icon-blue font-real-white nav__button__item"
         @click="showSignUpModal"
       >
         회원가입
       </button>
       <button
-        class="bg-real-white font-nav-black nav-button-item"
+        class="bg-real-white font-nav-black nav__button__item"
         @click="showLogInModal"
       >
         로그인
       </button>
     </ul>
-
-    <!-- <ul class="nav-button">
+    <ul class="nav__profile" v-show="isLoggedIn">
       <font-awesome-icon
         icon="fa-solid fa-magnifying-glass"
-        class="font-real-white nav-button-item search-icon"
+        class="font-real-white nav__icon nav__profile__item"
       />
-      <button class="bg-icon-blue font-real-white nav-button-item">
-        회원가입
-      </button>
-      <button class="bg-real-white font-nav-black nav-button-item">
-        로그인
-      </button>
-    </ul> -->
+      <div class="nav__profile__item" @click="showProfileModal"></div>
+    </ul>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["isLoggedIn"]),
+  },
   methods: {
     showSignUpModal() {
       this.$emit("show-sign-up-modal", true);
@@ -61,12 +58,15 @@ export default {
     showLogInModal() {
       this.$emit("show-log-in-modal", true);
     },
+    showProfileModal() {
+      this.$emit("show-profile-modal", true);
+    },
   },
 };
 </script>
 
 <style scoped>
-.nav-container {
+.nav {
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -88,51 +88,83 @@ a {
   color: inherit;
   display: block;
   padding: 1em;
-  font-size: 1.1vw;
+  font-size: 1.2em;
   font-weight: bold;
   transition: 0.4s;
 }
 
 a:hover {
   color: white;
-  font-size: 1.12vw;
+  font-size: 1.25em;
 }
 
-.nav-title {
-  width: 40%;
+.nav__title {
+  width: 30%;
   display: flex;
-  gap: 1vw;
   justify-content: flex-start;
 }
 
-.nav-title li {
+@media (max-width: 1210px) {
+  .nav__title {
+    width: 50%;
+  }
+  .nav > .nav__button {
+    width: 45%;
+  }
+}
+
+.nav__title li {
   width: 30%;
   text-align: center;
 }
 
-.nav-button {
+.nav__button {
   display: flex;
   width: 25%;
-  gap: 2vw;
+  gap: 2em;
   align-items: flex-end;
   justify-content: flex-end;
-  margin-right: 2vw;
+  margin-right: 2em;
 }
 
-.nav-button > .nav-button-item:nth-child(1) {
-  font-size: 1.7vw;
+.nav__button > .nav__button__item:nth-child(1) {
+  font-size: 2em;
 }
 
-.nav-button > .nav-button-item:nth-child(2),
-.nav-button > .nav-button-item:nth-child(3) {
-  padding: 0.4vw;
+.nav__button > .nav__button__item:nth-child(2),
+.nav__button > .nav__button__item:nth-child(3) {
+  padding: 0.5em 1em;
   border-radius: 0.3rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
-.nav-button-item {
+.nav__button__item {
   width: 33.33333;
-  font-size: 0.9vw;
+  font-size: 1em;
   text-align: flex-end;
+}
+
+.nav__profile {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  margin-right: 2em;
+}
+
+.nav__profile > div {
+  background-image: url(@/assets/profile.png);
+  width: 60px;
+  height: 60px;
+  margin-right: 0.5em;
+  border: 2px solid #333;
+  border-radius: 50%;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.nav__profile > .nav__profile__item:nth-child(1) {
+  font-size: 2em;
 }
 </style>

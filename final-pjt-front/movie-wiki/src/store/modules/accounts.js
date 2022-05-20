@@ -82,12 +82,8 @@ export default {
       }
     },
 
+    // 회원가입
     signUp({ dispatch }, credential) {
-      /* 
-      POST: 사용자 입력정보를 signup URL로 보내기
-      성공하면 응답 토큰 저장, 현재 사용자 정보 받기, 메인 페이지(ArticleListView)로 이동
-      실패하면 에러 메시지 표시
-      */
       axios({
         url: drf.accounts.signup(),
         method: "post",
@@ -99,26 +95,22 @@ export default {
           dispatch("fetchCurrentUser");
         })
         .catch((error) => {
-          // 오류 내용을 뽑는다. 
+          // 오류 내용을 뽑는다.
           const err = JSON.parse(error.request.response);
-          const errMessage = Object.values(err)[0][0]
-          // 오류 알럿! 
+          const errMessage = Object.values(err)[0][0];
+          // 오류 알럿!
           Swal.fire({
             title: errMessage,
-            icon: 'error',
+            icon: "error",
             toast: true,
             width: "25%",
-            confirmButtonColor: '#5865f2',
+            confirmButtonColor: "#5865f2",
           });
-        })
+        });
     },
 
+    // 로그인
     logIn({ dispatch }, credentials) {
-      /* 
-        POST: 사용자 입력정보를 Login URL로 보내기 
-        성공하면 응답 토큰 저장, 현재 사용자 정보 받기 , 메인 페이지로 이동
-        실패하면 에러 메시지를 표시한다. 
-      */
       axios({
         url: drf.accounts.login(),
         method: "post",
@@ -129,16 +121,20 @@ export default {
           dispatch("saveToken", token);
           dispatch("fetchCurrentUser");
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          // 오류 알럿!
+          Swal.fire({
+            title: "아이디 또는 비밀번호를 잘못 입력했습니다.",
+            icon: "error",
+            toast: true,
+            width: "25%",
+            confirmButtonColor: "#5865f2",
+          });
         });
     },
+
+    // 로그아웃
     logOut({ getters, dispatch }) {
-      /* 
-      POST: token을 logout URL로 보내기
-        성공하면 토큰 삭제, 사용자 알람, LoginView로 이동
-        실패하면 에러 메시지 표시
-      */
       axios({
         url: drf.accounts.logout(),
         method: "post",

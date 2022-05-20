@@ -18,7 +18,12 @@
         </div>
         <div class="sign-up__email">
           <label for="email"> 이메일</label>
-          <input type="email" v-model="credential.email" required />
+          <input
+            type="email"
+            v-model="credential.email"
+            required
+            placeholder="example@gmail.com"
+          />
         </div>
         <div class="sign-up__nickname">
           <label for="nickname">닉네임</label>
@@ -28,6 +33,7 @@
             v-model="credential.nickname"
             maxlength="10"
             required
+            placeholder="nickname"
           />
         </div>
         <div class="sign-up__password1">
@@ -37,6 +43,7 @@
             id="password1"
             v-model="credential.password1"
             required
+            placeholder="********"
           />
         </div>
         <div class="sign-up__password2">
@@ -46,6 +53,7 @@
             id="password2"
             v-model="credential.password2"
             required
+            placeholder="********"
           />
         </div>
         <div class="sign-up__region">
@@ -81,7 +89,9 @@
         </div>
       </div>
       <button>회원가입</button>
-      <a @click.self="hideSignUpModal">다른 아이디로 로그인 하기</a>
+      <a @click.self="[hideSignUpModal(), showLogInModal()]"
+        >다른 아이디로 로그인 하기</a
+      >
     </form>
   </div>
 </template>
@@ -108,6 +118,9 @@ export default {
     hideSignUpModal() {
       this.$emit("hide-sign-up-modal", false);
     },
+    showLogInModal() {
+      this.$emit("show-log-in-modal", true);
+    },
   },
 };
 </script>
@@ -115,6 +128,7 @@ export default {
 <style scoped>
 .sign-up-modal {
   width: 35%;
+  min-width: 400px;
   padding: 2em;
   border-radius: 0.8em;
   background-color: white;
@@ -140,9 +154,9 @@ export default {
 .sign-up-modal button {
   margin-top: 2em;
   background-color: #5865f2;
-  height: 2.5em;
+  height: 3em;
   color: white;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1em;
   border-radius: 0.3em;
 }
@@ -156,14 +170,23 @@ export default {
 .sign-up div {
   display: flex;
   flex-direction: column;
+  gap: 0.2em;
+}
+
+label,
+a {
+  font-weight: 300;
+  font-size: 0.8em;
 }
 
 input,
 select {
-  border: 1px solid #b9bbbe;
+  border: 1px solid #dcddde;
   border-radius: 0.2rem;
   background-color: white;
-  height: 2em;
+  height: 2.5em;
+  font-weight: 500;
+  color: #b9bbbe;
 }
 
 .sign-up__header {
