@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h1>Trailer</h1>
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  name: "TrailerView",
+  name: "TheProfileModal",
 };
 </script>
 
