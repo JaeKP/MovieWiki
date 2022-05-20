@@ -8,7 +8,7 @@ urlpatterns = [
     # 인기 게시판 (최근 30일 이내 인기글)
     path('popular/', views.article_list_popular),
 
-    # 게시반 선택 (ArticleType 1~3)
+    # 게시판 선택 (ArticleType 1~3)
     path('articlelist', views.article_list_select),
 
     # 게시판 상세 페이지 조회 및 수정, 삭제
