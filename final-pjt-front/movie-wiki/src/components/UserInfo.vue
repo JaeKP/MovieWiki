@@ -1,11 +1,21 @@
 <template>
   <div>
     <div class="user-info bg-medium-gray">
-      <user-profile-image class="user-info__image"></user-profile-image>
+      <user-profile-image
+        class="user-info__image"
+        width="100px"
+        height="100px"
+      ></user-profile-image>
       <div class="user-info__content">
         <div class="user-info__content__title">
           <p class="font-basic">{{ userInfoDetail.nickname }}</p>
-          <button class="bg-icon-green">회원 정보 수정</button>
+          <button
+            class="bg-icon-green"
+            @click="showUserChangeModal"
+            v-if="isSelf"
+          >
+            회원 정보 수정
+          </button>
         </div>
         <div class="user-info__content__activity">
           <p>| 내가 찜한 영화: {{ likeMovies }} 개</p>
@@ -25,7 +35,7 @@ export default {
   components: { UserProfileImage },
   name: "UserInfo",
   computed: {
-    ...mapGetters(["userInfoDetail"]),
+    ...mapGetters(["userInfoDetail", "isSelf"]),
     likeMovies() {
       const movies = this.userInfoDetail.like_movies;
       return movies.length;
@@ -41,6 +51,11 @@ export default {
     myReview() {
       const review = this.userInfoDetail.review;
       return review.length;
+    },
+  },
+  methods: {
+    showUserChangeModal() {
+      this.$emit("show-user-change-modal", true);
     },
   },
 };
