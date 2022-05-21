@@ -15,8 +15,16 @@
     </ul>
     <ul class="nav__button" v-show="!isLoggedIn">
       <font-awesome-icon
+        v-if="searchBar"
         icon="fa-solid fa-magnifying-glass"
+        @click="showSearchModal"
         class="font-real-white nav__button__item"
+      />
+      <font-awesome-icon
+        icon="fa-solid fa-x"
+        v-if="!searchBar"
+        @click="hideSearchModal"
+        class="font-real-white nav__icon nav__profile__item"
       />
       <button
         class="bg-icon-blue font-real-white nav__button__item"
@@ -33,13 +41,15 @@
     </ul>
     <ul class="nav__profile" v-show="isLoggedIn">
       <font-awesome-icon
+        @click="showSearchModal"
         icon="fa-solid fa-magnifying-glass"
         class="font-real-white nav__icon nav__profile__item"
-        v-if="!searchBar"
+        v-if="searchBar"
       />
       <font-awesome-icon
+        @click="hideSearchModal"
         icon="fa-solid fa-x"
-        v-if="searchBar"
+        v-if="!searchBar"
         class="font-real-white nav__icon nav__profile__item"
       />
       <div class="nav__profile__item" @click="showProfileModal"></div>
@@ -68,6 +78,14 @@ export default {
     },
     showProfileModal() {
       this.$emit("show-profile-modal", true);
+    },
+    showSearchModal() {
+      this.$emit("show-search-modal", true);
+      this.searchBar = false;
+    },
+    hideSearchModal() {
+      this.$emit("hide-search-modal", true);
+      this.searchBar = true;
     },
   },
 };
