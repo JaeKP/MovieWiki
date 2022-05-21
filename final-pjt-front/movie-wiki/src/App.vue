@@ -4,6 +4,7 @@
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
       @show-profile-modal="showProfileModal"
+      class="nav-bar"
     ></nav-bar>
     <router-view />
     <the-sign-up-modal
@@ -18,7 +19,11 @@
       @hide-log-in-modal="hideLogInModal"
       @show-sign-up-modal="showSignUpModal"
     ></the-log-in-modal>
-    <the-profile-modal v-if="profileModal"></the-profile-modal>
+    <the-profile-modal
+      v-if="profileModal"
+      @hide-profile-modal="hideProfileModal"
+      class="modal__profile"
+    ></the-profile-modal>
   </div>
 </template>
 
@@ -54,6 +59,9 @@ export default {
     showProfileModal(data) {
       this.profileModal = data;
     },
+    hideProfileModal(data) {
+      this.profileModal = data;
+    },
   },
 };
 </script>
@@ -61,6 +69,9 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 @import "@/assets/default.css";
+.nav-bar {
+  z-index: 3;
+}
 
 .modal {
   width: 100vw;
@@ -74,5 +85,13 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(32, 34, 37, 0.8);
+  z-index: 4;
+}
+
+.modal__profile {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  z-index: 4;
 }
 </style>

@@ -36,7 +36,7 @@ export default {
     },
     removeprofile({ commit }) {
       commit("SET_PROFILE", "");
-      localStorage.setItem("profile", "");
+      localStorage.setItem("profile", {});
     },
 
     // 프로필 저장하기
@@ -100,11 +100,13 @@ export default {
           const errMessage = Object.values(err)[0][0];
           // 오류 알럿!
           Swal.fire({
-            title: errMessage,
+            text: errMessage,
             icon: "error",
-            toast: true,
             width: "25%",
-            confirmButtonColor: "#5865f2",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            position: "center",
           });
         });
     },
@@ -124,11 +126,13 @@ export default {
         .catch(() => {
           // 오류 알럿!
           Swal.fire({
-            title: "아이디 또는 비밀번호를 잘못 입력했습니다.",
+            text: "아이디 또는 비밀번호를 잘못 입력했습니다.",
             icon: "error",
-            toast: true,
             width: "25%",
-            confirmButtonColor: "#5865f2",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            position: "center",
           });
         });
     },
@@ -142,11 +146,11 @@ export default {
       })
         .then(() => {
           dispatch("removeToken");
-          alert("성공적으로 logout!");
-          router.push({ name: "login" });
+          dispatch("removeprofile");
+          router.push({ name: "home" });
         })
         .error((error) => {
-          console.error(error.response);
+          console.error(error);
         });
     },
   },
