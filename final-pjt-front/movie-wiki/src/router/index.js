@@ -9,6 +9,7 @@ import HomeView from "@/views/HomeView.vue";
 // import MovieReviewView from '@/views/MovieReviewView.vue'
 // import SearchMovieView from '@/views/SearchMovieView.vue'
 import TrailerView from "@/views/TrailerView.vue";
+import UserInfoView from "@/views/UserInfoView.vue";
 // import UserInfoArticleView  from '@/views/UserInfoArticleView.vue'
 // import UserCommentView from '@/views/UserCommentView.vue'
 // import UserInfoFavorite from '@/views/UserInfoFavorite.vue'
@@ -31,6 +32,11 @@ const routes = [
     path: "/articles",
     name: "articles",
     component: ArticleListView,
+  },
+  {
+    path: "/profile/:username",
+    name: "profile",
+    component: UserInfoView,
   },
 ];
 

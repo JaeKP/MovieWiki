@@ -6,7 +6,11 @@
         <p>{{ userProfile.nickname }}</p>
       </div>
       <div class="profile-modal__router">
-        <a @click="hideProfileModal">내 정보</a>
+        <router-link
+          :to="{ name: 'profile', params: { username: userProfile.username } }"
+        >
+          <a @click="hideProfileModal">내 정보</a>
+        </router-link>
         <hr />
         <a @click="[hideProfileModal(), logOut()]">로그아웃</a>
       </div>

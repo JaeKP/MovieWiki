@@ -35,6 +35,12 @@
       <font-awesome-icon
         icon="fa-solid fa-magnifying-glass"
         class="font-real-white nav__icon nav__profile__item"
+        v-if="!searchBar"
+      />
+      <font-awesome-icon
+        icon="fa-solid fa-x"
+        v-if="searchBar"
+        class="font-real-white nav__icon nav__profile__item"
       />
       <div class="nav__profile__item" @click="showProfileModal"></div>
     </ul>
@@ -46,7 +52,9 @@ import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
   data() {
-    return {};
+    return {
+      searchBar: true,
+    };
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),
