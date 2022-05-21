@@ -230,3 +230,7 @@ button {
   font-family: "Noto Sans KR", sans-serif;
   transform: skew(-0.001deg);
 }
+
+body {
+  padding-top: 80px;
+}

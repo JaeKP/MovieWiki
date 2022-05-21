@@ -2,11 +2,15 @@
   <div @mouseleave="hideProfileModal">
     <div class="profile-modal">
       <div class="pofile-modal__user">
-        <div class="nav__profile__item"></div>
+        <user-profile-image></user-profile-image>
         <p>{{ userProfile.nickname }}</p>
       </div>
       <div class="profile-modal__router">
-        <a @click="hideProfileModal">내 정보</a>
+        <router-link
+          :to="{ name: 'profile', params: { username: userProfile.username } }"
+        >
+          <a @click="hideProfileModal">내 정보</a>
+        </router-link>
         <hr />
         <a @click="[hideProfileModal(), logOut()]">로그아웃</a>
       </div>
@@ -15,9 +19,13 @@
 </template>
 
 <script>
+import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TheProfileModal",
+  components: {
+    UserProfileImage,
+  },
   computed: {
     ...mapGetters(["userProfile"]),
   },
@@ -48,20 +56,7 @@ export default {
   color: #202225;
 }
 
-.pofile-modal__user > div {
-  background-image: url(@/assets/profile.png);
-  width: 60px;
-  height: 60px;
-  margin-right: 0.5em;
-  border: 1px solid #96989d;
-  border-radius: 50%;
-  background-color: white;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
-}
-
-.profile-modal__router {
+a {
   color: #36393f;
 }
 
