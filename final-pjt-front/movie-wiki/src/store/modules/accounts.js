@@ -5,9 +5,14 @@ import Swal from "sweetalert2";
 
 export default {
   state: {
+    // 내 정보!!
     token: localStorage.getItem("token") || "",
     currentUser: {},
     userProfile: JSON.parse(localStorage.getItem("userProfile")) || {},
+
+    // 프로필 페이지 관련
+    userInfoName: localStorage.getItem("userInfoName") || "",
+    userInfoDetail: JSON.parse(localStorage.getItem("userInfoDetail")) || {},
   },
   getters: {
     // 로그인
@@ -16,11 +21,19 @@ export default {
     userProfile: (state) => state.userProfile,
     // 유저의 토큰
     authHeader: (state) => ({ Authorization: `Token ${state.token}` }),
+
+    // 프로필 페이지 유저 이름
+    userInfoName: (state) => state.userInfoName,
+    userInfoDetail: (state) => state.userInfoDetail,
   },
   mutations: {
     SET_TOKEN: (state, token) => (state.token = token),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_PROFILE: (state, userProfile) => (state.userProfile = userProfile),
+    SET_USER_INFO_NAME: (state, userInfoName) =>
+      (state.userInfoName = userInfoName),
+    SET_USER_INFO_DETAIL: (state, userInfoDetail) =>
+      (state.userInfoDetail = userInfoDetail),
   },
   actions: {
     // 토큰 저장하기
@@ -38,7 +51,21 @@ export default {
       commit("SET_PROFILE", "");
       localStorage.setItem("profile", {});
     },
-
+    setUserInfoDetail({ commit }, userInfoDetail) {
+      commit("SET_USER_INFO_DETAIL", userInfoDetail);
+      localStorage.setItem("userInfoDetail", JSON.stringify(userInfoDetail));
+    },
+    // userInfoName 저장, 관련 내용 저장
+    setUserInfoName({ commit, dispatch }, userInfoName) {
+      commit("SET_USER_INFO_NAME", userInfoName);
+      localStorage.setItem("userInfoName", userInfoName);
+      axios({
+        url: drf.accounts.profile(userInfoName),
+        method: "get",
+      }).then((response) => {
+        dispatch("setUserInfoDetail", response.data);
+      });
+    },
     // 프로필 저장하기
     fetchProfile({ getters, commit }, { username }) {
       axios({

@@ -128,7 +128,7 @@ export default {
 
 <style scoped>
 .sign-up-modal {
-  width: 700px;
+  width: 600px;
   padding: 2em;
   border-radius: 0.8em;
   background-color: white;
@@ -147,7 +147,7 @@ export default {
   }
 }
 
-@media (max-height: 1000px) {
+@media (max-height: 800px) {
   #age,
   #region,
   #password1,

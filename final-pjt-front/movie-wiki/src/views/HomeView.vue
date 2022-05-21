@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>home</h1>
     <card-list></card-list>
   </div>
 </template>
