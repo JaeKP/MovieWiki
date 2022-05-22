@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h1>Trailer</h1>
+    <h1>에러요!!!!!!</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TrailerView",
-};
+  name: "NotFound404View"
+}
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -10,7 +10,9 @@ export default {
     logout: () => HOST + ACCOUNTS + "logout/",
     signup: () => HOST + ACCOUNTS + "signup/",
     currentUserInfo: () => HOST + ACCOUNTS + "user/",
-    profile: (username) => HOST + ACCOUNTS + "profile/" + username,
+    profile: (username) => HOST + ACCOUNTS + "profile/" + `${username}/`,
+    onlyProfile: (username) => HOST + ACCOUNTS + "onlyprofile/"+ `${username}/`,
+    temporaryImageUpload: (username) => HOST + ACCOUNTS + "temporary/profile/" + `${username}/`,
   },
 
   article: {

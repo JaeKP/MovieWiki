@@ -173,3 +173,5 @@ AUTH_USER_MODEL = 'accounts.User'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'

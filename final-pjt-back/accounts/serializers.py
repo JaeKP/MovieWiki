@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from articles.models import Article, ArticleComment, ArticleType
 from movies.models import MovieReview, Movie
+from .models import UserUploadImage
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -29,6 +30,20 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('nickname', 'region', 'age', 'profile_image',)
+
+# 회원 정보 수정 (이미지 변경안할 때)
+class NoImageUserUpdageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('nickname', 'region', 'age',) 
+
+# 회원 정보 수정 (업로드 이미지용) => 정보수정 페이지에서 보이게 하기위한 시리얼라이저
+class TemporaryUploadImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserUploadImage
+        fields = '__all__'
+        read_only_fields = ('user',)
+
 
 # 프로필 페이지 
 class UserProfileSerializer(serializers.ModelSerializer):
