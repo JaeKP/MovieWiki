@@ -49,7 +49,7 @@ export default {
           404 에러일 때는
             NotFound404 로 이동
       */
-      console.log(articlePk);
+
       axios({
         url: drf.article.article(articlePk),
         method: "get",
