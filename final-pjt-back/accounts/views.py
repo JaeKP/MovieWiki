@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from .serializers import UserProfileSerializer, UserProfileUpdateSerializer, NoImageUserUpdageSerializer
+from .serializers import UserProfileSerializer, UserProfileUpdateSerializer, NoImageUserUpdageSerializer, TemporaryUploadImageSerializer
 from rest_framework import status
 
 User = get_user_model()
@@ -48,3 +48,12 @@ def only_user_profile_update(request, username):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def temporary_user_upload_image(request, username):
+    user = get_object_or_404(User, username=username)
+    serializer =  TemporaryUploadImageSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

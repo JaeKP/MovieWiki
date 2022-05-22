@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 li {
   width: 75vw;
   align-items: start;

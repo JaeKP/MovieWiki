@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .search-modal {
   width: 100%;
   /* margin-top: 80px; */
@@ -77,7 +77,7 @@ input {
   /* color: #b9bbbe; */
 }
 
-.modal-bg {
+/* .modal-bg {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -86,9 +86,9 @@ input {
   top: 0;
   bottom: 0;
   background-color: rgba(32, 34, 37, 0.8);
-}
+} */
 
-hr {
+/* hr {
   width: 78%;
-}
+} */
 </style>

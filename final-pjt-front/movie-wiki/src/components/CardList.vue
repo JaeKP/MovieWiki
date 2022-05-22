@@ -52,9 +52,8 @@ export default {
 };
 </script>
 
-<style>
-.swiper {
-}
+<style scoped >
+
 .swiper-slide {
   width: 15rem;
   display: flex;

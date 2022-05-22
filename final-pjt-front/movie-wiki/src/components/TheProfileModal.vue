@@ -2,7 +2,7 @@
   <div @mouseleave="hideProfileModal">
     <div class="profile-modal">
       <div class="pofile-modal__user">
-        <user-profile-image></user-profile-image>
+        <user-profile-image :image="userProfile.image"></user-profile-image>
         <p>{{ userProfile.nickname }}</p>
       </div>
       <div class="profile-modal__router">
