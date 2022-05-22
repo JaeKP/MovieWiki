@@ -4,6 +4,8 @@
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
       @show-profile-modal="showProfileModal"
+      @show-search-modal="showSearchModal"
+      @hide-search-modal="hideSearchModal"
       class="nav-bar"
     ></nav-bar>
     <router-view />
@@ -24,6 +26,11 @@
       @hide-profile-modal="hideProfileModal"
       class="modal__profile"
     ></the-profile-modal>
+    <search-movie-modal
+      v-if="SearchMovieModal"
+      class="modal__search"
+      @hide-search-modal="hideSearchModal"
+    ></search-movie-modal>
   </div>
 </template>
 
@@ -32,6 +39,7 @@ import NavBar from "@/components/NavBar.vue";
 import TheSignUpModal from "@/components/TheSignUpModal.vue";
 import TheLogInModal from "@/components/TheLogInModal.vue";
 import TheProfileModal from "@/components/TheProfileModal.vue";
+import SearchMovieModal from "./components/SearchMovieModal.vue";
 
 export default {
   name: "App",
@@ -40,9 +48,16 @@ export default {
       signUp: false,
       logIn: false,
       profileModal: false,
+      SearchMovieModal: false,
     };
   },
-  components: { NavBar, TheSignUpModal, TheLogInModal, TheProfileModal },
+  components: {
+    NavBar,
+    TheSignUpModal,
+    TheLogInModal,
+    TheProfileModal,
+    SearchMovieModal,
+  },
   methods: {
     showSignUpModal(data) {
       this.signUp = data;
@@ -61,6 +76,12 @@ export default {
     },
     hideProfileModal(data) {
       this.profileModal = data;
+    },
+    hideSearchModal() {
+      this.SearchMovieModal = false;
+    },
+    showSearchModal() {
+      this.SearchMovieModal = true;
     },
   },
 };
@@ -93,5 +114,14 @@ export default {
   top: 80px;
   right: 30px;
   z-index: 4;
+}
+
+.modal__search {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 80px;
+  /* right: 30px; */
+  z-index: 3;
 }
 </style>
