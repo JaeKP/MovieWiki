@@ -102,5 +102,6 @@ export default {
 
 .user-info__content__activity > p {
   color: #b9bbbe;
+  font-size: 1.1em;
 }
 </style>

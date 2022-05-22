@@ -24,7 +24,7 @@
         icon="fa-solid fa-x"
         v-if="!searchBar"
         @click="hideSearchModal"
-        class="font-real-white nav__icon nav__profile__item"
+        class="font-real-white nav__icon nav__button__item"
       />
       <button
         class="bg-icon-blue font-real-white nav__button__item"
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      searchBar: false,
+      searchBar: true,
     };
   },
   computed: {
