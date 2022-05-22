@@ -1,16 +1,29 @@
 <template>
-  <h1>
-    영화 디테일페이지 입니다!!! 
-  </h1>
+  <div>
+    <movie-detail-over-view></movie-detail-over-view>
+  </div>
 </template>
 
 <script>
+import MovieDetailOverView from "@/components/MovieDetailOverView.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  name: "MovieDetailView"
-
-}
+  name: "MovieDetailView",
+  components: {
+    ...mapGetters(["movieDetail"]),
+    MovieDetailOverView,
+  },
+  methods: {
+    ...mapActions(["fetchMovieDetail"]),
+  },
+  watch: {
+    movieDetail() {
+      this.fetchMovieDetail(this.$route.params.movieId);
+    },
+  },
+  created() {
+    this.fetchMovieDetail(this.$route.params.movieId);
+  },
+};
 </script>
-
-<style>
-
-</style>
+<style></style>

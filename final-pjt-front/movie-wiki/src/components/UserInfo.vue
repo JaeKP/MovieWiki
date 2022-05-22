@@ -37,28 +37,44 @@ export default {
   name: "UserInfo",
   computed: {
     ...mapGetters(["userInfoDetail", "isSelf", "userProfile"]),
-    image(){
-      if (this.isSelf){
-        return this.userProfile.image
+    image() {
+      if (this.isSelf) {
+        return this.userProfile.image;
       } else {
-        return this.userInfoDetail.profile_image
+        return this.userInfoDetail.profile_image;
       }
     },
     likeMovies() {
-      const movies = this.userInfoDetail.like_movies;
-      return movies.length;
+      if (this.userInfoDetail.like_movies !== undefined) {
+        const movies = this.userInfoDetail.like_movies;
+        return movies.length;
+      } else {
+        return 9999;
+      }
     },
     myArticle() {
-      const articles = this.userInfoDetail.article;
-      return articles.length;
+      if (this.userInfoDetail.article !== undefined) {
+        const articles = this.userInfoDetail.article;
+        return articles.length;
+      } else {
+        return 9999;
+      }
     },
     myComment() {
-      const comments = this.userInfoDetail.comment;
-      return comments.length;
+      if (this.userInfoDetail.comment !== undefined) {
+        const comments = this.userInfoDetail.comment;
+        return comments.length;
+      } else {
+        return 9999;
+      }
     },
     myReview() {
-      const review = this.userInfoDetail.review;
-      return review.length;
+      if (this.userInfoDetail.review !== undefined) {
+        const review = this.userInfoDetail.review;
+        return review.length;
+      } else {
+        return 9999;
+      }
     },
   },
   methods: {
