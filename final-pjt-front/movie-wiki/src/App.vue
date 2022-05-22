@@ -118,10 +118,11 @@ export default {
 
 .modal__search {
   width: 100vw;
-  height: 100vh;
+  height: calc(100%-80px);
   position: fixed;
   top: 80px;
   /* right: 30px; */
   z-index: 3;
+  background-color: rgba(32, 34, 37, 0.8);
 }
 </style>

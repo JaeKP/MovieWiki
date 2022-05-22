@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "UserProfileImage",
   props: {
@@ -18,11 +17,13 @@ export default {
     height: {
       type: String,
     },
+    image: {
+      type: String
+    }
   },
   computed: {
-    ...mapGetters(["userProfile"]),
     imageUrl() {
-      const url = `http://localhost:8000${this.userProfile.image}`;
+      const url = `http://localhost:8000${this.image}`;
       return url;
     },
   },
@@ -31,7 +32,6 @@ export default {
 
 <style scoped>
 .user-profile-image {
-  /* background-image: url(@/assets/profile.png); */
   width: 60px;
   height: 60px;
   margin-right: 0.5em;
@@ -40,6 +40,6 @@ export default {
   background-color: white;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 125%;
+  background-size: 130%;
 }
 </style>

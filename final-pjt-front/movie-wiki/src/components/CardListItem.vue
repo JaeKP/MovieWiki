@@ -36,7 +36,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* radius 여러 개 둬서 모서리 그림자가 라운딩 */
 .card {
   width: 15rem;
@@ -46,9 +46,6 @@ export default {
   border: 0;
   /* Swiper의 자체 overflow:hidden 때문에 하단 그림자가 사라짐.. 야매로 해결 */
   margin-bottom: 0.1rem;
-}
-.card:hover {
-  /* transform: scale(1.2); */
 }
 
 .card:hover > .card__image {

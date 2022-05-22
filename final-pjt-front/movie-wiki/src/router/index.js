@@ -5,10 +5,11 @@ import VueRouter from "vue-router";
 import ArticleListView from "@/views/ArticleListView.vue";
 // import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import HomeView from "@/views/HomeView.vue";
-// import MovieDetailView from '@/views/MovieDetailView.vue'
+import MovieDetailView from '@/views/MovieDetailView.vue'
 // import MovieReviewView from '@/views/MovieReviewView.vue'
 // import SearchMovieView from '@/views/SearchMovieView.vue'
 import TrailerView from "@/views/TrailerView.vue";
+import NotFound404View from "@/views/NotFound404View.vue"
 import UserInfoView from "@/views/UserInfoView.vue";
 
 Vue.use(VueRouter);
@@ -35,6 +36,20 @@ const routes = [
     component: UserInfoView,
     props: true,
   },
+  {
+    path: "/movies/:movieId",
+    name: "movieDetail",
+    component: MovieDetailView
+  },
+  {
+    path: "/404",
+    name: "NotFound",
+    component: NotFound404View
+  },
+  {
+    path: "*",
+    redirect: "/404"
+  }
 ];
 
 const router = new VueRouter({
