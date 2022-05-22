@@ -30,6 +30,12 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         model = User
         fields = ('nickname', 'region', 'age', 'profile_image',)
 
+class NoImageUserUpdageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('nickname', 'region', 'age',) 
+
+
 # 프로필 페이지 
 class UserProfileSerializer(serializers.ModelSerializer):
     # movie 시리얼라이저
