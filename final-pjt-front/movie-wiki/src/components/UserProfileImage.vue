@@ -18,8 +18,8 @@ export default {
       type: String,
     },
     image: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     imageUrl() {

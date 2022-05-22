@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import accounts from "./modules/accounts";
 import movies from "./modules/movies";
+import articles from "./modules/articles";
 import drf from "@/api/drf";
 import axios from "axios";
 
@@ -66,5 +67,5 @@ export default new Vuex.Store({
         });
     },
   },
-  modules: { accounts, movies },
+  modules: { accounts, movies, articles },
 });
