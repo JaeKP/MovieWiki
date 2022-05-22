@@ -10,7 +10,7 @@ import {
   faHeart,
   faThumbsUp,
   faX,
-  faFileCirclePlus,
+  faCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 <font-awesome-icon icon="fa-solid fa-x" />*/
 }
 
-library.add(faMagnifyingGlass, faHeart, faThumbsUp, faX, faFileCirclePlus);
+library.add(faMagnifyingGlass, faHeart, faThumbsUp, faX, faCirclePlus);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.use(VueSweetalert2);

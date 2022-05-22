@@ -52,7 +52,7 @@
         v-if="!searchBar"
         class="font-real-white nav__icon nav__profile__item"
       />
-      <user-profile-image @click.native="showProfileModal"></user-profile-image>
+      <user-profile-image @click.native="showProfileModal" :image="userProfile.image"></user-profile-image>
     </ul>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoggedIn"]),
+    ...mapGetters(["isLoggedIn", "userProfile"]),
   },
   methods: {
     showSignUpModal() {

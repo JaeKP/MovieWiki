@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .search-modal {
   width: 100%;
   /* margin-top: 80px; */
