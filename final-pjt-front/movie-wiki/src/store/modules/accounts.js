@@ -11,8 +11,8 @@ export default {
     userProfile: JSON.parse(localStorage.getItem("userProfile")) || {},
 
     // 프로필 페이지 관련
-    userInfoName: localStorage.getItem("userInfoName") || "",
-    userInfoDetail: JSON.parse(localStorage.getItem("userInfoDetail")) || {},
+    userInfoName: "",
+    userInfoDetail: {},
   },
   getters: {
     // 로그인
@@ -36,6 +36,7 @@ export default {
     SET_TOKEN: (state, token) => (state.token = token),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_PROFILE: (state, userProfile) => (state.userProfile = userProfile),
+    SET_PROFILE_IMAGE: (state, userProfileImage) => (state.userProfile.image = userProfileImage),
     SET_USER_INFO_NAME: (state, userInfoName) =>
       (state.userInfoName = userInfoName),
     SET_USER_INFO_DETAIL: (state, userInfoDetail) =>
@@ -59,19 +60,27 @@ export default {
     },
     setUserInfoDetail({ commit }, userInfoDetail) {
       commit("SET_USER_INFO_DETAIL", userInfoDetail);
-      localStorage.setItem("userInfoDetail", JSON.stringify(userInfoDetail));
     },
     // userInfoName 저장, 관련 내용 저장
     setUserInfoName({ commit, dispatch }, userInfoName) {
       commit("SET_USER_INFO_NAME", userInfoName);
-      localStorage.setItem("userInfoName", userInfoName);
       axios({
         url: drf.accounts.profile(userInfoName),
         method: "get",
       }).then((response) => {
         dispatch("setUserInfoDetail", response.data);
-      });
+      }).catch((error) => {
+        console.log(error.response.data)
+        if (error.response.status === 404) {
+          router.push({name: "NotFound"})
+        }
+      })
     },
+    // 프로필 이미지만 저장
+    setUserProfileImage({commit}, userProfileImage){
+      commit("SET_PROFILE_IMAGE", userProfileImage)
+    },
+
     // 프로필 저장하기
     fetchProfile({ getters, commit }, username) {
       axios({
@@ -140,6 +149,7 @@ export default {
             timer: 2000,
             timerProgressBar: true,
             position: "center",
+            heightAuto: false,
           });
         });
     },
@@ -166,6 +176,7 @@ export default {
             timer: 2000,
             timerProgressBar: true,
             position: "center",
+            heightAuto: false,
           });
         });
     },
@@ -223,5 +234,34 @@ export default {
         });
       }
     },
+    // 정보 수정 중 업로드한 이미지
+    temporaryImageUpload({getters, dispatch}, {username, profile_image}){
+      console.log('된다!')
+      const formdata = new FormData()
+      for (let i = 0; i < profile_image.length; i++) {
+        formdata.append("profile_image", profile_image[i]);
+      }
+      axios({
+        url: drf.accounts.temporaryImageUpload(username),
+        method: "post",
+        data: formdata,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: getters.authToken,
+        }
+      }).then((response)=>dispatch("setUserProfileImage", response.data.profile_image))
+    },
+
+    // 회원 탈퇴
+    deleteUserData({getters, dispatch}, username){
+      axios({
+        url: drf.accounts.profile(username),
+        method: 'delete',
+        headers:getters.authHeader,
+      }).then(()=>{
+      dispatch("removeToken");
+      dispatch("removeprofile");
+      router.push({ name: "home" })} )
+    }
   },
 };

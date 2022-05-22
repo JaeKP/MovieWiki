@@ -5,6 +5,7 @@
         class="user-info__image"
         width="100px"
         height="100px"
+        :image="image"
       ></user-profile-image>
       <div class="user-info__content">
         <div class="user-info__content__title">
@@ -35,7 +36,14 @@ export default {
   components: { UserProfileImage },
   name: "UserInfo",
   computed: {
-    ...mapGetters(["userInfoDetail", "isSelf"]),
+    ...mapGetters(["userInfoDetail", "isSelf", "userProfile"]),
+    image(){
+      if (this.isSelf){
+        return this.userProfile.image
+      } else {
+        return this.userInfoDetail.profile_image
+      }
+    },
     likeMovies() {
       const movies = this.userInfoDetail.like_movies;
       return movies.length;
@@ -90,7 +98,7 @@ export default {
 
 .user-info__content__title > p {
   font-size: 1.5em;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .user-info__content__title > button {

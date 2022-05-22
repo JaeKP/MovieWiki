@@ -12,6 +12,7 @@ export default {
     currentUserInfo: () => HOST + ACCOUNTS + "user/",
     profile: (username) => HOST + ACCOUNTS + "profile/" + `${username}/`,
     onlyProfile: (username) => HOST + ACCOUNTS + "onlyprofile/"+ `${username}/`,
+    temporaryImageUpload: (username) => HOST + ACCOUNTS + "temporary/profile/" + `${username}/`,
   },
 
   article: {
