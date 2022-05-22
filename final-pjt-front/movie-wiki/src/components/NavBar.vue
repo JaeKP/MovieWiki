@@ -39,7 +39,7 @@
         로그인
       </button>
     </ul>
-    <ul class="nav__profile" v-show="isLoggedIn">
+    <ul class="nav__profile" v-if="isLoggedIn">
       <font-awesome-icon
         @click="showSearchModal"
         icon="fa-solid fa-magnifying-glass"
@@ -52,18 +52,22 @@
         v-if="!searchBar"
         class="font-real-white nav__icon nav__profile__item"
       />
-      <div class="nav__profile__item" @click="showProfileModal"></div>
+      <user-profile-image @click.native="showProfileModal"></user-profile-image>
     </ul>
   </div>
 </template>
 
 <script>
+import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
+  components: {
+    UserProfileImage,
+  },
   data() {
     return {
-      searchBar: true,
+      searchBar: false,
     };
   },
   computed: {
@@ -175,19 +179,6 @@ a:hover {
   gap: 2em;
   align-items: center;
   margin-right: 2em;
-}
-
-.nav__profile > div {
-  background-image: url(@/assets/profile.png);
-  width: 60px;
-  height: 60px;
-  margin-right: 0.5em;
-  border: 2px solid #333;
-  border-radius: 50%;
-  background-color: white;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
 }
 
 .nav__profile > .nav__profile__item:nth-child(1) {

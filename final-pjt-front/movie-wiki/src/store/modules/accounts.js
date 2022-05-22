@@ -5,9 +5,14 @@ import Swal from "sweetalert2";
 
 export default {
   state: {
+    // 내 정보!!
     token: localStorage.getItem("token") || "",
     currentUser: {},
     userProfile: JSON.parse(localStorage.getItem("userProfile")) || {},
+
+    // 프로필 페이지 관련
+    userInfoName: localStorage.getItem("userInfoName") || "",
+    userInfoDetail: JSON.parse(localStorage.getItem("userInfoDetail")) || {},
   },
   getters: {
     // 로그인
@@ -16,11 +21,25 @@ export default {
     userProfile: (state) => state.userProfile,
     // 유저의 토큰
     authHeader: (state) => ({ Authorization: `Token ${state.token}` }),
+    authToken: (state) => `Token ${state.token}`,
+
+    // 프로필 페이지 유저 이름
+    userInfoName: (state) => state.userInfoName,
+    userInfoDetail: (state) => state.userInfoDetail,
+
+    // 내 프로필인지 확인한다.
+    isSelf: (state) => {
+      return state.userInfoName === state.userProfile.username ? true : false;
+    },
   },
   mutations: {
     SET_TOKEN: (state, token) => (state.token = token),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_PROFILE: (state, userProfile) => (state.userProfile = userProfile),
+    SET_USER_INFO_NAME: (state, userInfoName) =>
+      (state.userInfoName = userInfoName),
+    SET_USER_INFO_DETAIL: (state, userInfoDetail) =>
+      (state.userInfoDetail = userInfoDetail),
   },
   actions: {
     // 토큰 저장하기
@@ -38,13 +57,27 @@ export default {
       commit("SET_PROFILE", "");
       localStorage.setItem("profile", {});
     },
-
+    setUserInfoDetail({ commit }, userInfoDetail) {
+      commit("SET_USER_INFO_DETAIL", userInfoDetail);
+      localStorage.setItem("userInfoDetail", JSON.stringify(userInfoDetail));
+    },
+    // userInfoName 저장, 관련 내용 저장
+    setUserInfoName({ commit, dispatch }, userInfoName) {
+      commit("SET_USER_INFO_NAME", userInfoName);
+      localStorage.setItem("userInfoName", userInfoName);
+      axios({
+        url: drf.accounts.profile(userInfoName),
+        method: "get",
+      }).then((response) => {
+        dispatch("setUserInfoDetail", response.data);
+      });
+    },
     // 프로필 저장하기
-    fetchProfile({ getters, commit }, { username }) {
+    fetchProfile({ getters, commit }, username) {
       axios({
         url: drf.accounts.profile(username),
         method: "get",
-        header: getters.authHeader,
+        headers: getters.authHeader,
       }).then((response) => {
         const profileDict = {
           username: response.data.username,
@@ -52,9 +85,9 @@ export default {
           age: response.data.age,
           region: response.data.region,
           image: response.data.profile_image,
+          searchKeywords: [],
         };
         const JsonProfileDict = JSON.stringify(profileDict);
-        console.log(profileDict);
         commit("SET_PROFILE", profileDict);
         localStorage.setItem("userProfile", JsonProfileDict);
       });
@@ -70,7 +103,7 @@ export default {
         })
           .then((response) => {
             commit("SET_CURRENT_USER", response.data);
-            dispatch("fetchProfile", state.currentUser);
+            dispatch("fetchProfile", state.currentUser.username);
           })
           .catch((error) => {
             if (error.response.status === 401) {
@@ -147,11 +180,48 @@ export default {
         .then(() => {
           dispatch("removeToken");
           dispatch("removeprofile");
-          router.push({ name: "home" });
+          router.push({ name: "home" }).catch(() => {});
         })
-        .error((error) => {
-          console.error(error);
+        .catch((error) => {
+          console.log(error);
         });
+    },
+    // 프로필 수정
+    changeProfile(
+      { getters, dispatch },
+      { username, nickname, age, region, profile_image }
+    ) {
+      const formdata = new FormData();
+      formdata.append("nickname", nickname);
+      formdata.append("age", age);
+      formdata.append("region", region);
+      if (typeof profile_image !== "object" || profile_image === null) {
+        axios({
+          url: drf.accounts.onlyProfile(username),
+          method: "put",
+          data: { nickname, age, region },
+          headers: getters.authHeader,
+        }).then(() => {
+          dispatch("fetchProfile", username);
+          dispatch("setUserInfoName", username);
+        });
+      } else {
+        for (let i = 0; i < profile_image.length; i++) {
+          formdata.append("profile_image", profile_image[i]);
+        }
+        axios({
+          url: drf.accounts.profile(username),
+          method: "put",
+          data: formdata,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: getters.authToken,
+          },
+        }).then(() => {
+          dispatch("fetchProfile", username);
+          dispatch("setUserInfoName", username);
+        });
+      }
     },
   },
 };
