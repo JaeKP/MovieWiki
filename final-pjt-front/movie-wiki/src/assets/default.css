@@ -225,12 +225,12 @@ button {
   color: #40444b;
 }
 
-.noto-sans {
-  font-family: "Noto Sans KR", sans-serif;
-}
-
 body,
 button {
   font-family: "Noto Sans KR", sans-serif;
   transform: skew(-0.001deg);
+}
+
+body {
+  padding-top: 80px;
 }

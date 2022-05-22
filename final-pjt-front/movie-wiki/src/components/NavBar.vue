@@ -15,8 +15,16 @@
     </ul>
     <ul class="nav__button" v-show="!isLoggedIn">
       <font-awesome-icon
+        v-if="searchBar"
         icon="fa-solid fa-magnifying-glass"
+        @click="showSearchModal"
         class="font-real-white nav__button__item"
+      />
+      <font-awesome-icon
+        icon="fa-solid fa-x"
+        v-if="!searchBar"
+        @click="hideSearchModal"
+        class="font-real-white nav__icon nav__profile__item"
       />
       <button
         class="bg-icon-blue font-real-white nav__button__item"
@@ -31,22 +39,36 @@
         로그인
       </button>
     </ul>
-    <ul class="nav__profile" v-show="isLoggedIn">
+    <ul class="nav__profile" v-if="isLoggedIn">
       <font-awesome-icon
+        @click="showSearchModal"
         icon="fa-solid fa-magnifying-glass"
         class="font-real-white nav__icon nav__profile__item"
+        v-if="searchBar"
       />
-      <div class="nav__profile__item" @click="showProfileModal"></div>
+      <font-awesome-icon
+        @click="hideSearchModal"
+        icon="fa-solid fa-x"
+        v-if="!searchBar"
+        class="font-real-white nav__icon nav__profile__item"
+      />
+      <user-profile-image @click.native="showProfileModal"></user-profile-image>
     </ul>
   </div>
 </template>
 
 <script>
+import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
+  components: {
+    UserProfileImage,
+  },
   data() {
-    return {};
+    return {
+      searchBar: false,
+    };
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),
@@ -60,6 +82,14 @@ export default {
     },
     showProfileModal() {
       this.$emit("show-profile-modal", true);
+    },
+    showSearchModal() {
+      this.$emit("show-search-modal", true);
+      this.searchBar = false;
+    },
+    hideSearchModal() {
+      this.$emit("hide-search-modal", true);
+      this.searchBar = true;
     },
   },
 };
@@ -149,19 +179,6 @@ a:hover {
   gap: 2em;
   align-items: center;
   margin-right: 2em;
-}
-
-.nav__profile > div {
-  background-image: url(@/assets/profile.png);
-  width: 60px;
-  height: 60px;
-  margin-right: 0.5em;
-  border: 2px solid #333;
-  border-radius: 50%;
-  background-color: white;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
 }
 
 .nav__profile > .nav__profile__item:nth-child(1) {

@@ -19,6 +19,7 @@
         <div class="sign-up__email">
           <label for="email"> 이메일</label>
           <input
+            id="email"
             type="email"
             v-model="credential.email"
             required
@@ -127,14 +128,38 @@ export default {
 
 <style scoped>
 .sign-up-modal {
-  width: 35%;
-  min-width: 400px;
+  width: 600px;
   padding: 2em;
   border-radius: 0.8em;
   background-color: white;
   z-index: 2;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 800px) {
+  .sign-up-modal {
+    width: 300px;
+  }
+  .sign-up-modal > .sign-up {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-height: 800px) {
+  #age,
+  #region,
+  #password1,
+  #password2,
+  #username,
+  #email,
+  #nickname {
+    height: 1.7em;
+  }
+  .sign-up__username > label {
+    font-size: 1em;
+  }
 }
 
 .sign-up {
@@ -186,7 +211,8 @@ select {
   background-color: white;
   height: 2.5em;
   font-weight: 500;
-  color: #b9bbbe;
+  max-width: 300px;
+  /* color: #b9bbbe; */
 }
 
 .sign-up__header {

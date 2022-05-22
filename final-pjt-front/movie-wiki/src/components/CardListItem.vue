@@ -1,13 +1,27 @@
 <template>
-  <div class="carousel-item active">
-    <div class="col-md-2">
-      <div class="card">
-        <div class="card-img">
-          <img :src="imgURL" class="img-fluid" />
-        </div>
-        <div class="card-img-overlay"></div>
-      </div>
+  <div class="card">
+    <!-- <router-link
+      :to="{
+        name: 'MovieDetail',
+        params: {
+          id: movie.id,
+        },
+      }"
+    > -->
+    <div class="text">
+      <div class="title font-basic h2">{{ movie.title }}</div>
+      <hr />
+      <div class="content font-basic">{{ movie.overview }}</div>
     </div>
+    <img
+      v-if="movie.poster_path"
+      class="card__image"
+      :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
+    />
+
+    <div v-else class="card__no__image mulish">No Poster</div>
+
+    <!-- </router-link> -->
   </div>
 </template>
 
@@ -19,41 +33,70 @@ export default {
       type: Object,
     },
   },
-  computed: {
-    imgURL: function () {
-      const videoId = this.movie.poster_path;
-      return `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${videoId}`;
-    },
-  },
 };
 </script>
 
 <style>
-/* @media (max-width: 767px) {
-  .carousel-item > div {
-    display: none;
-  }
-  .carousel-item > div:first-child {
-    display: block;
-  }
+/* radius 여러 개 둬서 모서리 그림자가 라운딩 */
+.card {
+  width: 15rem;
+  border-radius: 5%;
+  background-color: black;
+  box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, 0.05);
+  border: 0;
+  /* Swiper의 자체 overflow:hidden 때문에 하단 그림자가 사라짐.. 야매로 해결 */
+  margin-bottom: 0.1rem;
 }
-.carousel-item.active,
-.carousel-item-next,
-.carousel-item-prev {
-  display: flex;
+.card:hover {
+  /* transform: scale(1.2); */
 }
-@media (min-width: 768px) {
-  .carousel-item-end.active,
-  .carousel-item-next {
-    transform: translateX(25%);
-  }
-  .carousel-item-start.active,
-  .carousel-item-prev {
-    transform: translateX(-25%);
-  }
+
+.card:hover > .card__image {
+  transition: all 0.3s;
+  opacity: 0.5;
 }
-.carousel-item-end,
-.carousel-item-start {
-  transform: translateX(0);
-} */
+.card__image {
+  border-radius: 5%;
+  width: 100%;
+  height: 23rem;
+  object-fit: cover;
+}
+.card__no__image {
+  border-radius: 8px;
+  width: 100%;
+  height: 18rem;
+  background-color: var(--board-header);
+  color: var(--header-search);
+  text-align: center;
+  padding-top: 8rem;
+  font-size: 24px;
+  font-weight: 700;
+}
+.text {
+  display: none;
+  color: white;
+  z-index: 1;
+  padding: 1rem;
+  font-weight: 400;
+}
+
+.text > .title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card:hover .text {
+  display: block;
+  position: absolute;
+}
+
+.card:hover .content {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  line-height: 1.8;
+  overflow: hidden;
+}
 </style>
