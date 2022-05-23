@@ -11,8 +11,10 @@ export default {
     signup: () => HOST + ACCOUNTS + "signup/",
     currentUserInfo: () => HOST + ACCOUNTS + "user/",
     profile: (username) => HOST + ACCOUNTS + "profile/" + `${username}/`,
-    onlyProfile: (username) => HOST + ACCOUNTS + "onlyprofile/"+ `${username}/`,
-    temporaryImageUpload: (username) => HOST + ACCOUNTS + "temporary/profile/" + `${username}/`,
+    onlyProfile: (username) =>
+      HOST + ACCOUNTS + "onlyprofile/" + `${username}/`,
+    temporaryImageUpload: (username) =>
+      HOST + ACCOUNTS + "temporary/profile/" + `${username}/`,
   },
 
   article: {
@@ -46,7 +48,7 @@ export default {
     likeMovie: (moviePk) => HOST + MOVIE + `${moviePk}/` + "like/",
     // 영화 리뷰 조회 작성
     // params: movie_id, type
-    moveiReview: () => HOST + MOVIE + "review",
+    movieReview: () => HOST + MOVIE + "review",
     // 영화 리뷰 수정, 삭제, 좋아요
     // params: movie_id, type, review_id
     movieReviewDetail: () => HOST + MOVIE + "reviewDetail",

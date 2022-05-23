@@ -45,36 +45,20 @@ export default {
       }
     },
     likeMovies() {
-      if (this.userInfoDetail.like_movies !== undefined) {
-        const movies = this.userInfoDetail.like_movies;
-        return movies.length;
-      } else {
-        return 9999;
-      }
+      const movies = this?.userInfoDetail?.like_movies;
+      return movies?.length;
     },
     myArticle() {
-      if (this.userInfoDetail.article !== undefined) {
-        const articles = this.userInfoDetail.article;
-        return articles.length;
-      } else {
-        return 9999;
-      }
+      const articles = this?.userInfoDetail?.article;
+      return articles?.length;
     },
     myComment() {
-      if (this.userInfoDetail.comment !== undefined) {
-        const comments = this.userInfoDetail.comment;
-        return comments.length;
-      } else {
-        return 9999;
-      }
+      const comments = this?.userInfoDetail?.comment;
+      return comments?.length;
     },
     myReview() {
-      if (this.userInfoDetail.review !== undefined) {
-        const review = this.userInfoDetail.review;
-        return review.length;
-      } else {
-        return 9999;
-      }
+      const review = this?.userInfoDetail?.review;
+      return review?.length;
     },
   },
   methods: {
