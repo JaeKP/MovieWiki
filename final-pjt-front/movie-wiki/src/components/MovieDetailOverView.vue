@@ -65,16 +65,23 @@ export default {
     imageUrl() {
       return this.movieDetail.poster_path;
     },
-  },
-  methods: {
-    ...mapActions(["likeMovie"]),
+    // likeUsers() {
+    //   if (this.movieDetail.like_users !== undefined) {
+    //     return this.movieDetail.like_users;
+    //   } else {
+    //     return [];
+    //   }
+    // },
     isLike() {
-      if (this.movieDetail.like_users.includes(this.userProfile.id)) {
+      if (this?.movieDetail?.like_users?.includes(this.userProfile.id)) {
         return true;
       } else {
         return false;
       }
     },
+  },
+  methods: {
+    ...mapActions(["likeMovie"]),
   },
 };
 </script>

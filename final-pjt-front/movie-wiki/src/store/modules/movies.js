@@ -43,8 +43,7 @@ export default {
         url: drf.movie.likeMovie(movieId),
         method: "post",
         headers: getters.authHeader,
-      }).then((response) => {
-        console.log(response);
+      }).then(() => {
         dispatch("fetchMovieDetail", movieId);
       });
     },
