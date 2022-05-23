@@ -120,7 +120,7 @@ export default {
   background-color: white;
   display: flex;
   justify-content: center;
-  min-height: 100%;
+  min-height: calc(100vh - 80px);
 }
 .article-list {
   display: flex;
