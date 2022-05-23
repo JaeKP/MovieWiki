@@ -38,7 +38,7 @@
               </div>
             </div>
             <div>
-              <font-awesome-icon icon="fa-solid fa-message" />
+              <font-awesome-icon @click="test" icon="fa-solid fa-message" />
               {{ article.comment.length }}
               <font-awesome-icon icon="fa-solid fa-heart" />
               {{ article.like_count }}
@@ -80,9 +80,6 @@ export default {
   },
   methods: {
     ...mapActions(["fetchArticle"]),
-    test() {
-      console.log("댓글 남기기");
-    },
   },
   created() {
     this.fetchArticle(this.articlePk);

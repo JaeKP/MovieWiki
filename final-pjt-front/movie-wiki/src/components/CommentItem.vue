@@ -1,10 +1,10 @@
 <template>
   <li class="comment-object">
-    <!-- <router-link
+    <router-link
       :to="{ name: 'profile', params: { username: comment.user.username } }"
     >
       {{ comment.user.username }}
-    </router-link> -->
+    </router-link>
     <pre>{{ payload.content }}</pre>
   </li>
 </template>
