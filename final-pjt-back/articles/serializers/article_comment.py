@@ -9,7 +9,7 @@ class ArticleCommentSerializer(serializers.ModelSerializer):
     class UserInfoSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('pk', 'nickname', 'profile_image',)
+            fields = ('pk', 'nickname', 'profile_image', 'username')
     user = UserInfoSerializer(read_only=True)
     like_count = serializers.IntegerField(source="like_users.count", read_only=True)
 
