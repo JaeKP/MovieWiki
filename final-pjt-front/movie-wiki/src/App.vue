@@ -8,7 +8,10 @@
       @hide-search-modal="hideSearchModal"
       class="nav-bar"
     ></nav-bar>
-    <router-view />
+    <router-view
+      @show-sign-up-modal="showSignUpModal"
+      @show-log-in-modal="showLogInModal"
+    />
     <the-sign-up-modal
       v-if="signUp"
       class="modal"
