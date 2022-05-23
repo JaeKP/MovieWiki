@@ -5,10 +5,19 @@
         <div class="article__title-bar">
           <div class="article__title-bar__title">
             <p class="article__title">{{ article.title }}</p>
-            <font-awesome-icon
-              class="aritcle__title__icon"
-              icon="fa-solid fa-ellipsis-vertical"
-            />
+            <button @click="showArticleModal">
+              <font-awesome-icon
+                class="aritcle__title__icon"
+                icon="fa-solid fa-ellipsis-vertical"
+              />
+            </button>
+          </div>
+          <div class="article__modal">
+            <OptionMoadal
+              v-if="optionModal"
+              @hide-article-modal="hideArticleModal"
+              type="글"
+            ></OptionMoadal>
           </div>
           <div class="article__title-bar__user-info">
             <div class="flex-article">
@@ -46,7 +55,7 @@
           </div>
         </div>
         <hr class="hr-article" />
-        <div>
+        <div class="article__content">
           {{ article.content }}
         </div>
       </div>
@@ -67,12 +76,14 @@ import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapGetters, mapActions } from "vuex";
 import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
+import OptionMoadal from "@/components/OptionModal.vue";
 export default {
-  components: { UserProfileImage, CommentForm, CommentItem },
+  components: { UserProfileImage, CommentForm, CommentItem, OptionMoadal },
   name: "ArticleDetailView",
   data() {
     return {
       articlePk: this.$route.params.articlePk,
+      optionModal: false,
     };
   },
   computed: {
@@ -98,8 +109,11 @@ export default {
   },
   methods: {
     ...mapActions(["fetchArticle"]),
-    test() {
-      console.log("댓글 남기기");
+    hideArticleModal() {
+      this.optionModal = false;
+    },
+    showArticleModal() {
+      this.optionModal = true;
     },
   },
   created() {
@@ -108,7 +122,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .article {
   background-color: #dcddde;
   width: 100%;
@@ -122,7 +136,6 @@ export default {
 .article__title-bar__title {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3%;
 }
 .aritcle__title__icon {
   height: 30px;
@@ -130,13 +143,13 @@ export default {
   color: #40444b;
 }
 .article__title {
-  font-size: 30px;
+  font-size: 27px;
   color: #40444b;
 }
 .hr-article {
   border: 0;
-  height: 3px;
-  width: 98%;
+  height: 2px;
+  width: 97%;
   background: white;
 }
 .article__title-bar__user-info {
@@ -159,17 +172,30 @@ export default {
 }
 
 .box-article {
-  width: 60vw;
+  width: 50vw;
+  max-width: 1000px;
 }
 .article-comment {
-  margin-top: 80px;
   min-height: 20vh;
   width: 100%;
   border-radius: 10px;
-  background-color: #dcddde;
-  padding: 2%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.article__modal {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+  margin-bottom: 3%;
+}
+.article__content {
+  padding: 2rem;
+  margin-left: 5px;
+  font-size: 20px;
+  color: inherit;
+  line-height: 18px;
 }
 </style>

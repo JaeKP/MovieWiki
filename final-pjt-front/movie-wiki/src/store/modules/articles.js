@@ -108,5 +108,29 @@ export default {
         })
         .catch((error) => console.error(error.response));
     },
+    deleteComment({ commit, getters, dispatch }, { articlePk, commentPk }) {
+      /* 댓글 삭제
+      사용자가 확인을 받고
+        DELETE: comment URL (token)
+          성공하면
+            응답으로 state.article의 comments 갱신
+          실패하면
+            에러 메시지 표시
+      */
+      if (confirm("정말 삭제하시겠습니까?")) {
+        axios({
+          url: drf.article.comment(articlePk, commentPk),
+          method: "delete",
+          data: {},
+          headers: getters.authHeader,
+        })
+          .then((res) => {
+            commit("SET_ARTICLE_COMMENTS", res.data);
+            dispatch("fetchArticle", articlePk);
+          })
+
+          .catch((err) => console.error(err.response));
+      }
+    },
   },
 };
