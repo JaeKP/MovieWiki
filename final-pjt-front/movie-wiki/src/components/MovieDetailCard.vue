@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <div
-      :style="{ backgroundImage: `url(${imageUrl})`, width, height }"
-      class="movie-detail-card"
-    ></div>
-  </div>
+  <div
+    :style="{ backgroundImage: `url(${imageUrl})`, width, height }"
+    class="movie-detail-card"
+  ></div>
 </template>
 
 <script>
