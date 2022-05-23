@@ -1,18 +1,21 @@
 <template>
   <div class="bg-navbar-black nav">
-    <ul class="font-icon-gray nav__title">
-      <li>
-        <router-link :to="{ name: 'home' }" class="nav__content">
-          홈
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'trailer' }"> 트레일러 </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
-      </li>
-    </ul>
+    <div class="nav__title">
+      <div class="nav__title__logo"></div>
+      <ul class="font-icon-gray nav__title__list">
+        <li>
+          <router-link :to="{ name: 'home' }" class="nav__content">
+            홈
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'trailer' }"> 트레일러 </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
+        </li>
+      </ul>
+    </div>
     <ul class="nav__button" v-show="!isLoggedIn">
       <font-awesome-icon
         v-if="searchBar"
@@ -52,7 +55,10 @@
         v-if="!searchBar"
         class="font-real-white nav__icon nav__profile__item"
       />
-      <user-profile-image @click.native="showProfileModal" :image="userProfile.image"></user-profile-image>
+      <user-profile-image
+        @click.native="showProfileModal"
+        :image="userProfile.image"
+      ></user-profile-image>
     </ul>
   </div>
 </template>
@@ -129,16 +135,35 @@ a:hover {
 }
 
 .nav__title {
+  margin-left: 10px;
   width: 30%;
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+.nav__title__logo {
+  text-align: center;
+  margin: 0px;
+  width: 100px;
+  background-image: url("@/assets/MovieWIki.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 130%;
+  height: 70px;
+}
+
+.nav__title__list {
+  width: 100%;
   display: flex;
   justify-content: flex-start;
 }
 
-@media (max-width: 1210px) {
+@media (max-width: 1500px) {
   .nav__title {
-    width: 50%;
+    width: 55%;
   }
-  .nav > .nav__button {
+  .nav__button {
     width: 45%;
   }
 }

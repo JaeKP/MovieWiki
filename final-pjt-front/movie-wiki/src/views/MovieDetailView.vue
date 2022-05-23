@@ -16,11 +16,6 @@ export default {
   methods: {
     ...mapActions(["fetchMovieDetail"]),
   },
-  watch: {
-    movieDetail() {
-      this.fetchMovieDetail(this.$route.params.movieId);
-    },
-  },
   created() {
     this.fetchMovieDetail(this.$route.params.movieId);
   },
