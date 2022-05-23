@@ -16,7 +16,12 @@
         >
         <hr />
       </div>
-      <component v-bind:is="currentTabComponent"></component>
+      <component
+        v-bind:is="currentTabComponent"
+        :movieId="movieDetailId"
+        @show-sign-up-modal="showSignUpModal"
+        @show-log-in-modal="showLogInModal"
+      ></component>
     </div>
   </div>
 </template>
@@ -58,15 +63,26 @@ export default {
       const url = `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`;
       return `linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url(${url})`;
     },
+    movieDetailId() {
+      return this?.movieDetail?.id;
+    },
   },
   methods: {
-    ...mapActions(["fetchMovieDetail"]),
+    ...mapActions(["fetchMovieDetail", "fetchMovieReview"]),
     changeComponent(page) {
       this.currentTabComponent = page;
+    },
+    showSignUpModal() {
+      this.$emit("show-sign-up-modal", true);
+    },
+    showLogInModal() {
+      this.$emit("show-log-in-modal", true);
     },
   },
   created() {
     this.fetchMovieDetail(this.$route.params.movieId);
+    const reviewPopularity = { movieId: this.$route.params.movieId, type: 1 };
+    this.fetchMovieReview(reviewPopularity);
   },
 };
 </script>

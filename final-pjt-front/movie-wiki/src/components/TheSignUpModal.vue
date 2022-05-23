@@ -83,8 +83,8 @@
             type="number"
             id="age"
             v-model="credential.age"
-            min="0"
-            max="100"
+            min="10"
+            max="99"
             required
           />
         </div>

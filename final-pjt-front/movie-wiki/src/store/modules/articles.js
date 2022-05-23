@@ -24,7 +24,7 @@ export default {
       (state.article.comment = comments),
   },
   actions: {
-    fetchArticles({ commit, getters }) {
+    fetchArticles({ commit }) {
       /* 게시글 목록 받아오기
       GET: articles URL (token)
         성공하면
@@ -35,13 +35,12 @@ export default {
       axios({
         url: drf.article.articles(),
         method: "get",
-        headers: getters.authHeaders,
       })
         .then((response) => commit("SET_ARTICLES", response.data))
         .catch((error) => console.error(error.response));
     },
 
-    fetchArticle({ commit, getters }, articlePk) {
+    fetchArticle({ commit }, articlePk) {
       /* 단일 게시글 받아오기
       GET: article URL (token)
         성공하면
@@ -56,7 +55,6 @@ export default {
       axios({
         url: drf.article.article(articlePk),
         method: "get",
-        headers: getters.authHeader,
       })
         .then((response) => commit("SET_ARTICLE", response.data))
         .catch((error) => {

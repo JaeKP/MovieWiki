@@ -60,8 +60,8 @@
 <script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
 import { mapGetters } from "vuex";
-import drf from "@/api/drf";
-import axios from "axios";
+// import drf from "@/api/drf";
+// import axios from "axios";
 export default {
   name: "MovieDetailInfo",
   components: {
@@ -92,17 +92,17 @@ export default {
       return array.slice(0, 3);
     },
   },
-  beforeUpdate() {
-    const array = this?.movieSimilar;
-    array.forEach((item) => {
-      axios({
-        url: drf.movie.movieDetail(item),
-        method: "get",
-      }).then((response) => {
-        this.similar.push(response);
-      });
-    });
-  },
+  // beforeUpdate() {
+  //   const array = this?.movieSimilar;
+  //   array.forEach((item) => {
+  //     axios({
+  //       url: drf.movie.movieDetail(item),
+  //       method: "get",
+  //     }).then((response) => {
+  //       this.similar.push(response);
+  //     });
+  //   });
+  // },
 };
 </script>
 
