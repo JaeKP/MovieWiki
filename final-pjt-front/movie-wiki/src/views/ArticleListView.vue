@@ -25,7 +25,7 @@
                   class="router-txet"
                   :to="{ name: 'article', params: { articlePk: article.pk } }"
                 >
-                  {{ article.title }}
+                  {{ article.title }} [{{ article.comment_count }}]
                 </router-link>
               </p>
               <p class="article__blank-right"></p>
@@ -117,7 +117,7 @@ export default {
 
 <style>
 .screen {
-  background-color: white;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   min-height: calc(100vh - 80px);

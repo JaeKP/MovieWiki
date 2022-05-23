@@ -1,68 +1,74 @@
 <template>
   <div class="screen row-article">
-    <div class="article">
-      <div class="article__title-bar">
-        <div class="article__title-bar__title">
-          <p class="article__title">{{ article.title }}</p>
-          <font-awesome-icon
-            class="aritcle__title__icon"
-            icon="fa-solid fa-ellipsis-vertical"
-          />
-        </div>
-        <div class="article__title-bar__user-info">
-          <div class="flex-article">
-            <router-link
-              :to="{
-                name: 'profile',
-                params: { username: article.user_id.username },
-              }"
-            >
-              <user-profile-image
-                width="50px"
-                height="50px"
-                :image="article.user_id.profile_image"
-              ></user-profile-image>
-            </router-link>
-            <div class="flex-article row-article">
+    <div class="box-article">
+      <div class="article">
+        <div class="article__title-bar">
+          <div class="article__title-bar__title">
+            <p class="article__title">{{ article.title }}</p>
+            <font-awesome-icon
+              class="aritcle__title__icon"
+              icon="fa-solid fa-ellipsis-vertical"
+            />
+          </div>
+          <div class="article__title-bar__user-info">
+            <div class="flex-article">
               <router-link
-                class="article_nickname"
                 :to="{
                   name: 'profile',
                   params: { username: article.user_id.username },
                 }"
               >
-                <p>{{ article.user_id.nickname }}</p>
+                <user-profile-image
+                  width="50px"
+                  height="50px"
+                  :image="article.user_id.profile_image"
+                ></user-profile-image>
               </router-link>
-              방금 전
+              <div class="flex-article row-article">
+                <router-link
+                  class="article_nickname"
+                  :to="{
+                    name: 'profile',
+                    params: { username: article.user_id.username },
+                  }"
+                >
+                  <p>{{ article.user_id.nickname }}</p>
+                </router-link>
+                방금 전
+              </div>
+            </div>
+            <div>
+              <font-awesome-icon icon="fa-solid fa-message" />
+              {{ article.comment.length }}
+              <font-awesome-icon icon="fa-solid fa-heart" />
+              {{ article.like_count }}
             </div>
           </div>
-          <div>
-            <font-awesome-icon icon="fa-solid fa-message" />
-            {{ article.comment.length }}
-            <font-awesome-icon icon="fa-solid fa-heart" />
-            {{ article.like_count }}
-          </div>
+        </div>
+        <hr class="hr-article" />
+        <div>
+          {{ article.content }}
         </div>
       </div>
-      <hr class="hr-article" />
-      <div>
-        {{ article.content }}
+      <comment-form></comment-form>
+      <div class="article-comment">
+        <comment-item
+          v-for="comment in article.comment.reverse()"
+          :key="comment.pk"
+          :comment="comment"
+        ></comment-item>
       </div>
     </div>
-    <form class="article-comment-set" action="">
-      <textarea
-        placeholder="광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하면 비공개 될 수 있습니다."
-      ></textarea>
-    </form>
-    <div class="article-comment"></div>
   </div>
 </template>
 
 <script>
 import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapGetters, mapActions } from "vuex";
+import CommentForm from "@/components/CommentForm.vue";
+import CommentItem from "@/components/CommentItem.vue";
 export default {
-  components: { UserProfileImage },
+  components: { UserProfileImage, CommentForm, CommentItem },
   name: "ArticleDetailView",
   data() {
     return {
@@ -74,6 +80,9 @@ export default {
   },
   methods: {
     ...mapActions(["fetchArticle"]),
+    test() {
+      console.log("댓글 남기기");
+    },
   },
   created() {
     this.fetchArticle(this.articlePk);
@@ -84,7 +93,7 @@ export default {
 <style>
 .article {
   background-color: #dcddde;
-  width: 60%;
+  width: 100%;
   margin-top: 50px;
   min-height: 40vh;
   border-radius: 10px;
@@ -130,29 +139,19 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
+.box-article {
+  width: 60vw;
+}
 .article-comment {
   margin-top: 80px;
-  height: 20vh;
-  width: 60%;
+  min-height: 20vh;
+  width: 100%;
   border-radius: 10px;
   background-color: #dcddde;
   padding: 2%;
-}
-textarea {
-  border: 1px solid #dcddde;
-  border-radius: 0.3rem;
-  background-color: white;
-  height: 4em;
-  padding: 1rem 0 0 1rem;
-  font-size: 1rem;
-  font-family: "Noto Sans KR";
-  width: 98%;
-  font-weight: 1rem;
-  resize: none;
-  /* color: #b9bbbe; */
-}
-.article-comment-set {
-  margin-top: 80px;
-  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

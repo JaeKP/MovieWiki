@@ -17,8 +17,6 @@
           :keyword="keyword"
           type="name"
         ></search-movie-item>
-
-        <p></p>
       </div>
     </div>
   </div>
@@ -54,7 +52,7 @@ export default {
 <style scoped>
 .search-modal {
   width: 100%;
-  /* margin-top: 80px; */
+  margin-top: 80px;
   min-width: 350px;
   padding: 3em 2em 20em 2em;
   z-index: 2;
@@ -74,19 +72,21 @@ input {
   font-size: 1rem;
   width: 75%;
   font-weight: 1rem;
+  outline-color: #fe6b8b;
   /* color: #b9bbbe; */
 }
 
-/* .modal-bg {
+.modal-bg {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh);
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   background-color: rgba(32, 34, 37, 0.8);
-} */
+  z-index: 1;
+}
 
 /* hr {
   width: 78%;
