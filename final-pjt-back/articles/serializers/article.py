@@ -11,11 +11,12 @@ class ArticleListSerializer(serializers.ModelSerializer):
             fields = ('pk', 'name')
     article_type = ArticleTypeSerializer()
     user_id = UserInfoSerializer(read_only=True)
+    comment_count = serializers.IntegerField(source="comment.count", read_only=True)
     like_count = serializers.IntegerField()
 
     class Meta:
         model = Article
-        fields = ('pk', 'article_type', 'user_id','title', 'created_at', 'like_count',)
+        fields = ('pk', 'article_type', 'user_id','title', 'created_at', 'like_count', 'comment_count')
 
 class ArticleSerializer(serializers.ModelSerializer):
     user_id = UserInfoSerializer(read_only=True)

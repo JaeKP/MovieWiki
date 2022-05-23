@@ -306,16 +306,20 @@ def genre_country_data(request):
 
 def get_youtube_key(movie_dict):  
     movie_id = movie_dict.get('id')
-    response = requests.get(
-        f'https://api.themoviedb.org/3/movie/{movie_id}/videos',
-        params={
-            'api_key': TMDB_API_KEY
-        }
-    ).json()
-    for video in response.get('results'):
-        if video.get('site') == 'YouTube':
-            return video.get('key')
-    return 'nothing'
+    try:
+        response = requests.get(
+            f'https://api.themoviedb.org/3/movie/{movie_id}/videos',
+            params={
+                'api_key': TMDB_API_KEY
+            }
+        ).json()
+
+        for video in response.get('results'):
+            if video.get('site') == 'YouTube':
+                return video.get('key')
+        return 'nothing'
+    except:
+        return 'nothing'
 
 def get_actors(movie):
     global actor_pk
@@ -329,6 +333,7 @@ def get_actors(movie):
     ).json()
     for person in response.get('cast'):
         if person.get('known_for_department') != 'Acting': continue
+        if not person.get('character'): continue 
         actor_id = person.get('id')
         character_name = person.get('character')
         request_url_person = f'https://api.themoviedb.org/3/person/{actor_id}?api_key={TMDB_API_KEY}&language=ko-KR'
@@ -349,7 +354,10 @@ def get_actors(movie):
                 profile_path= response.get('profile_path'),
             )
         movie.actors.add(actor_id)
+
+        
         character = Characters.objects.get(pk=actor_pk)
+
         character.character_name = character_name
         character.save()
         actor_pk += 1
@@ -398,7 +406,7 @@ def data(request):
     print('--------------------------------------------------------------')
     cnt = 1
     
-    for i in range(1, 21):
+    for i in range(70, 501):
 
         # popular api
         request_url = f"{BASE_URL}/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
@@ -406,12 +414,16 @@ def data(request):
         
         
         for movie_dict in movies.get('results'): 
+            print(movie_dict.get('title'))
+            
             if not movie_dict.get('release_date'):
                 continue 
+            if not movie_dict.get('overview'):
+                continue
+            if not movie_dict.get('poster_path'):
+                continue
             trailer_key = get_youtube_key(movie_dict)
-
             movie_id = movie_dict.get('id')
-
             movie_name = movie_dict.get('title') 
             print(f'#{cnt} {movie_name}')
             cnt+=1 
@@ -427,6 +439,12 @@ def data(request):
             # 비슷한 영화 id
             similar_movies = []
             for similar in movie_similars.get('results'):
+                if not similar.get('release_date'):
+                    continue 
+                if not similar.get('overview'):
+                    continue
+                if not similar.get('poster_path'):
+                    continue
                 similar_movies.append(similar.get('id'))
             
             if not Movie.objects.filter(pk=movie_detail.get('id')).exists():
