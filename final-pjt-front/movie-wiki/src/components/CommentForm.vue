@@ -50,15 +50,14 @@ textarea {
 .article-comment-set {
   display: flex;
   flex-direction: column;
-  margin-top: 80px;
+  margin-top: 40px;
   width: 100%;
+  align-items: flex-end;
 }
-.content-end {
-  justify-content: end;
-}
+
 .comment-submit {
   padding: 3px 0 0 3;
-  margin: 0;
+  margin-top: 5px;
   gap: 24px;
   background: #36393f;
   border: 0;
