@@ -229,7 +229,7 @@ button {
 body,
 button {
   font-family: "Noto Sans KR", sans-serif;
-  transform: skew(-0.001deg);
+  /* transform: skew(-0.001deg); */
 }
 
 body {

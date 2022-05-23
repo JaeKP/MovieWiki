@@ -70,7 +70,6 @@ export default {
         method: "get",
       })
         .then((response) => {
-          console.log(response.data);
           dispatch("setUserInfoDetail", response.data);
         })
         .catch((error) => {
