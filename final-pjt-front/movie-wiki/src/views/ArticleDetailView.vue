@@ -15,13 +15,13 @@
               <router-link
                 :to="{
                   name: 'profile',
-                  params: { username: article.user_id.username },
+                  params: { username },
                 }"
               >
                 <user-profile-image
                   width="50px"
                   height="50px"
-                  :image="article.user_id.profile_image"
+                  :image="profileImage"
                 ></user-profile-image>
               </router-link>
               <div class="flex-article row-article">
@@ -29,19 +29,19 @@
                   class="article_nickname"
                   :to="{
                     name: 'profile',
-                    params: { username: article.user_id.username },
+                    params: { username },
                   }"
                 >
-                  <p>{{ article.user_id.nickname }}</p>
+                  <p>{{ nickname }}</p>
                 </router-link>
                 방금 전
               </div>
             </div>
             <div>
-              <font-awesome-icon @click="test" icon="fa-solid fa-message" />
-              {{ article.comment.length }}
+              <font-awesome-icon icon="fa-solid fa-message" />
+              {{ articleCommentLength }}
               <font-awesome-icon icon="fa-solid fa-heart" />
-              {{ article.like_count }}
+              {{ articleLikeCount }}
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@
       <comment-form></comment-form>
       <div class="article-comment">
         <comment-item
-          v-for="comment in article.comment.reverse()"
+          v-for="comment in articleComment"
           :key="comment.pk"
           :comment="comment"
         ></comment-item>
@@ -77,6 +77,24 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthor", "article"]),
+    username() {
+      return this?.article?.user_id?.username;
+    },
+    profileImage() {
+      return this?.article?.user_id?.profile_image;
+    },
+    nickname() {
+      return this?.article?.user_id?.nickname;
+    },
+    articleCommentLength() {
+      return this?.article?.comment?.length;
+    },
+    articleLikeCount() {
+      return this?.article?.comment?.like_count;
+    },
+    articleComment() {
+      return this?.article?.comment;
+    },
   },
   methods: {
     ...mapActions(["fetchArticle"]),

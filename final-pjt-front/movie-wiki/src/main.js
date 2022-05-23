@@ -33,9 +33,9 @@ library.add(
   faX,
   faCirclePlus,
   faEllipsisVertical,
-  faMessage
+  faMessage,
+  faStar
 );
-library.add(faMagnifyingGlass, faHeart, faThumbsUp, faX, faCirclePlus, faStar);
 
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
