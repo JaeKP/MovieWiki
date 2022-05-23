@@ -70,7 +70,7 @@ export default {
   computed: {
     ...mapGetters(["movieDetail", "userProfile"]),
     imageUrl() {
-      return this.movieDetail.poster_path;
+      return this?.movieDetail?.poster_path;
     },
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
@@ -108,14 +108,11 @@ export default {
   flex-wrap: wrap;
 }
 
-.movie-detail__overview__content__poster {
-  width: 20%;
-}
 .movie-detail__overview__content {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  width: 80%;
+  width: 70%;
 }
 
 .movie-detail__overview__content__tag {
@@ -128,21 +125,21 @@ export default {
   border-radius: 0.3em;
   color: #40444b;
   font-weight: 600;
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .movie-detail__overview__content__title {
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 500;
 }
 
 .movie-detail__overview__content__tagline {
-  font-size: 2em;
+  font-size: 1.6em;
   font-weight: 400;
 }
 
 .movie-detail__overview__content__overview {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: 400;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -152,12 +149,12 @@ export default {
 }
 
 .movie-detail__overview__content__runtime {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: 500;
 }
 
 .movie-detail__overview__content__overview__icon {
-  font-size: 3em;
+  font-size: 2.5em;
   display: flex;
   gap: 2em;
   color: white;

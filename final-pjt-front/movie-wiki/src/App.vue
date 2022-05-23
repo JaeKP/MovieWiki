@@ -91,7 +91,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 @import "@/assets/default.css";
 .nav-bar {
-  z-index: 3;
+  z-index: 10;
 }
 
 .modal {
