@@ -70,7 +70,7 @@ li {
 }
 
 p {
-  color: white;
+  /* color: white; */
   font-size: 2rem;
 }
 </style>

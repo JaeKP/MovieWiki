@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import ArticleCreateView from '@/views/ArticleCreateView.vue'
-// import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticleDetailView from "@/views/ArticleDetailView.vue";
 import ArticleListView from "@/views/ArticleListView.vue";
 // import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import HomeView from "@/views/HomeView.vue";
@@ -30,6 +30,12 @@ const routes = [
     name: "articles",
     component: ArticleListView,
   },
+  {
+    path: "/articles/:articlePk",
+    name: "article",
+    component: ArticleDetailView,
+  },
+
   {
     path: "/profile/:username",
     name: "profile",

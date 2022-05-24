@@ -36,7 +36,8 @@ export default {
     SET_TOKEN: (state, token) => (state.token = token),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_PROFILE: (state, userProfile) => (state.userProfile = userProfile),
-    SET_PROFILE_IMAGE: (state, userProfileImage) => (state.userProfile.image = userProfileImage),
+    SET_PROFILE_IMAGE: (state, userProfileImage) =>
+      (state.userProfile.image = userProfileImage),
     SET_USER_INFO_NAME: (state, userInfoName) =>
       (state.userInfoName = userInfoName),
     SET_USER_INFO_DETAIL: (state, userInfoDetail) =>
@@ -67,18 +68,20 @@ export default {
       axios({
         url: drf.accounts.profile(userInfoName),
         method: "get",
-      }).then((response) => {
-        dispatch("setUserInfoDetail", response.data);
-      }).catch((error) => {
-        console.log(error.response.data)
-        if (error.response.status === 404) {
-          router.push({name: "NotFound"})
-        }
       })
+        .then((response) => {
+          dispatch("setUserInfoDetail", response.data);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          if (error.response.status === 404) {
+            router.push({ name: "NotFound" });
+          }
+        });
     },
     // 프로필 이미지만 저장
-    setUserProfileImage({commit}, userProfileImage){
-      commit("SET_PROFILE_IMAGE", userProfileImage)
+    setUserProfileImage({ commit }, userProfileImage) {
+      commit("SET_PROFILE_IMAGE", userProfileImage);
     },
 
     // 프로필 저장하기
@@ -89,11 +92,12 @@ export default {
         headers: getters.authHeader,
       }).then((response) => {
         const profileDict = {
+          id: response.data.id,
           username: response.data.username,
           nickname: response.data.nickname,
           age: response.data.age,
           region: response.data.region,
-          image: response.data.profile_image,
+          image: response.data.profile_image || "@/assets/MovieWIki.png",
           searchKeywords: [],
         };
         const JsonProfileDict = JSON.stringify(profileDict);
@@ -235,9 +239,9 @@ export default {
       }
     },
     // 정보 수정 중 업로드한 이미지
-    temporaryImageUpload({getters, dispatch}, {username, profile_image}){
-      console.log('된다!')
-      const formdata = new FormData()
+    temporaryImageUpload({ getters, dispatch }, { username, profile_image }) {
+      console.log("된다!");
+      const formdata = new FormData();
       for (let i = 0; i < profile_image.length; i++) {
         formdata.append("profile_image", profile_image[i]);
       }
@@ -248,20 +252,23 @@ export default {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: getters.authToken,
-        }
-      }).then((response)=>dispatch("setUserProfileImage", response.data.profile_image))
+        },
+      }).then((response) =>
+        dispatch("setUserProfileImage", response.data.profile_image)
+      );
     },
 
     // 회원 탈퇴
-    deleteUserData({getters, dispatch}, username){
+    deleteUserData({ getters, dispatch }, username) {
       axios({
         url: drf.accounts.profile(username),
-        method: 'delete',
-        headers:getters.authHeader,
-      }).then(()=>{
-      dispatch("removeToken");
-      dispatch("removeprofile");
-      router.push({ name: "home" })} )
-    }
+        method: "delete",
+        headers: getters.authHeader,
+      }).then(() => {
+        dispatch("removeToken");
+        dispatch("removeprofile");
+        router.push({ name: "home" });
+      });
+    },
   },
 };

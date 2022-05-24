@@ -37,28 +37,28 @@ export default {
   name: "UserInfo",
   computed: {
     ...mapGetters(["userInfoDetail", "isSelf", "userProfile"]),
-    image(){
-      if (this.isSelf){
-        return this.userProfile.image
+    image() {
+      if (this.isSelf) {
+        return this.userProfile.image;
       } else {
-        return this.userInfoDetail.profile_image
+        return this.userInfoDetail.profile_image;
       }
     },
     likeMovies() {
-      const movies = this.userInfoDetail.like_movies;
-      return movies.length;
+      const movies = this?.userInfoDetail?.like_movies;
+      return movies?.length;
     },
     myArticle() {
-      const articles = this.userInfoDetail.article;
-      return articles.length;
+      const articles = this?.userInfoDetail?.article;
+      return articles?.length;
     },
     myComment() {
-      const comments = this.userInfoDetail.comment;
-      return comments.length;
+      const comments = this?.userInfoDetail?.comment;
+      return comments?.length;
     },
     myReview() {
-      const review = this.userInfoDetail.review;
-      return review.length;
+      const review = this?.userInfoDetail?.review;
+      return review?.length;
     },
   },
   methods: {

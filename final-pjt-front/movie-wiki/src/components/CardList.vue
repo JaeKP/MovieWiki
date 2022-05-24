@@ -27,7 +27,7 @@ export default {
   },
   props: {
     URL: {
-      type: Text,
+      type: String,
     },
   },
   data() {
@@ -52,8 +52,7 @@ export default {
 };
 </script>
 
-<style scoped >
-
+<style scoped>
 .swiper-slide {
   width: 15rem;
   display: flex;

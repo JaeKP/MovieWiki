@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="profile">
-      <user-info 
-      @show-user-change-modal="showUserChangeModal"></user-info>
+      <user-info @show-user-change-modal="showUserChangeModal"></user-info>
     </div>
     <the-user-change-modal
       v-if="changeModal"
@@ -43,31 +42,29 @@ export default {
     },
     hideUserChangeModal() {
       this.changeModal = false;
-      this.fetchProfile(this.params)
+      this.fetchProfile(this.params);
     },
-    deleteUser(){
+    deleteUser() {
       Swal.fire({
-        title: '주의하세요!',
-        text: '탈퇴시, 모든 데이터는 복구가 불가능합니다.',
+        title: "주의하세요!",
+        text: "탈퇴시, 모든 데이터는 복구가 불가능합니다.",
         icon: "error",
         width: "25%",
         showCloseButton: true,
         showCancelButton: true,
         focusCancel: true,
-        confirmButtonText: '탈퇴하기',
-        cancelButtonText: '취소하기',
-        confirmButtonColor: '#ED4245',
-        cancelButtonColor: '#5865F2',    
+        confirmButtonText: "탈퇴하기",
+        cancelButtonText: "취소하기",
+        confirmButtonColor: "#ED4245",
+        cancelButtonColor: "#5865F2",
         position: "center",
         heightAuto: false,
       }).then((response) => {
-        if(response.isConfirmed === true){
-          console.log('탈쾨ㅋㅋ')
-          this.deleteUserData(this.userProfile.username)
+        if (response.isConfirmed === true) {
+          this.deleteUserData(this.userProfile.username);
         }
-      })
-
-    }
+      });
+    },
   },
   watch: {
     params() {
