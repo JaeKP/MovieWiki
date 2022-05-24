@@ -6,10 +6,10 @@ urlpatterns = [
     path('', views.article_list_or_create),
 
     # 인기 게시판 (최근 30일 이내 인기글)
-    path('popular/', views.article_list_popular),
+    # path('popular/', views.article_list_popular),
 
     # 게시판 선택 (ArticleType 1~3)
-    path('articlelist', views.article_list_select),
+    # path('articlelist', views.article_list_select),
 
     # 게시판 상세 페이지 조회 및 수정, 삭제
     path('<int:article_id>/', views.article_detail_or_update_or_delete),
