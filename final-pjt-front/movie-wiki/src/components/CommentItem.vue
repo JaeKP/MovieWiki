@@ -153,7 +153,7 @@ export default {
 .comment__modal {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 10px;
   margin-bottom: 3%;
 }
@@ -198,6 +198,6 @@ textarea {
 }
 .update-b {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 </style>

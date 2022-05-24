@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-detail__review">
+  <div class="movie-detail__review" ref="top">
     <!-- 로그인을 안 했고 리뷰가 작성 되어 있는 경우 회원가입 유도-->
     <div class="sign-up__recommend" v-if="!isLoggedIn && !isEmpty">
       <p>로그인하고 한줄 평 보기 🎉</p>
@@ -28,7 +28,7 @@
     </div>
     <!-- 리뷰 -->
     <movie-detail-review-item
-      v-for="item in movieList"
+      v-for="item in pagenatedData"
       :key="item.id"
       :reviewData="item"
       :class="isBlur"
@@ -36,6 +36,23 @@
       :filterType="filterType"
     >
     </movie-detail-review-item>
+
+    <!-- 페이지네이션! -->
+    <div class="movie-detail__review__pagenation" :class="isBlur">
+      <button :disabled="pageNum === 0" @click="prevPage" class="font-white">
+        <font-awesome-icon icon="fa-solid fa-angles-left" />
+      </button>
+      <span class="movie-detail__review__pagenation__count font-icon-gray"
+        >{{ pageNum + 1 }} / {{ pageCount }} 페이지</span
+      >
+      <button
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        class="font-white"
+      >
+        <font-awesome-icon icon="fa-solid fa-angles-right" />
+      </button>
+    </div>
     <!-- 리뷰가 비어있는 경우 -->
     <div
       v-if="isEmpty"
@@ -61,6 +78,8 @@ export default {
   data() {
     return {
       filterType: 1,
+      pageSize: 5,
+      pageNum: 0,
     };
   },
   computed: {
@@ -105,6 +124,20 @@ export default {
         return "font-white";
       }
     },
+    pageCount() {
+      let listing = this.movieList.length;
+      let listSize = this.pageSize;
+      let page = Math.floor(listing / listSize);
+      if (listing % listSize > 0) {
+        page = page + 1;
+      }
+      return page;
+    },
+    pagenatedData() {
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
+      return this.movieList.slice(start, end);
+    },
   },
   methods: {
     ...mapActions(["deleteMovieReview"]),
@@ -135,11 +168,17 @@ export default {
     },
     changefilterTypePopular() {
       this.filterType = 1;
-      console.log(this.filterType);
+      this.pageNum = 0;
     },
     changefilterTypeLatest() {
       this.filterType = 2;
-      console.log(this.filterType);
+      this.pageNum = 0;
+    },
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
     },
   },
 };
@@ -225,5 +264,20 @@ hr {
 
 .movie-detail__review__filter {
   width: 100%;
+}
+
+.movie-detail__review__pagenation {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+
+.movie-detail__review__pagenation button {
+  padding: 0.5em;
+  font-size: 2em;
+}
+
+.movie-detail__review__pagenation__count {
+  font-size: 1.2em;
 }
 </style>
