@@ -12,7 +12,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
     article_type = ArticleTypeSerializer()
     user_id = UserInfoSerializer(read_only=True)
     comment_count = serializers.IntegerField(source="comment.count", read_only=True)
-    like_count = serializers.IntegerField()
+    like_count = serializers.IntegerField(source="like_users.count", read_only=True)
 
     class Meta:
         model = Article

@@ -24,34 +24,30 @@ export default {
       (state.article.comment = comments),
   },
   actions: {
-    fetchArticles({ commit }) {
-      /* 게시글 목록 받아오기
-      GET: articles URL (token)
-        성공하면
-          응답으로 받은 게시글들을 state.articles에 저장
-        실패하면
-          에러 메시지 표시
-      */
+    fetchArticles({ commit }, { type, query, title, content, nickname }) {
+      const params = {
+        type: type,
+        query: query,
+        title: title,
+        content: content,
+        nickname: nickname,
+      };
+      // console.log("#####################");
+      // console.log("타입", type);
+      // console.log("쿼리", query);
+      // console.log("제목", title);
+      // console.log("내용", content);
+      // console.log("작성자", nickname);
       axios({
-        url: drf.article.articles(),
+        url: drf.article.articleSearch(),
         method: "get",
+        params,
       })
         .then((response) => commit("SET_ARTICLES", response.data))
         .catch((error) => console.error(error.response));
     },
 
     fetchArticle({ commit }, articlePk) {
-      /* 단일 게시글 받아오기
-      GET: article URL (token)
-        성공하면
-          응답으로 받은 게시글들을 state.articles에 저장
-        실패하면
-          단순 에러일 때는
-            에러 메시지 표시
-          404 에러일 때는
-            NotFound404 로 이동
-      */
-
       axios({
         url: drf.article.article(articlePk),
         method: "get",
@@ -66,13 +62,6 @@ export default {
     },
 
     likeArticle({ commit, getters }, articlePk) {
-      /* 좋아요
-      POST: likeArticle URL(token)
-        성공하면
-          state.article 갱신
-        실패하면
-          에러 메시지 표시
-      */
       axios({
         url: drf.article.likeArticle(articlePk),
         method: "post",
@@ -83,15 +72,6 @@ export default {
     },
 
     createArticle({ commit, getters }, article) {
-      /* 게시글 생성
-      POST: articles URL (게시글 입력정보, token)
-        성공하면
-          응답으로 받은 게시글을 state.article에 저장
-          ArticleDetailView 로 이동
-        실패하면
-          에러 메시지 표시
-      */
-      // console.log(article);
       axios({
         url: drf.article.articles(),
         method: "post",
@@ -106,14 +86,6 @@ export default {
       });
     },
     updateArticle({ commit, getters }, { pk, title, content }) {
-      /* 게시글 수정
-      PUT: article URL (게시글 입력정보, token)
-        성공하면
-          응답으로 받은 게시글을 state.article에 저장
-          ArticleDetailView 로 이동
-        실패하면
-          에러 메시지 표시
-      */
       axios({
         url: drf.article.article(pk),
         method: "put",
@@ -129,13 +101,6 @@ export default {
     },
 
     createComment({ commit, getters }, { articlePk, content }) {
-      /* 댓글 생성
-      POST: comments URL(댓글 입력 정보, token)
-        성공하면
-          응답으로 state.article의 comments 갱신
-        실패하면
-          에러 메시지 표시
-      */
       const comment = { content };
 
       axios({
@@ -150,13 +115,6 @@ export default {
         .catch((error) => console.error(error.response));
     },
     updateComment({ commit, getters }, { articlePk, commentPk, content }) {
-      /* 댓글 수정
-      PUT: comment URL(댓글 입력 정보, token)
-        성공하면
-          응답으로 state.article의 comments 갱신
-        실패하면
-          에러 메시지 표시
-      */
       const comment = { content };
 
       axios({
@@ -171,14 +129,6 @@ export default {
         .catch((error) => console.error(error.response));
     },
     deleteComment({ commit, getters, dispatch }, { articlePk, commentPk }) {
-      /* 댓글 삭제
-      사용자가 확인을 받고
-        DELETE: comment URL (token)
-          성공하면
-            응답으로 state.article의 comments 갱신
-          실패하면
-            에러 메시지 표시
-      */
       if (confirm("정말 삭제하시겠습니까?")) {
         axios({
           url: drf.article.comment(articlePk, commentPk),

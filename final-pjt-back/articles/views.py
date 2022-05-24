@@ -35,29 +35,41 @@ def article_list_or_create(request):
         return article_create()
 
 
+
 @api_view(['GET'])
-def article_list_popular(reqeust):
+def search_article(request):
+    query = request.GET.get('query', None)
+    title = request.GET.getlist('title', None)
+    content = request.GET.getlist('content', None)
+    nickname = request.GET.get('nickname', None)
+    type = request.GET.get('type')
     now = timezone.now()
-    # 최근 1주일 게시글, 좋아요 순으로 나열
-    articles = Article.objects.filter(
-        created_at__range=[now-timedelta(days=6), now]
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-like_count')
-    serializer = ArticleListSerializer(articles, many=True)
-    return Response(serializer.data)
+    if query:
+        q=Q()
+        if title:
+            q |= Q(title__icontains = query)
+        if content:
+            q |= Q(content__icontains = query)
+        if nickname:
+            q |= Q(user_id__nickname__icontains=query)
+        if type == "all":
+            results = Article.objects.filter(q).order_by('-pk')
+        elif type == "popular":
+            results = Article.objects.filter(q).filter(created_at__range=[now-timedelta(days=6), now]).annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+        else:
+            results = Article.objects.filter(q).filter(article_type=type).order_by('-pk')
+    else:
+        if type == "all":
+            results = Article.objects.order_by('-pk')
+        elif type == "popular":
+            results = Article.objects.filter(created_at__range=[now-timedelta(days=6), now]).annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+        else:
+            results = Article.objects.filter(article_type=type).order_by('-pk')
+
+    serializer = ArticleListSerializer(results, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def article_list_select(request):
-    num = request.GET.get('num')
-    articles = Article.objects.filter(
-        article_type=num
-    ).annotate(
-        like_count=Count('like_users', distinct=True)
-    ).order_by('-pk')
-    serialzers = ArticleListSerializer(articles, many=True)
-    return Response(serialzers.data)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -162,23 +174,5 @@ def comment_like(request, article_id, comment_id):
         serializers = ArticleCommentSerializer(comments, many=True)
         return Response(serializers.data)
 
-# 검색
-@api_view(['GET'])
-def search_article(request):
-    query = request.GET.get('query')
-    title = request.GET.getlist('title', None)
-    content = request.GET.getlist('content', None)
-    nickname = request.GET.get('nickname', None)
-    
-    q=Q()
-    if title:
-        q |= Q(title__icontains = query)
-    if content:
-        q |= Q(content__icontains = query)
-    if nickname:
-        q |= Q(user_id__nickname__icontains=query)
-    results = Article.objects.filter(q)[:10]
 
-    serializer = ArticleSerializer(results, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 

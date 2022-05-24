@@ -6,6 +6,7 @@
       @show-profile-modal="showProfileModal"
       @show-search-modal="showSearchModal"
       @hide-search-modal="hideSearchModal"
+      :SearchMovieModal="SearchMovieModal"
       class="nav-bar"
     ></nav-bar>
     <router-view
