@@ -59,7 +59,6 @@
 
 <script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
-import { mapGetters } from "vuex";
 // import drf from "@/api/drf";
 // import axios from "axios";
 export default {
@@ -67,28 +66,32 @@ export default {
   components: {
     MovieDetailCard,
   },
+  props: {
+    movieDetail: {
+      type: Object,
+    },
+  },
   data() {
     return {
       similar: [],
     };
   },
   computed: {
-    ...mapGetters(["movieDetail"]),
     diretor() {
-      return this?.movieDetail?.director;
+      return this.movieDetail.director;
     },
     characters() {
-      return this?.movieDetail?.characters_id;
+      return this.movieDetail.characters_id;
     },
     trailerId() {
-      return this?.movieDetail?.trailer_youtube_key;
+      return this.movieDetail.trailer_youtube_key;
     },
     trailerUrl() {
       const videoId = `https://www.youtube.com/embed/${this.trailerId}`;
       return videoId;
     },
     movieSimilar() {
-      const array = this?.movieDetail?.movie_similar;
+      const array = this.movieDetail.movie_similar;
       return array.slice(0, 3);
     },
   },
@@ -112,7 +115,7 @@ export default {
   flex-direction: column;
   width: 80%;
   gap: 5em;
-  margin-bottom: 5em;
+  margin-bottom: 10em;
 }
 
 .movie-detail__info__detail__person > div {

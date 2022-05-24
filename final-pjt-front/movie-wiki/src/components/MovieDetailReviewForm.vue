@@ -22,13 +22,13 @@ export default {
         content: "",
         spoiler: false,
         type: 1,
-        movieId: this.movieId,
+        movieId: this.movieDetail.id,
       },
     };
   },
   props: {
-    movieId: {
-      type: Number,
+    movieDetail: {
+      type: Object,
     },
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
 }
 
 .movie-detail__review__form > textarea {
-  width: 90%;
+  width: 100%;
   background-color: #40444b;
   color: #eeeeee;
   border: 0px;

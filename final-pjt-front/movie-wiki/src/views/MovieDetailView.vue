@@ -6,7 +6,9 @@
         backgroundImage: imagBg,
       }"
     >
-      <movie-detail-over-view></movie-detail-over-view>
+      <movie-detail-over-view
+        :movieDetail="movieDetail"
+      ></movie-detail-over-view>
       <div class="movie-detail__info">
         <a @click="changeComponent('MovieDetailInfo')" :class="infoColor"
           >주요 정보</a
@@ -18,7 +20,8 @@
       </div>
       <component
         v-bind:is="currentTabComponent"
-        :movieId="movieDetailId"
+        :movieDetail="movieDetail"
+        :movieReviewPopularity="movieReviewPopularity"
         @show-sign-up-modal="showSignUpModal"
         @show-log-in-modal="showLogInModal"
       ></component>
@@ -44,7 +47,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["movieDetail"]),
+    ...mapGetters(["movieDetail", "movieReviewPopularity"]),
     infoColor() {
       if (this.currentTabComponent !== "MovieDetailInfo") {
         return "font-gray";
@@ -62,9 +65,6 @@ export default {
     imagBg() {
       const url = `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`;
       return `linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url(${url})`;
-    },
-    movieDetailId() {
-      return this?.movieDetail?.id;
     },
   },
   methods: {

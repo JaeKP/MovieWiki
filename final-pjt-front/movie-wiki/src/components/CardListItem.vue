@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="moveMovieDetail">
     <!-- <router-link
       :to="{
         name: 'MovieDetail',
@@ -20,7 +20,6 @@
     />
 
     <div v-else class="card__no__image mulish">No Poster</div>
-
     <!-- </router-link> -->
   </div>
 </template>
@@ -31,6 +30,14 @@ export default {
   props: {
     movie: {
       type: Object,
+    },
+  },
+  methods: {
+    moveMovieDetail() {
+      this.$router.push({
+        name: "movieDetail",
+        params: { movieId: this.movie.id },
+      });
     },
   },
 };
@@ -47,6 +54,10 @@ export default {
   border: 0;
   /* Swiper의 자체 overflow:hidden 때문에 하단 그림자가 사라짐.. 야매로 해결 */
   /* margin-bottom: 0.1rem; */
+}
+
+.card:hover {
+  cursor: pointer;
 }
 
 .card:hover > .card__image {

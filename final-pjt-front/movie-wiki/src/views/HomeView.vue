@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>home</h1>
     <card-list URL="http://localhost:8000/api/v1/movie/list"></card-list>
   </div>
 </template>
