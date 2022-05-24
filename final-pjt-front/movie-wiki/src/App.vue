@@ -8,7 +8,10 @@
       @hide-search-modal="hideSearchModal"
       class="nav-bar"
     ></nav-bar>
-    <router-view />
+    <router-view
+      @show-sign-up-modal="showSignUpModal"
+      @show-log-in-modal="showLogInModal"
+    />
     <the-sign-up-modal
       v-if="signUp"
       class="modal"
@@ -91,7 +94,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 @import "@/assets/default.css";
 .nav-bar {
-  z-index: 3;
+  z-index: 10;
 }
 
 .modal {

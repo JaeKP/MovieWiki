@@ -226,10 +226,14 @@ button {
   color: #40444b;
 }
 
+.font-icon-red {
+  color: #ed4245;
+}
+
 body,
 button {
   font-family: "Noto Sans KR", sans-serif;
-  transform: skew(-0.001deg);
+  /* transform: skew(-0.001deg); */
 }
 
 body {
