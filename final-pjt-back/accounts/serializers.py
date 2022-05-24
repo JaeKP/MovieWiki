@@ -70,7 +70,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         like_count = serializers.IntegerField(source="like_users.count", read_only=True)
         class Meta: 
             model = ArticleComment
-            fields = ('content', 'like_users', 'created_at',)
+            fields = ('content', 'like_users', 'created_at', 'like_count')
 
     # movie review 시리얼라이저
     class MovieReviewSerializer(serializers.ModelSerializer):
