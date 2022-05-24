@@ -1,6 +1,7 @@
 <template>
   <div class="movie-detail__overview">
     <movie-detail-card
+      v-if="movieDetail !== undefined"
       :image="movieDetail.poster_path"
       width="300px"
       height="450px"
@@ -66,13 +67,8 @@ export default {
   components: {
     MovieDetailCard,
   },
-  props: {
-    movieDetail: {
-      type: Object,
-    },
-  },
   computed: {
-    ...mapGetters(["userProfile"]),
+    ...mapGetters(["userProfile", "movieDetail"]),
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;
@@ -91,7 +87,7 @@ export default {
       return this?.movieDetail?.released_date?.slice(0, 4);
     },
     genres() {
-      return this.movieDetail.genre_ids;
+      return this?.movieDetail?.genre_ids;
     },
   },
   methods: {

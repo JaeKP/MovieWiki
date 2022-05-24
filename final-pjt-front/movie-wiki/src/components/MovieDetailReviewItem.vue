@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       reivewInfo: {
-        type: 1,
+        type: this.filterType,
         movieId: this.reviewData.movie_id,
         reviewId: this.reviewData.id,
       },
@@ -66,6 +66,9 @@ export default {
   props: {
     reviewData: {
       type: Object,
+    },
+    filterType: {
+      type: Number,
     },
   },
   computed: {
