@@ -10,11 +10,13 @@
       <p class="font-basic">{{ userAge }}</p>
     </div>
     <div class="movie-detail__review__list__item">
-      <div class="movie-detail__review__list__item__div" v-if="!show">
+      <!-- 스포일러 댓글이 아닐 때 -->
+      <div class="movie-detail__review__list__item__div" v-if="!isSpoiler">
         <p class="font-white">{{ reviewData.content }}</p>
       </div>
+      <!-- 스포일러 댓글일 때 -->
       <div
-        v-if="show"
+        v-else
         class="movie-detail__review__list__item__div__isSpoiler"
         @click="checkSpoiler"
       >
@@ -30,7 +32,11 @@
           @click="clickLike"
           class="movie-detail__review__list__item__div2__like"
         />
-        <span class="font-basic">{{ userUpdatedAt }}</span>
+        <span
+          class="font-basic movie-detail__review__list__item__div2__count"
+          >{{ reviewData.like_count }}</span
+        >
+        <!-- <span class="font-basic">{{ userUpdatedAt }}</span> -->
         <button v-if="isAuthor" @click="deleteReview">
           <font-awesome-icon icon="fa-solid fa-x" />
         </button>
@@ -54,7 +60,7 @@ export default {
         movieId: this.reviewData.movie_id,
         reviewId: this.reviewData.id,
       },
-      show: this.reviewData.spoiler,
+      isSpoiler: this.reviewData.spoiler,
     };
   },
   props: {
@@ -91,11 +97,11 @@ export default {
       return this?.userProfile?.username === this.reviewData.user_id.username;
     },
   },
+
   methods: {
     ...mapActions(["likeMovieReview"]),
     checkSpoiler() {
-      this.show = false;
-      console.log(this.show);
+      this.isSpoiler = false;
     },
     clickLike() {
       this.likeMovieReview(this.reivewInfo);
@@ -122,6 +128,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   position: relative;
+  gap: 0.3em;
 }
 
 .movie-detail__review__list__item__div {
@@ -160,6 +167,11 @@ export default {
   font-size: 2em;
   cursor: pointer;
   margin-right: 0.5em;
+}
+
+.movie-detail__review__list__item__div2__count {
+  font-size: 1.3em;
+  font-weight: 700;
 }
 
 .movie-detail__review__list__profile {

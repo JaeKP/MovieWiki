@@ -24,12 +24,8 @@ export default {
   computed: {
     // 유저 기본이미지 설정하기 (나중에)
     imageUrl() {
-      if (this.image === "@/assets/MovieWIki.png") {
-        return "@/assets/MovieWIki.png";
-      } else {
-        const url = `http://localhost:8000${this.image}`;
-        return url;
-      }
+      const url = `http://localhost:8000${this.image}`;
+      return url;
     },
   },
 };
