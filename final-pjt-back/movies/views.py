@@ -275,7 +275,7 @@ def recommendation(request, type):
 
 TMDB_API_KEY =  '9a1be42b20cb9255e18beb22379b225e' 
 BASE_URL = 'https://api.themoviedb.org/3/movie'
-actor_pk = 1
+actor_pk = 20090
 
 def genre_country_data(request):
     GENRE_URL = 'https://api.themoviedb.org/3/genre/movie/list'
@@ -363,14 +363,16 @@ def get_actors(movie):
 
         try:
             character = Characters.objects.get(pk=actor_pk)
+            character.character_name = character_name
+            character.save()
+            actor_pk += 1
+            if movie.actors.count() == 5:
+                break
         except :
             print(f"error: Character_{actor_pk}!")
             
-        character.character_name = character_name
-        character.save()
-        actor_pk += 1
-        if movie.actors.count() == 5:
-            break
+            
+        
 
 def get_director(movie):
     movie_id = movie.id
@@ -419,8 +421,8 @@ def data(request):
     print('--------------------------------------------------------------')
     cnt = 1
 
-    
-    for i in range(60, 501):
+    for i in range(316, 501):
+        
         print(f'page{i}')
 
         # popular api

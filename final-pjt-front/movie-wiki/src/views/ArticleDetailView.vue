@@ -33,20 +33,20 @@
                   :image="profileImage"
                 ></user-profile-image>
               </router-link>
-              <div class="flex-article row-article">
+              <div class="flex-article row-article nickname-title-bar">
                 <router-link
                   class="article_nickname"
                   :to="{
                     name: 'profile',
-                    params: { username },
+                    params: { username: username },
                   }"
                 >
                   <p>{{ nickname }}</p>
                 </router-link>
-                방금 전
+                <p class="article_time">{{ createdAt }}</p>
               </div>
             </div>
-            <div>
+            <div class="social-info">
               <font-awesome-icon icon="fa-solid fa-message" />
               {{ articleCommentLength }}
               <font-awesome-icon icon="fa-solid fa-heart" />
@@ -55,8 +55,19 @@
           </div>
         </div>
         <hr class="hr-article" />
-        <div class="article__content">
-          {{ article.content }}
+        <div class="article-space">
+          <div class="article__content">
+            <Viewer
+              v-if="article.content != null"
+              :initialValue="article.content"
+            />
+          </div>
+          <div class="like-button-space">
+            <button class="article-like-button" @click="likeArticle(articlePk)">
+              <font-awesome-icon icon="fa-solid fa-heart" />
+              {{ articleLikeCount }}
+            </button>
+          </div>
         </div>
       </div>
       <comment-form></comment-form>
@@ -77,8 +88,17 @@ import { mapGetters, mapActions } from "vuex";
 import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
 import OptionMoadal from "@/components/OptionModal.vue";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
+
 export default {
-  components: { UserProfileImage, CommentForm, CommentItem, OptionMoadal },
+  components: {
+    UserProfileImage,
+    CommentForm,
+    CommentItem,
+    OptionMoadal,
+    Viewer,
+  },
   name: "ArticleDetailView",
   data() {
     return {
@@ -101,14 +121,17 @@ export default {
       return this?.article?.comment?.length;
     },
     articleLikeCount() {
-      return this?.article?.comment?.like_count;
+      return this?.article?.like_count;
     },
     articleComment() {
       return this?.article?.comment;
     },
+    createdAt() {
+      return this?.article?.created_at?.slice(0, 10);
+    },
   },
   methods: {
-    ...mapActions(["fetchArticle"]),
+    ...mapActions(["fetchArticle", "likeArticle", "deleteArticle"]),
     hideArticleModal() {
       this.optionModal = false;
     },
@@ -197,5 +220,37 @@ export default {
   font-size: 20px;
   color: inherit;
   line-height: 18px;
+}
+.article-like-button {
+  background-color: #ed4245;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  min-width: 3rem;
+  height: 2rem;
+  padding: 0px 0 0 2px;
+}
+.like-button-space {
+  display: flex;
+  padding: 2rem;
+}
+.article-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 40vh;
+}
+.social-info {
+  color: #40444b;
+}
+.nickname-title-bar {
+  align-items: start;
+}
+.article_time {
+  margin-left: 6px;
+  font-size: 13px;
+  line-height: 18px;
+  margin-top: 10px;
+  color: #40444b;
 }
 </style>
