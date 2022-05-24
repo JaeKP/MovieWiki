@@ -114,6 +114,7 @@ export default {
 
 .movie-detail__overview__content__tag {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5em;
 }
 
@@ -153,6 +154,7 @@ export default {
 .movie-detail__overview__content__overview__icon {
   font-size: 2.5em;
   display: flex;
+  flex-wrap: wrap;
   gap: 2em;
   color: white;
   font-weight: 500;

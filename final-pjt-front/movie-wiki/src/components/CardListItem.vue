@@ -1,13 +1,5 @@
 <template>
   <div class="card" @click="moveMovieDetail">
-    <!-- <router-link
-      :to="{
-        name: 'MovieDetail',
-        params: {
-          id: movie.id,
-        },
-      }"
-    > -->
     <div class="text">
       <div class="title font-basic h2">{{ movie.title }}</div>
       <hr />
@@ -18,9 +10,6 @@
       class="card__image"
       :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
     />
-
-    <div v-else class="card__no__image mulish">No Poster</div>
-    <!-- </router-link> -->
   </div>
 </template>
 
@@ -64,23 +53,14 @@ export default {
   transition: all 0.3s;
   opacity: 0.5;
 }
+
 .card__image {
   border-radius: 5%;
   width: 100%;
   height: 23rem;
   object-fit: cover;
 }
-.card__no__image {
-  border-radius: 8px;
-  width: 100%;
-  height: 18rem;
-  background-color: var(--board-header);
-  color: var(--header-search);
-  text-align: center;
-  padding-top: 8rem;
-  font-size: 24px;
-  font-weight: 700;
-}
+
 .text {
   display: none;
   color: white;
