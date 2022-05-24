@@ -97,7 +97,7 @@ export default {
           nickname: response.data.nickname,
           age: response.data.age,
           region: response.data.region,
-          image: response.data.profile_image || "@/assets/MovieWIki.png",
+          image: response.data.profile_image,
           searchKeywords: [],
         };
         const JsonProfileDict = JSON.stringify(profileDict);
