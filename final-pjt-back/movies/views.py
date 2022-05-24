@@ -275,7 +275,7 @@ def recommendation(request, type):
 
 TMDB_API_KEY =  '9a1be42b20cb9255e18beb22379b225e' 
 BASE_URL = 'https://api.themoviedb.org/3/movie'
-actor_pk = 1
+actor_pk = 20090
 
 def genre_country_data(request):
     GENRE_URL = 'https://api.themoviedb.org/3/genre/movie/list'
@@ -324,6 +324,7 @@ def get_youtube_key(movie_dict):
 def get_actors(movie):
     global actor_pk
     movie_id = movie.id
+    # print("test: credit response!")
     response = requests.get(
         f'https://api.themoviedb.org/3/movie/{movie_id}/credits',
         params={
@@ -337,7 +338,12 @@ def get_actors(movie):
         actor_id = person.get('id')
         character_name = person.get('character')
         request_url_person = f'https://api.themoviedb.org/3/person/{actor_id}?api_key={TMDB_API_KEY}&language=ko-KR'
-        response = requests.get(request_url_person).json()
+        # print(f"test: actor response_{actor_pk}!")
+        try:
+            response = requests.get(request_url_person).json()
+        except:
+            print(f"error: actor_{actor_id}!")
+            continue
         korean_name = 0
         for _name in response.get('also_known_as'):
             hanCount = len(re.findall(u'[\u3130-\u318F\uAC00-\uD7A3]+', _name))
@@ -355,14 +361,18 @@ def get_actors(movie):
             )
         movie.actors.add(actor_id)
 
+        try:
+            character = Characters.objects.get(pk=actor_pk)
+            character.character_name = character_name
+            character.save()
+            actor_pk += 1
+            if movie.actors.count() == 5:
+                break
+        except :
+            print(f"error: Character_{actor_pk}!")
+            
+            
         
-        character = Characters.objects.get(pk=actor_pk)
-
-        character.character_name = character_name
-        character.save()
-        actor_pk += 1
-        if movie.actors.count() == 5:
-            break
 
 def get_director(movie):
     movie_id = movie.id
@@ -373,11 +383,16 @@ def get_director(movie):
             'language': 'ko-kr',
         }
     ).json()
+    
     for person in response.get('crew'):
         if person.get('job') != 'Director': continue
         director_id = person.get('id')
         request_url_person = f'https://api.themoviedb.org/3/person/{director_id}?api_key={TMDB_API_KEY}&language=ko-KR'
-        response = requests.get(request_url_person).json()
+        try:
+            response = requests.get(request_url_person).json()
+        except:
+            print(f"error: director_{director_id}!")
+            continue
         korean_name = 0
         for _name in response.get('also_known_as'):
             hanCount = len(re.findall(u'[\u3130-\u318F\uAC00-\uD7A3]+', _name))
@@ -405,17 +420,18 @@ def data(request):
     print('인기 영화 목록')
     print('--------------------------------------------------------------')
     cnt = 1
-    
-    for i in range(70, 501):
+
+    for i in range(316, 501):
+        
+        print(f'page{i}')
 
         # popular api
         request_url = f"{BASE_URL}/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        print(request_url)
         movies = requests.get(request_url).json()
         
         
         for movie_dict in movies.get('results'): 
-            print(movie_dict.get('title'))
-            
             if not movie_dict.get('release_date'):
                 continue 
             if not movie_dict.get('overview'):
@@ -427,15 +443,14 @@ def data(request):
             movie_name = movie_dict.get('title') 
             print(f'#{cnt} {movie_name}')
             cnt+=1 
-            
             # 디테일 api
             request_url_detail = f"{BASE_URL}/{movie_id}?api_key={TMDB_API_KEY}&language=ko-KR"
             movie_detail = requests.get(request_url_detail).json()
-
+            
             # 비슷한 영화 api
             request_url_similar= f'{BASE_URL}/{movie_id}/similar?api_key={TMDB_API_KEY}&language=ko-KR&page=1'
+            # print("비슷한 영화! 간드아!")
             movie_similars = requests.get(request_url_similar).json()
-
             # 비슷한 영화 id
             similar_movies = []
             for similar in movie_similars.get('results'):
@@ -467,7 +482,6 @@ def data(request):
 
             for genre_id in movie_dict.get('genre_ids', []):
                 movie.genre_ids.add(genre_id)
-            
             for country in movie_detail.get('production_countries'):
                 country_name = country.get('iso_3166_1')
                 if language_id_info.get(country_name.lower()):

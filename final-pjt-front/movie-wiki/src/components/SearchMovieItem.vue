@@ -1,10 +1,17 @@
 <template>
   <ul @click="searchSelect">
+    <!-- <router-link
+      :to="{
+        name: 'movieDetail',
+        params: { movieId: searchInfo.id },
+      }"
+    > -->
     <li style="display: flex">
       <p class="font-gray">{{ start() }}</p>
       <p class="font-basic">{{ bold() }}</p>
       <p class="font-gray">{{ end() }}</p>
     </li>
+    <!-- </router-link> -->
   </ul>
 </template>
 

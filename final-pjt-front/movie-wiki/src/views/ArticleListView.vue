@@ -2,6 +2,12 @@
   <div class="screen">
     <div class="article-table">
       <ul>
+        <div class="article-list-buttons">
+          <router-link :to="{ name: 'ArticleCreate' }" class="article-create"
+            >게시글 작성</router-link
+          >
+        </div>
+
         <div class="bg-medium-gray article-table-top">
           <div class="article-list">
             <p class="article__type text-top font-white">게시판</p>
@@ -18,9 +24,11 @@
         <div class="article-table-bottom">
           <div v-for="article in articles" :key="article.pk">
             <div class="article-list">
-              <p class="article__type text">영화 게시판</p>
+              <p class="article__type article-list-text">
+                {{ article.article_type.name }}
+              </p>
               <p class="article__blank-left"></p>
-              <p class="article__title text">
+              <p class="article__title article-list-text">
                 <router-link
                   class="router-txet"
                   :to="{ name: 'article', params: { articlePk: article.pk } }"
@@ -29,7 +37,7 @@
                 </router-link>
               </p>
               <p class="article__blank-right"></p>
-              <p class="article__nickname text">
+              <p class="article__nickname article-list-text">
                 <router-link
                   class="router-txet"
                   :to="{
@@ -40,10 +48,10 @@
                   {{ article.user_id.nickname }}
                 </router-link>
               </p>
-              <p class="article__like-users text">
+              <p class="article__like-users article-list-text">
                 {{ article.like_count }}
               </p>
-              <p class="article__time text">
+              <p class="article__time article-list-text">
                 {{ dateTime(article.created_at) }}
               </p>
             </div>
@@ -56,10 +64,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ArticleListView",
+
   computed: {
     ...mapGetters(["articles"]),
   },
@@ -168,7 +176,7 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 
-.text {
+.article-list-text {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
@@ -191,5 +199,33 @@ export default {
 }
 .router-txet:hover {
   text-decoration: underline;
+}
+.article-create {
+  text-align: center;
+  padding-top: 0.3rem;
+  margin-top: 0.5rem;
+  gap: 24px;
+  padding-bottom: 5px;
+  border: 0;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  letter-spacing: 0.15px;
+  color: white;
+  background-color: #faa81a;
+  width: 100px;
+  height: 40px;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+}
+.article-create:hover {
+  border: 1px solid #eeeeee;
+}
+.article-list-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 </style>

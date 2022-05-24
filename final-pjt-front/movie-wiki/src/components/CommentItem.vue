@@ -45,19 +45,31 @@
     </div>
 
     <hr />
-    <span v-if="!isEditing" class="comment-content">{{ payload.content }}</span>
-
-    <span v-if="isEditing">
-      <textarea v-model="payload.content"></textarea>
-      <div class="update-b">
-        <button @click="onUpdate" class="comment-update udapte-submit">
-          Update
-        </button>
-        <button @click="closeIsEditing" class="comment-update update-cancle">
-          Cancle
+    <div class="joajoa">
+      <span v-if="!isEditing" class="comment-content">{{
+        payload.content
+      }}</span>
+      <span v-if="isEditing">
+        <textarea v-model="payload.content"></textarea>
+        <div class="update-b">
+          <button @click="onUpdate" class="comment-update udapte-submit">
+            Update
+          </button>
+          <button @click="closeIsEditing" class="comment-update update-cancle">
+            Cancle
+          </button>
+        </div>
+      </span>
+      <div v-else>
+        <button class="commnet-like-button" @click="commentLike(payload)">
+          <pre
+            class="button-font"
+          ><font-awesome-icon class="heart" icon="fa-solid fa-heart" /> {{
+          commentLikeCount
+        }}</pre>
         </button>
       </div>
-    </span>
+    </div>
   </li>
 </template>
 
@@ -88,9 +100,12 @@ export default {
   },
   computed: {
     ...mapGetters(["userProfile"]),
+    commentLikeCount() {
+      return this?.comment?.like_count;
+    },
   },
   methods: {
-    ...mapActions(["updateComment", "deleteComment"]),
+    ...mapActions(["updateComment", "deleteComment", "commentLike"]),
     switchIsEditing() {
       if (!this.isEditing) {
         this.isEditing = !this.isEditing;
@@ -101,7 +116,6 @@ export default {
       this.isEditing = !this.isEditing;
     },
     onUpdate() {
-      console.log(this.comment);
       this.updateComment(this.payload);
       this.isEditing = false;
     },
@@ -118,10 +132,9 @@ export default {
 <style>
 .comment-object {
   width: 100%;
-  min-height: 200px;
   margin-top: 40px;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 2rem;
 }
 .comment_nickname {
@@ -199,5 +212,28 @@ textarea {
 .update-b {
   display: flex;
   justify-content: flex-end;
+}
+.commnet-like-button {
+  border: 2px solid #f1f3f5;
+  border-radius: 30px;
+  min-width: 70px;
+  height: 40px;
+}
+.blank {
+  width: 0.4rem;
+}
+.button-font {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 33px;
+  color: #40444b;
+}
+.joajoa {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
 }
 </style>
