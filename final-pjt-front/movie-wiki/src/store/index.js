@@ -56,6 +56,7 @@ export default new Vuex.Store({
             response.data = [];
           }
           const data = [response.data, querytype[0], querytype[1]];
+          console.log(response.data);
           context.commit("SEARCH_INFO", data);
 
           // commit("SEARCH_RECENT", query);
