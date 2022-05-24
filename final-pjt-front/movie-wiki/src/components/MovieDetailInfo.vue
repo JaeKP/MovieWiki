@@ -1,6 +1,9 @@
 <template>
   <div class="movie-detail__info__detail">
-    <div class="movie-detail__info__detail__person">
+    <div
+      class="movie-detail__info__detail__person"
+      v-if="movieDetail !== undefined"
+    >
       <p class="font-white">감독 및 배우</p>
       <div>
         <div
@@ -59,6 +62,7 @@
 
 <script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
+import { mapGetters } from "vuex";
 // import drf from "@/api/drf";
 // import axios from "axios";
 export default {
@@ -66,33 +70,29 @@ export default {
   components: {
     MovieDetailCard,
   },
-  props: {
-    movieDetail: {
-      type: Object,
-    },
-  },
   data() {
     return {
       similar: [],
     };
   },
   computed: {
+    ...mapGetters(["movieDetail"]),
     diretor() {
-      return this.movieDetail.director;
+      return this?.movieDetail?.director;
     },
     characters() {
-      return this.movieDetail.characters_id;
+      return this?.movieDetail?.characters_id;
     },
     trailerId() {
-      return this.movieDetail.trailer_youtube_key;
+      return this?.movieDetail?.trailer_youtube_key;
     },
     trailerUrl() {
       const videoId = `https://www.youtube.com/embed/${this.trailerId}`;
       return videoId;
     },
     movieSimilar() {
-      const array = this.movieDetail.movie_similar;
-      return array.slice(0, 3);
+      const array = this?.movieDetail?.movie_similar;
+      return array?.slice(0, 3);
     },
   },
   // beforeUpdate() {

@@ -6,9 +6,7 @@
         backgroundImage: imagBg,
       }"
     >
-      <movie-detail-over-view
-        :movieDetail="movieDetail"
-      ></movie-detail-over-view>
+      <movie-detail-over-view></movie-detail-over-view>
       <div class="movie-detail__info">
         <a @click="changeComponent('MovieDetailInfo')" :class="infoColor"
           >주요 정보</a
@@ -20,8 +18,6 @@
       </div>
       <component
         v-bind:is="currentTabComponent"
-        :movieDetail="movieDetail"
-        :movieReviewPopularity="movieReviewPopularity"
         @show-sign-up-modal="showSignUpModal"
         @show-log-in-modal="showLogInModal"
       ></component>
@@ -47,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["movieDetail", "movieReviewPopularity"]),
+    ...mapGetters(["movieDetail"]),
     infoColor() {
       if (this.currentTabComponent !== "MovieDetailInfo") {
         return "font-gray";
@@ -83,6 +79,8 @@ export default {
     this.fetchMovieDetail(this.$route.params.movieId);
     const reviewPopularity = { movieId: this.$route.params.movieId, type: 1 };
     this.fetchMovieReview(reviewPopularity);
+    const reviewLatest = { movieId: this.$route.params.movieId, type: 2 };
+    this.fetchMovieReview(reviewLatest);
   },
 };
 </script>

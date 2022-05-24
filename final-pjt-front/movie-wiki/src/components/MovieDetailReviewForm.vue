@@ -21,7 +21,7 @@ export default {
       inputData: {
         content: "",
         spoiler: false,
-        type: 1,
+        type: this.filterType,
         movieId: this.movieDetail.id,
       },
     };
@@ -30,10 +30,14 @@ export default {
     movieDetail: {
       type: Object,
     },
+    filterType: {
+      type: Number,
+    },
   },
   methods: {
     ...mapActions(["createMovieReview"]),
     onSubmit() {
+      console.log(this.filterType);
       this.createMovieReview(this.inputData);
       this.inputData.content = "";
       this.inputData.spoiler = false;

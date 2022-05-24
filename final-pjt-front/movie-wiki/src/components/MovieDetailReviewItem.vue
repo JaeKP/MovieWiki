@@ -33,10 +33,13 @@
           class="movie-detail__review__list__item__div2__like"
         />
         <span
+          v-if="filterType == 1"
           class="font-basic movie-detail__review__list__item__div2__count"
           >{{ reviewData.like_count }}</span
         >
-        <!-- <span class="font-basic">{{ userUpdatedAt }}</span> -->
+        <span v-if="filterType == 2" class="font-basic">{{
+          userCreatedAt
+        }}</span>
         <button v-if="isAuthor" @click="deleteReview">
           <font-awesome-icon icon="fa-solid fa-x" />
         </button>
@@ -56,7 +59,7 @@ export default {
   data() {
     return {
       reivewInfo: {
-        type: 1,
+        type: this.filterType,
         movieId: this.reviewData.movie_id,
         reviewId: this.reviewData.id,
       },
@@ -66,6 +69,9 @@ export default {
   props: {
     reviewData: {
       type: Object,
+    },
+    filterType: {
+      type: Number,
     },
   },
   computed: {
@@ -82,9 +88,9 @@ export default {
       const age = `${this.reviewData.user_id.age}`.slice(0, 1);
       return `${age}0 대`;
     },
-    userUpdatedAt() {
-      const updatedAt = this.reviewData.updated_at.slice(0, 10);
-      return updatedAt;
+    userCreatedAt() {
+      const createdAt = this.reviewData.created_at.slice(0, 10);
+      return createdAt;
     },
     isLike() {
       if (this.reviewData.like_users.includes(this?.userProfile?.id)) {
@@ -126,7 +132,7 @@ export default {
   width: 80%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   position: relative;
   gap: 0.3em;
 }

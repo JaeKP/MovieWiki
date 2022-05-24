@@ -1,6 +1,6 @@
 <template>
-  <div class="movie-detail__review">
-    <!-- 로그인 안 한 경우 -->
+  <div class="movie-detail__review" ref="top">
+    <!-- 로그인을 안 했고 리뷰가 작성 되어 있는 경우 회원가입 유도-->
     <div class="sign-up__recommend" v-if="!isLoggedIn && !isEmpty">
       <p>로그인하고 한줄 평 보기 🎉</p>
       <div class="sign-up-container__recommend__btn">
@@ -12,19 +12,47 @@
         </button>
       </div>
     </div>
-    <!-- 로그인을 한 경우 -->
+    <!-- 로그인을 한 경우 form을 보여준다.-->
     <movie-detail-review-form
       :movieDetail="movieDetail"
       v-if="isLoggedIn"
+      :filterType="filterType"
     ></movie-detail-review-form>
+    <!-- 필터 -->
+    <div class="movie-detail__review__filter" :class="isBlur">
+      <div>
+        <a @click="changefilterTypePopular" :class="fontColor1">인기 순</a>
+        <a @click="changefilterTypeLatest" :class="fontColor2">최신 순</a>
+      </div>
+      <hr />
+    </div>
+    <!-- 리뷰 -->
     <movie-detail-review-item
-      v-for="item in popularityList"
+      v-for="item in pagenatedData"
       :key="item.id"
       :reviewData="item"
       :class="isBlur"
       @delete-review="deleteReview"
+      :filterType="filterType"
     >
     </movie-detail-review-item>
+
+    <!-- 페이지네이션! -->
+    <div class="movie-detail__review__pagenation" :class="isBlur">
+      <button :disabled="pageNum === 0" @click="prevPage" class="font-white">
+        <font-awesome-icon icon="fa-solid fa-angles-left" />
+      </button>
+      <span class="movie-detail__review__pagenation__count font-icon-gray"
+        >{{ pageNum + 1 }} / {{ pageCount }} 페이지</span
+      >
+      <button
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        class="font-white"
+      >
+        <font-awesome-icon icon="fa-solid fa-angles-right" />
+      </button>
+    </div>
     <!-- 리뷰가 비어있는 경우 -->
     <div
       v-if="isEmpty"
@@ -47,18 +75,26 @@ export default {
     MovieDetailReviewForm,
     MovieDetailReviewItem,
   },
-  props: {
-    movieReviewPopularity: {
-      type: Array,
-    },
-    movieDetail: {
-      type: Object,
-    },
+  data() {
+    return {
+      filterType: 1,
+      pageSize: 5,
+      pageNum: 0,
+    };
   },
   computed: {
-    ...mapGetters(["isLoggedIn"]),
-    popularityList() {
-      return this.movieReviewPopularity;
+    ...mapGetters([
+      "isLoggedIn",
+      "movieDetail",
+      "movieReviewPopularity",
+      "movieReviewLatest",
+    ]),
+    movieList() {
+      if (this.filterType !== 1) {
+        return this?.movieReviewLatest;
+      } else {
+        return this?.movieReviewPopularity;
+      }
     },
     isBlur() {
       if (this?.isLoggedIn !== true) {
@@ -73,6 +109,34 @@ export default {
       } else {
         return false;
       }
+    },
+    fontColor1() {
+      if (this.filterType !== 1) {
+        return "font-gray";
+      } else {
+        return "font-white";
+      }
+    },
+    fontColor2() {
+      if (this.filterType !== 2) {
+        return "font-gray";
+      } else {
+        return "font-white";
+      }
+    },
+    pageCount() {
+      let listing = this.movieList.length;
+      let listSize = this.pageSize;
+      let page = Math.floor(listing / listSize);
+      if (listing % listSize > 0) {
+        page = page + 1;
+      }
+      return page;
+    },
+    pagenatedData() {
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
+      return this.movieList.slice(start, end);
     },
   },
   methods: {
@@ -102,11 +166,25 @@ export default {
         }
       });
     },
+    changefilterTypePopular() {
+      this.filterType = 1;
+      this.pageNum = 0;
+    },
+    changefilterTypeLatest() {
+      this.filterType = 2;
+      this.pageNum = 0;
+    },
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .movie-detail__review {
   display: flex;
   position: relative;
@@ -169,5 +247,37 @@ export default {
   justify-content: center;
   font-size: 1.2em;
   align-items: center;
+}
+
+hr {
+  width: 250px;
+  display: inline-block;
+}
+
+.movie-detail__review__filter a {
+  margin-right: 2em;
+  margin-left: 0.5em;
+  font-size: 1.2em;
+  padding: 0 0.5em;
+  font-weight: 500;
+}
+
+.movie-detail__review__filter {
+  width: 100%;
+}
+
+.movie-detail__review__pagenation {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+
+.movie-detail__review__pagenation button {
+  padding: 0.5em;
+  font-size: 2em;
+}
+
+.movie-detail__review__pagenation__count {
+  font-size: 1.2em;
 }
 </style>
