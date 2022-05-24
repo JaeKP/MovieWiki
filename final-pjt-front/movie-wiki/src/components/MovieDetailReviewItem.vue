@@ -7,7 +7,7 @@
         height="80px"
       ></user-profile-image>
       <p class="font-basic">{{ userNickName }}</p>
-      <p class="font-basic">{{ userAge }}</p>
+      <!-- <p class="font-basic">{{ userAge }}</p> -->
     </div>
     <div class="movie-detail__review__list__item">
       <!-- 스포일러 댓글이 아닐 때 -->
@@ -188,14 +188,15 @@ export default {
 }
 
 .movie-detail__review__list__profile > p:nth-child(2) {
-  font-size: 1em;
+  font-size: 1.2em;
+  font-weight: 400;
 }
 
-.movie-detail__review__list__profile > p:nth-child(3) {
+/* .movie-detail__review__list__profile > p:nth-child(3) {
   margin-top: -0.7em;
   font-size: 1em;
   font-weight: 400;
-}
+} */
 
 /* .movie-detail__review__list__item::before {
   content: "";
