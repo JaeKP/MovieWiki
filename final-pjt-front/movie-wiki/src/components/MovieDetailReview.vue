@@ -21,14 +21,14 @@
     <!-- 필터 -->
     <div class="movie-detail__review__filter" :class="isBlur">
       <div>
-        <a @click="changefilterTypePopular" :class="fontColor1">인기 순</a>
         <a @click="changefilterTypeLatest" :class="fontColor2">최신 순</a>
+        <a @click="changefilterTypePopular" :class="fontColor1">인기 순</a>
       </div>
       <hr />
     </div>
     <!-- 리뷰 -->
     <movie-detail-review-item
-      v-for="item in pagenatedData"
+      v-for="item in movieList"
       :key="item.id"
       :reviewData="item"
       :class="isBlur"
@@ -38,7 +38,11 @@
     </movie-detail-review-item>
 
     <!-- 페이지네이션! -->
-    <div class="movie-detail__review__pagenation" :class="isBlur">
+    <!-- <div
+      class="movie-detail__review__pagenation"
+      :class="isBlur"
+      v-if="!isEmpty"
+    >
       <button :disabled="pageNum === 0" @click="prevPage" class="font-white">
         <font-awesome-icon icon="fa-solid fa-angles-left" />
       </button>
@@ -52,7 +56,7 @@
       >
         <font-awesome-icon icon="fa-solid fa-angles-right" />
       </button>
-    </div>
+    </div> -->
     <!-- 리뷰가 비어있는 경우 -->
     <div
       v-if="isEmpty"
@@ -77,7 +81,7 @@ export default {
   },
   data() {
     return {
-      filterType: 1,
+      filterType: 2,
       pageSize: 5,
       pageNum: 0,
     };

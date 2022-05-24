@@ -12,11 +12,13 @@
             height="130px"
             :image="userProfile.image"
           />
-          <label for="image" class="font-nav-black"><font-awesome-icon icon="fa-solid fa-circle-plus" /></label>
+          <label for="image" class="font-nav-black"
+            ><font-awesome-icon icon="fa-solid fa-circle-plus"
+          /></label>
           <input
             type="file"
             id="image"
-            @change="[changeProfileImage(), ]"
+            @change="[changeProfileImage()]"
             ref="userImage"
             accept="image/*"
           />
@@ -105,9 +107,9 @@ export default {
     hideUserChangeModal() {
       this.$emit("hide-user-change-modal", false);
     },
-    deleteUser(){
-      this.$emit("delete-user")
-    }
+    deleteUser() {
+      this.$emit("delete-user");
+    },
   },
   created() {
     this.credential.nickname = this.userInfoDetail.nickname;
@@ -130,7 +132,8 @@ export default {
   align-items: center;
   gap: 2em;
 }
-.change-modal > div, h1 {
+.change-modal > div,
+h1 {
   width: 100%;
 }
 
@@ -147,10 +150,10 @@ button {
   color: white;
   font-weight: 600;
   font-size: 1.1em;
-  text-align: center
+  text-align: center;
 }
 
-a{
+a {
   display: block;
 }
 
@@ -162,7 +165,6 @@ a{
   display: flex;
   justify-content: center;
 }
-
 
 .change-modal__image > div {
   width: 130px;
@@ -177,7 +179,7 @@ a{
   font-size: 2.5em;
 }
 
-.change-modal > div:nth-child(4){
+.change-modal > div:nth-child(4) {
   display: flex;
   justify-content: center;
   gap: 2em;
@@ -187,7 +189,8 @@ a{
   width: 50%;
 }
 
-input, select {
+input,
+select {
   border: 1px solid #dcddde;
   border-radius: 0.2rem;
   background-color: white;
@@ -198,7 +201,6 @@ input, select {
   font-size: 1.2em;
 }
 
-
 label[for="image"] {
   display: block;
   font-weight: 300;
@@ -206,16 +208,13 @@ label[for="image"] {
   border-radius: 50%;
   height: 40px;
   line-height: 0px;
-  
 }
 
 label[for="nickname"],
 label[for="region"],
-label[for="age"]
-{
+label[for="age"] {
   display: block;
   font-weight: 300;
   font-size: 1em;
 }
-
 </style>

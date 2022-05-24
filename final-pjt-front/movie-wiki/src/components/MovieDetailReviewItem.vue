@@ -1,5 +1,9 @@
 <template>
-  <div class="movie-detail__review__list">
+  <div
+    class="movie-detail__review__list"
+    data-aos="fade-up"
+    data-aos-anchor-placement="bottom-bottom"
+  >
     <div class="movie-detail__review__list__profile">
       <user-profile-image
         :image="reviewData.user_id.profile_image"
@@ -7,7 +11,7 @@
         height="80px"
       ></user-profile-image>
       <p class="font-basic">{{ userNickName }}</p>
-      <p class="font-basic">{{ userAge }}</p>
+      <!-- <p class="font-basic">{{ userAge }}</p> -->
     </div>
     <div class="movie-detail__review__list__item">
       <!-- 스포일러 댓글이 아닐 때 -->
@@ -72,6 +76,7 @@ export default {
     },
     filterType: {
       type: Number,
+      default: 1,
     },
   },
   computed: {
@@ -123,6 +128,7 @@ export default {
 .movie-detail__review__list {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 2em;
   align-items: center;
   justify-content: center;
@@ -135,6 +141,12 @@ export default {
   align-items: flex-end;
   position: relative;
   gap: 0.3em;
+}
+
+@media (max-width: 1000px) {
+  .movie-detail__review__list__item {
+    width: 100%;
+  }
 }
 
 .movie-detail__review__list__item__div {
@@ -188,14 +200,15 @@ export default {
 }
 
 .movie-detail__review__list__profile > p:nth-child(2) {
-  font-size: 1em;
+  font-size: 1.2em;
+  font-weight: 400;
 }
 
-.movie-detail__review__list__profile > p:nth-child(3) {
+/* .movie-detail__review__list__profile > p:nth-child(3) {
   margin-top: -0.7em;
   font-size: 1em;
   font-weight: 400;
-}
+} */
 
 /* .movie-detail__review__list__item::before {
   content: "";
