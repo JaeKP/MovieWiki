@@ -18,7 +18,6 @@
       </div>
       <component
         v-bind:is="currentTabComponent"
-        :movieId="movieDetailId"
         @show-sign-up-modal="showSignUpModal"
         @show-log-in-modal="showLogInModal"
       ></component>
@@ -63,9 +62,6 @@ export default {
       const url = `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`;
       return `linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url(${url})`;
     },
-    movieDetailId() {
-      return this?.movieDetail?.id;
-    },
   },
   methods: {
     ...mapActions(["fetchMovieDetail", "fetchMovieReview"]),
@@ -83,6 +79,8 @@ export default {
     this.fetchMovieDetail(this.$route.params.movieId);
     const reviewPopularity = { movieId: this.$route.params.movieId, type: 1 };
     this.fetchMovieReview(reviewPopularity);
+    const reviewLatest = { movieId: this.$route.params.movieId, type: 2 };
+    this.fetchMovieReview(reviewLatest);
   },
 };
 </script>

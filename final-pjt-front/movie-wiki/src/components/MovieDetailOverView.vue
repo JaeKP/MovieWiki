@@ -1,8 +1,8 @@
 <template>
   <div class="movie-detail__overview">
     <movie-detail-card
-      v-if="imageUrl !== undefined"
-      :image="imageUrl"
+      v-if="movieDetail !== undefined"
+      :image="movieDetail.poster_path"
       width="300px"
       height="450px"
       class="movie-detail__overview__content__poster"
@@ -36,7 +36,7 @@
           />
           {{ movieDetail.vote_avg }}
         </p>
-        <p v-if="isLike" @click="likeMovie(movieDetail.id)">
+        <p v-if="!isLike" @click="likeMovie(movieDetail.id)">
           <font-awesome-icon
             icon="fa-solid fa-heart"
             id="movie-detail__overview__content__overview__icon__heart__unlike"
@@ -68,10 +68,7 @@ export default {
     MovieDetailCard,
   },
   computed: {
-    ...mapGetters(["movieDetail", "userProfile"]),
-    imageUrl() {
-      return this?.movieDetail?.poster_path;
-    },
+    ...mapGetters(["userProfile", "movieDetail"]),
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;

@@ -8,10 +8,10 @@
 <script>
 export default {
   name: "MovieDetailCard",
-  data() {
-    return {
-      imageUrl: `https://image.tmdb.org/t/p/original${this.image}`,
-    };
+  computed: {
+    imageUrl() {
+      return `https://image.tmdb.org/t/p/original${this.image}`;
+    },
   },
   props: {
     image: {
@@ -24,12 +24,6 @@ export default {
       type: String,
     },
   },
-  // computed: {
-  //   imageUrl() {
-  //     const url = `https://image.tmdb.org/t/p/original${this.image}`;
-  //     return url;
-  //   },
-  // },
 };
 </script>
 

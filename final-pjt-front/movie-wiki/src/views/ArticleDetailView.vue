@@ -187,7 +187,7 @@ export default {
 .article__modal {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 10px;
   margin-bottom: 3%;
 }

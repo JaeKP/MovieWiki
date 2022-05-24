@@ -21,19 +21,23 @@ export default {
       inputData: {
         content: "",
         spoiler: false,
-        type: 1,
-        movieId: this.movieId,
+        type: this.filterType,
+        movieId: this.movieDetail.id,
       },
     };
   },
   props: {
-    movieId: {
+    movieDetail: {
+      type: Object,
+    },
+    filterType: {
       type: Number,
     },
   },
   methods: {
     ...mapActions(["createMovieReview"]),
     onSubmit() {
+      console.log(this.filterType);
       this.createMovieReview(this.inputData);
       this.inputData.content = "";
       this.inputData.spoiler = false;
@@ -52,7 +56,7 @@ export default {
 }
 
 .movie-detail__review__form > textarea {
-  width: 90%;
+  width: 100%;
   background-color: #40444b;
   color: #eeeeee;
   border: 0px;
