@@ -240,3 +240,10 @@ body {
   padding-top: 80px;
   height: calc(100vh - 80px);
 }
+body {
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

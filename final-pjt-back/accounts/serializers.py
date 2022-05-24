@@ -71,7 +71,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         class Meta: 
             model = ArticleComment
 
-            fields = ('content', 'like_users', 'created_at','like_count')
+            fields = ('content', 'like_users', 'created_at','like_count', 'pk')
 
 
     # movie review 시리얼라이저
