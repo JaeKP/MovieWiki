@@ -24,17 +24,24 @@ export default {
       (state.article.comment = comments),
   },
   actions: {
-    fetchArticles({ commit }) {
-      /* 게시글 목록 받아오기
-      GET: articles URL (token)
-        성공하면
-          응답으로 받은 게시글들을 state.articles에 저장
-        실패하면
-          에러 메시지 표시
-      */
+    fetchArticles({ commit }, { type, query, title, content, nickname }) {
+      const params = {
+        type: type,
+        query: query,
+        title: title,
+        content: content,
+        nickname: nickname,
+      };
+      // console.log("#####################");
+      // console.log("타입", type);
+      // console.log("쿼리", query);
+      // console.log("제목", title);
+      // console.log("내용", content);
+      // console.log("작성자", nickname);
       axios({
-        url: drf.article.articles(),
+        url: drf.article.articleSearch(),
         method: "get",
+        params,
       })
         .then((response) => commit("SET_ARTICLES", response.data))
         .catch((error) => console.error(error.response));

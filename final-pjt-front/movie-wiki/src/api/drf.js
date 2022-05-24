@@ -18,8 +18,12 @@ export default {
   },
 
   article: {
-    //  게시판 전체 조회 및 글 작성
+    // 게시판 전체 조회 및 글 작성
     articles: () => HOST + ARTICLE,
+    // // 게시판 인기 글 조회
+    // popularArticle: () => HOST + ARTICLE + "popular/",
+    // // 게시판 선택
+    // selectArticle: () => HOST + ARTICLE + "articlelist",
     // 게시판 상세 페이지 조회 및 수정, 삭제
     article: (articlePk) => HOST + ARTICLE + `${articlePk}/`,
     // 게시판 상세 페이지 글 좋아요
