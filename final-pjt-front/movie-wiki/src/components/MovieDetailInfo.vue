@@ -1,6 +1,9 @@
 <template>
   <div class="movie-detail__info__detail">
-    <div class="movie-detail__info__detail__person">
+    <div
+      class="movie-detail__info__detail__person"
+      v-if="movieDetail !== undefined"
+    >
       <p class="font-white">감독 및 배우</p>
       <div>
         <div
@@ -89,7 +92,7 @@ export default {
     },
     movieSimilar() {
       const array = this?.movieDetail?.movie_similar;
-      return array.slice(0, 3);
+      return array?.slice(0, 3);
     },
   },
   // beforeUpdate() {
@@ -112,7 +115,7 @@ export default {
   flex-direction: column;
   width: 80%;
   gap: 5em;
-  margin-bottom: 5em;
+  margin-bottom: 10em;
 }
 
 .movie-detail__info__detail__person > div {

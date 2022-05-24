@@ -16,6 +16,7 @@
     "@splidejs/vue-splide": "^0.6.4",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
     "@toast-ui/vue-editor": "^3.1.7",
+    "aos": "^2.3.4",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "swiper": "^5.3.7",

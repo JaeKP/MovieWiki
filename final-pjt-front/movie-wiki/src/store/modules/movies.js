@@ -6,6 +6,7 @@ export default {
   state: {
     movieDetail: {},
     movieReviewPopularity: {},
+    movieReviewLatest: {},
     // searchInfos: null,
     // keyword: null,
   },
@@ -13,11 +14,13 @@ export default {
     // 영화 상세 정보
     movieDetail: (state) => state.movieDetail,
     movieReviewPopularity: (state) => state.movieReviewPopularity,
+    movieReviewLatest: (state) => state.movieReviewLatest,
   },
   mutations: {
     SET_MOVIE_DETAIL: (state, data) => (state.movieDetail = data),
     SET_MOVIE_REVIEW_POPULARITY: (state, data) =>
       (state.movieReviewPopularity = data),
+    SET_MOVIE_REVIEW_LATEST: (state, data) => (state.movieReviewLatest = data),
   },
   actions: {
     // 영화 상세정보 vuex에 저장하기
@@ -28,6 +31,10 @@ export default {
     //영화 리뷰 정보 vuex에 저장하기
     setMovieReviewPopularity({ commit }, data) {
       commit("SET_MOVIE_REVIEW_POPULARITY", data);
+    },
+    //영화 리뷰 정보 vuex에 저장하기
+    setMovieReviewLatest({ commit }, data) {
+      commit("SET_MOVIE_REVIEW_LATEST", data);
     },
 
     // 영화 상세정보 요청하기
@@ -67,7 +74,11 @@ export default {
           type: type,
         },
       }).then((response) => {
-        dispatch("setMovieReviewPopularity", response.data);
+        if (type === 1) {
+          dispatch("setMovieReviewPopularity", response.data);
+        } else {
+          dispatch("setMovieReviewLatest", response.data);
+        }
       });
     },
     // 영화 리뷰 작성
@@ -85,7 +96,8 @@ export default {
         data: { content, spoiler },
         headers: getters.authHeader,
       }).then((response) => {
-        dispatch("setMovieReviewPopularity", response.data);
+        dispatch("setMovieReviewPopularity", response.data.popularity);
+        dispatch("setMovieReviewLatest", response.data.latest);
       });
     },
     // 영화 리뷰 좋아요
@@ -100,7 +112,8 @@ export default {
         },
         headers: getters.authHeader,
       }).then((response) => {
-        dispatch("setMovieReviewPopularity", response.data);
+        dispatch("setMovieReviewPopularity", response.data.popularity);
+        dispatch("setMovieReviewLatest", response.data.latest);
       });
     },
     //영화 리뷰 삭제
@@ -115,7 +128,8 @@ export default {
         },
         headers: getters.authHeader,
       }).then((response) => {
-        dispatch("setMovieReviewPopularity", response.data);
+        dispatch("setMovieReviewPopularity", response.data.popularity);
+        dispatch("setMovieReviewLatest", response.data.latest);
       });
     },
   },

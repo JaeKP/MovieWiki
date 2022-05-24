@@ -14,8 +14,12 @@ import {
   faEllipsisVertical,
   faMessage,
   faStar,
+  faAnglesRight,
+  faAnglesLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 {
   /* font-awsome 아이콘 코드
@@ -25,7 +29,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 <font-awesome-icon icon="fa-solid fa-x" />*/
 }
 
-
 library.add(
   faMagnifyingGlass,
   faHeart,
@@ -34,12 +37,13 @@ library.add(
   faCirclePlus,
   faEllipsisVertical,
   faMessage,
-  faStar
+  faStar,
+  faAnglesRight,
+  faAnglesLeft
 );
 
-
 Vue.component("font-awesome-icon", FontAwesomeIcon);
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2, AOS);
 
 Vue.config.productionTip = false;
 
@@ -47,4 +51,7 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
+  mounted() {
+    AOS.init();
+  },
 }).$mount("#app");
