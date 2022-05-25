@@ -101,13 +101,15 @@ export default {
         method: "post",
         data: article,
         headers: getters.authHeader,
-      }).then((res) => {
-        commit("SET_ARTICLE", res.data);
-        router.push({
-          name: "article",
-          params: { articlePk: getters.article.pk },
-        });
-      });
+      })
+        .then((res) => {
+          commit("SET_ARTICLE", res.data);
+          router.push({
+            name: "article",
+            params: { articlePk: getters.article.pk },
+          });
+        })
+        .catch((err) => console.log(err));
     },
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };

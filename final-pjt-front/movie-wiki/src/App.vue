@@ -12,6 +12,7 @@
     <router-view
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
+      @show-review-modal="showReviewModal"
     />
     <the-sign-up-modal
       v-if="signUp"
@@ -35,6 +36,11 @@
       class="modal__search"
       @hide-search-modal="hideSearchModal"
     ></search-movie-modal>
+    <the-review-modal
+      v-if="reviewModal"
+      class="modal"
+      @hide-review-modal="hideReviewModal"
+    ></the-review-modal>
   </div>
 </template>
 
@@ -44,6 +50,7 @@ import TheSignUpModal from "@/components/TheSignUpModal.vue";
 import TheLogInModal from "@/components/TheLogInModal.vue";
 import TheProfileModal from "@/components/TheProfileModal.vue";
 import SearchMovieModal from "./components/SearchMovieModal.vue";
+import TheReviewModal from "@/components/TheReviewModal.vue";
 
 export default {
   name: "App",
@@ -53,6 +60,7 @@ export default {
       logIn: false,
       profileModal: false,
       SearchMovieModal: false,
+      reviewModal: false,
     };
   },
   components: {
@@ -61,6 +69,7 @@ export default {
     TheLogInModal,
     TheProfileModal,
     SearchMovieModal,
+    TheReviewModal,
   },
   methods: {
     showSignUpModal(data) {
@@ -86,6 +95,12 @@ export default {
     },
     showSearchModal() {
       this.SearchMovieModal = true;
+    },
+    showReviewModal(data) {
+      this.reviewModal = data;
+    },
+    hideReviewModal(data) {
+      this.reviewModal = data;
     },
   },
 };

@@ -11,8 +11,18 @@
           ></iframe>
         </div>
         <div class="trailer-container__icon">
-          <font-awesome-icon icon="fa-solid fa-share" />
-          <font-awesome-icon icon="fa-solid fa-thumbs-up" />
+          <font-awesome-icon
+            class="font-white"
+            icon="fa-solid fa-share"
+            @click="moveMovieDetail(movie.id)"
+            id="move-icon"
+          />
+          <!-- <font-awesome-icon
+            class="font-white"
+            icon="fa-solid fa-message"
+            id="review-icon"
+            @click="showReviewModal"
+          /> -->
         </div>
       </div>
       <infinite-loading
@@ -65,6 +75,15 @@ export default {
         this.trailerPath.push(...data);
       });
     },
+    moveMovieDetail(path) {
+      this.$router.push({
+        name: "movieDetail",
+        params: { movieId: path },
+      });
+    },
+    showReviewModal() {
+      this.$emit("show-review-modal", true);
+    },
   },
   created() {
     this?.getTrailer();
@@ -98,14 +117,31 @@ export default {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin-right: -4em;
 }
 
 .trailer-container__icon {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  margin-left: 1em;
+  gap: 0.7em;
+  margin-left: 0.5em;
   margin-bottom: 1em;
-  font-size: 2.5em;
+  font-size: 2.2em;
+}
+
+.trailer-container__icon > * {
+  cursor: pointer;
+}
+
+#thumbs-up-icon:hover {
+  color: #ed4245;
+}
+
+#move-icon:hover {
+  color: #ed4245;
+}
+
+#review-icon:hover {
+  color: #ed4245;
 }
 </style>
