@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div class="h1 font-basic recommend-title"></div>
+      <div class="h1 font-basic recommend-title">{{ Tag }}</div>
       <swiper class="swiper" :options="swiperOption">
         <swiper-slide v-for="movie in movieDatas" :key="movie.id">
           <card-list-item :movie="movie"></card-list-item>
@@ -29,6 +29,9 @@ export default {
     URL: {
       type: String,
     },
+    Tag: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -45,7 +48,6 @@ export default {
     };
   },
   async created() {
-    console.log(1);
     const response = await fetch(this.URL);
     this.movieDatas = await response.json();
   },
@@ -64,5 +66,7 @@ export default {
 }
 .recommend-title {
   margin-top: 3rem;
+  margin-bottom: 0.3rem;
+  font-size: 23px;
 }
 </style>

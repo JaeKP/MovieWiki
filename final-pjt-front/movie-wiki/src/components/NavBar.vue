@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      searchBar: this.SearchMovieModal,
+      searchBar: true,
     };
   },
   computed: {
