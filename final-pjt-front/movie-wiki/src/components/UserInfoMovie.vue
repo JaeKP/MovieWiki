@@ -5,25 +5,38 @@
       :key="item.pk"
       :movie="item"
     ></user-info-movie-card>
+    <empty-component
+      v-if="isEmpty"
+      data="좋아요를 누른 영화가"
+      class="profile-detail__movie__empty"
+    ></empty-component>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import UserInfoMovieCard from "@/components/UserInfoMovieCard.vue";
+import EmptyComponent from "./EmptyComponent.vue";
 export default {
   name: "UserInfoMovie",
-  components: { UserInfoMovieCard },
+  components: { UserInfoMovieCard, EmptyComponent },
   computed: {
     ...mapGetters(["userInfoDetail"]),
     movieList() {
       return this?.userInfoDetail?.like_movies;
     },
+    isEmpty() {
+      if (this?.movieList?.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .profile-detail__movie {
   display: flex;
   flex-wrap: wrap;
@@ -33,5 +46,8 @@ export default {
 
 .profile-detail__movie > * {
   margin: 1.5em;
+}
+.profile-detail__movie__empty {
+  margin: auto;
 }
 </style>

@@ -18,7 +18,11 @@
         >
           내 댓글
         </button>
-        <button :class="reviewColor" @click="changeComponent('UserInfoReview')">
+        <button
+          :class="reviewColor"
+          @click="changeComponent('UserInfoReview')"
+          v-if="isSelf"
+        >
           내 평가
         </button>
         <hr class="font-gray" />
@@ -95,7 +99,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["userProfile"]),
+    ...mapGetters(["userProfile", "isSelf"]),
     params() {
       return this.$route.params.username;
     },

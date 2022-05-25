@@ -21,25 +21,39 @@
           <span>
             {{ userCreatedAt(item) }}
           </span>
-          <span class="bg-icon-red profile-detail__review__item__tag__heart">
+          <!-- <span class="bg-icon-red profile-detail__review__item__tag__heart">
             <font-awesome-icon icon="fa-solid fa-heart" class="font-white" />
             <span class="font-nav-black">{{ item.like_count }}</span>
-          </span>
+          </span> -->
         </div>
       </div>
     </div>
+    <empty-component
+      v-if="isEmpty"
+      data="아직 작성한 평가가"
+      class="movie-detail__review__empty"
+    ></empty-component>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import EmptyComponent from "@/components/EmptyComponent.vue";
 
 export default {
   name: "UserInfoReview",
+  components: { EmptyComponent },
   computed: {
     ...mapGetters(["userInfoDetail"]),
     reviewList() {
       return this?.userInfoDetail?.review;
+    },
+    isEmpty() {
+      if (this?.reviewList?.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   methods: {
@@ -54,7 +68,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .profile-detail__review {
   width: 80%;
   display: flex;
@@ -121,5 +135,16 @@ export default {
 
 .profile-detail__review__item__tag__heart > span {
   margin-left: 0.5em;
+}
+
+.movie-detail__review__empty {
+  margin-top: -2.1em;
+}
+p {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  line-height: 1.5;
+  overflow: hidden;
 }
 </style>
