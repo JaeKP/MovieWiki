@@ -151,10 +151,10 @@ a:hover {
   text-align: center;
   margin: 0px;
   width: 100px;
-  background-image: url("@/assets/MovieWiki.png");
+  background-image: url("@/assets/logo.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 130%;
+  background-size: 80%;
   height: 70px;
 }
 
