@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="profile">
       <user-info @show-user-change-modal="showUserChangeModal"></user-info>
       <div class="profile-detail">
@@ -145,7 +145,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
-  gap: 3em;
+  gap: 5em;
 }
 
 .profile-detail {

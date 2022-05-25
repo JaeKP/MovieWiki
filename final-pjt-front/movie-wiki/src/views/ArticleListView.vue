@@ -2,6 +2,30 @@
   <div class="screen">
     <div class="article-table">
       <ul>
+        <div class="article-list-buttons">
+          <div>
+            <button @click="allArticle" class="article-type">
+              전체 게시판
+            </button>
+            <button @click="popularArticle" class="article-type">
+              인기 게시판
+            </button>
+            <button @click="selectArticle(1)" class="article-type">
+              자유 게시판
+            </button>
+            <button @click="selectArticle(2)" class="article-type">
+              영화 게시판
+            </button>
+            <button @click="selectArticle(3)" class="article-type">
+              배우 게시판
+            </button>
+          </div>
+
+          <router-link :to="{ name: 'ArticleCreate' }" class="article-create"
+            >게시글 작성</router-link
+          >
+        </div>
+
         <div class="bg-medium-gray article-table-top">
           <div class="article-list">
             <p class="article__type text-top font-white">게시판</p>
@@ -16,11 +40,16 @@
           <hr class="hr-height" />
         </div>
         <div class="article-table-bottom">
-          <div v-for="article in articles" :key="article.pk">
+          <div v-for="article in pagenatedData" :key="article.pk">
             <div class="article-list">
-              <p class="article__type text">영화 게시판</p>
+              <p
+                class="article__type__list article-list-text"
+                @click="selectArticle(article.article_type.pk)"
+              >
+                {{ article.article_type.name }}
+              </p>
               <p class="article__blank-left"></p>
-              <p class="article__title text">
+              <p class="article__title article-list-text">
                 <router-link
                   class="router-txet"
                   :to="{ name: 'article', params: { articlePk: article.pk } }"
@@ -29,7 +58,7 @@
                 </router-link>
               </p>
               <p class="article__blank-right"></p>
-              <p class="article__nickname text">
+              <p class="article__nickname article-list-text">
                 <router-link
                   class="router-txet"
                   :to="{
@@ -40,10 +69,10 @@
                   {{ article.user_id.nickname }}
                 </router-link>
               </p>
-              <p class="article__like-users text">
+              <p class="article__like-users article-list-text">
                 {{ article.like_count }}
               </p>
-              <p class="article__time text">
+              <p class="article__time article-list-text">
                 {{ dateTime(article.created_at) }}
               </p>
             </div>
@@ -51,20 +80,136 @@
           </div>
         </div>
       </ul>
+      <!-- 페이지네이션! -->
+
+      <div class="movie-detail__review__pagenation" :class="isBlur">
+        <div>
+          <button
+            :disabled="pageNum === 0"
+            @click="prevPage"
+            class="font-nav-black"
+          >
+            <font-awesome-icon icon="fa-solid fa-angles-left" />
+          </button>
+          <span class="movie-detail__review__pagenation__count font-icon-gray"
+            >{{ pageNum + 1 }} / {{ pageCount }} 페이지</span
+          >
+          <button
+            :disabled="pageNum >= pageCount - 1"
+            @click="nextPage"
+            class="font-nav-black"
+          >
+            <font-awesome-icon icon="fa-solid fa-angles-right" />
+          </button>
+        </div>
+      </div>
+      <div class="select-box">
+        <select name="게시판" id="asdasdasd" v-model="searchType">
+          <option value="1">제목</option>
+          <option value="2">내용</option>
+          <option value="3">제목 + 내용</option>
+          <option value="4">작성자</option>
+        </select>
+        <input
+          type="text"
+          v-model="payload.query"
+          @keyup.enter="articlesSearch"
+          class="title__input"
+          placeholder="검색어를 입력하세요."
+        />
+        <button class="search-button" @click="articlesSearch">검색</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ArticleListView",
+  data() {
+    return {
+      pageSize: 10,
+      pageNum: 0,
+      payload: {
+        type: "all",
+        query: null,
+        title: null,
+        content: null,
+        nickname: null,
+      },
+      searchType: "1",
+    };
+  },
   computed: {
     ...mapGetters(["articles"]),
+    isBlur() {
+      if (this?.isLoggedIn !== true) {
+        return "blurEffect";
+      } else {
+        return "";
+      }
+    },
+    pageCount() {
+      let listing = this.articles.length;
+      let listSize = this.pageSize;
+      let page = Math.floor(listing / listSize);
+      if (listing % listSize > 0) {
+        page = page + 1;
+      }
+      return page;
+    },
+    pagenatedData() {
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
+      return this.articles.slice(start, end);
+    },
   },
   methods: {
-    ...mapActions(["fetchArticles"]),
+    ...mapActions([
+      "fetchArticles",
+      "fetchArticlesPopular",
+      "fetchArticlesSelect",
+    ]),
+    allArticle() {
+      this.payload.type = "all";
+      this.fetchArticles(this.payload);
+    },
+    popularArticle() {
+      this.payload.type = "popular";
+      this.fetchArticles(this.payload);
+    },
+    selectArticle(num) {
+      this.payload.type = num;
+      this.fetchArticles(this.payload);
+    },
+    articlesSearch() {
+      if (this.searchType === "1") {
+        this.payload.title = "on";
+        this.payload.content = null;
+        this.payload.nickname = null;
+      } else if (this.searchType === "2") {
+        this.payload.title = null;
+        this.payload.content = "on";
+        this.payload.nickname = null;
+      } else if (this.searchType === "3") {
+        this.payload.title = "on";
+        this.payload.content = "on";
+        this.payload.nickname = null;
+      } else if (this.searchType === "4") {
+        this.payload.title = null;
+        this.payload.content = null;
+        this.payload.nickname = "on";
+      }
+
+      this.fetchArticles(this.payload);
+    },
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     dateTime(a) {
       // 게시글 작성 사걱
       const articleDay = new Date(a);
@@ -110,7 +255,7 @@ export default {
     },
   },
   created() {
-    this.fetchArticles();
+    this.fetchArticles(this.payload);
   },
 };
 </script>
@@ -129,6 +274,13 @@ export default {
 .article__type {
   width: 10%;
   text-align: center;
+}
+.article__type__list {
+  width: 10%;
+  text-align: center;
+}
+.article__type__list:hover {
+  text-decoration: underline;
 }
 .article__title {
   width: 50%;
@@ -168,7 +320,7 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 
-.text {
+.article-list-text {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
@@ -191,5 +343,115 @@ export default {
 }
 .router-txet:hover {
   text-decoration: underline;
+}
+.article-create {
+  text-align: center;
+  padding-top: 0.3rem;
+  margin-top: 0.5rem;
+  gap: 24px;
+  padding-bottom: 5px;
+  border: 0;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  letter-spacing: 0.15px;
+  color: white;
+  background-color: #faa81a;
+  width: 100px;
+  height: 40px;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+}
+.article-create:hover {
+  border: 1px solid #eeeeee;
+}
+.article-list-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.article-type {
+  text-align: center;
+  padding-top: 0.3rem;
+  margin-top: 0.5rem;
+  gap: 24px;
+  padding-bottom: 5px;
+  border: 0;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  letter-spacing: 0.15px;
+  color: white;
+  background-color: #96989d;
+  width: 100px;
+  height: 40px;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+  margin-right: 0.3rem;
+}
+.article-type:hover {
+  border: 1px solid #eeeeee;
+}
+
+.movie-detail__review__pagenation {
+  width: 100%;
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-detail__review__pagenation button {
+  padding: 0.5em;
+  font-size: 2em;
+}
+
+.movie-detail__review__pagenation__count {
+  font-size: 1.2em;
+}
+
+.title__input {
+  border: 1px solid #dcddde;
+
+  background-color: white;
+  height: 1em;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: "Noto Sans KR";
+  width: calc(100% - 2rem);
+
+  resize: none;
+  outline-color: #fe6b8b;
+}
+.select-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+select {
+  padding: 0.3rem;
+  border-radius: 0.4rem 0 0 0.4rem;
+  border: 1px solid #dcddde;
+  border-right: 0px;
+  font-family: "Noto Sans KR";
+  outline-color: #fe6b8b;
+}
+.search-button {
+  height: 3.05rem;
+  margin-top: 0.02rem;
+
+  font-weight: 500;
+  font-size: 17px;
+  color: white;
+  background-color: #36393f;
+  width: 100px;
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+.search-button:hover {
+  border: 1px solid #eeeeee;
 }
 </style>

@@ -71,9 +71,14 @@ export default {
   components: {
     UserProfileImage,
   },
+  props: {
+    SearchMovieModal: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
-      searchBar: true,
+      searchBar: this.SearchMovieModal,
     };
   },
   computed: {

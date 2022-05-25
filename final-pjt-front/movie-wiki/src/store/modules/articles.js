@@ -24,34 +24,30 @@ export default {
       (state.article.comment = comments),
   },
   actions: {
-    fetchArticles({ commit }) {
-      /* 게시글 목록 받아오기
-      GET: articles URL (token)
-        성공하면
-          응답으로 받은 게시글들을 state.articles에 저장
-        실패하면
-          에러 메시지 표시
-      */
+    fetchArticles({ commit }, { type, query, title, content, nickname }) {
+      const params = {
+        type: type,
+        query: query,
+        title: title,
+        content: content,
+        nickname: nickname,
+      };
+      // console.log("#####################");
+      // console.log("타입", type);
+      // console.log("쿼리", query);
+      // console.log("제목", title);
+      // console.log("내용", content);
+      // console.log("작성자", nickname);
       axios({
-        url: drf.article.articles(),
+        url: drf.article.articleSearch(),
         method: "get",
+        params,
       })
         .then((response) => commit("SET_ARTICLES", response.data))
         .catch((error) => console.error(error.response));
     },
 
     fetchArticle({ commit }, articlePk) {
-      /* 단일 게시글 받아오기
-      GET: article URL (token)
-        성공하면
-          응답으로 받은 게시글들을 state.articles에 저장
-        실패하면
-          단순 에러일 때는
-            에러 메시지 표시
-          404 에러일 때는
-            NotFound404 로 이동
-      */
-
       axios({
         url: drf.article.article(articlePk),
         method: "get",
@@ -64,16 +60,48 @@ export default {
           }
         });
     },
-    createComment({ commit, getters }, { articlePk, content }) {
-      /* 댓글 생성
-      POST: comments URL(댓글 입력 정보, token)
-        성공하면
-          응답으로 state.article의 comments 갱신
-        실패하면
-          에러 메시지 표시
-      */
-      const comment = { content };
 
+    likeArticle({ commit, getters }, articlePk) {
+      axios({
+        url: drf.article.likeArticle(articlePk),
+        method: "post",
+        headers: getters.authHeader,
+      })
+        .then((res) => commit("SET_ARTICLE", res.data))
+        .catch((err) => console.error(err.response));
+    },
+
+    createArticle({ commit, getters }, article) {
+      axios({
+        url: drf.article.articles(),
+        method: "post",
+        data: article,
+        headers: getters.authHeader,
+      }).then((res) => {
+        commit("SET_ARTICLE", res.data);
+        router.push({
+          name: "article",
+          params: { articlePk: getters.article.pk },
+        });
+      });
+    },
+    updateArticle({ commit, getters }, { pk, title, content }) {
+      axios({
+        url: drf.article.article(pk),
+        method: "put",
+        data: { title, content },
+        headers: getters.authHeader,
+      }).then((res) => {
+        commit("SET_ARTICLE", res.data);
+        router.push({
+          name: "article",
+          params: { articlePk: getters.article.pk },
+        });
+      });
+    },
+
+    createComment({ commit, getters }, { articlePk, content }) {
+      const comment = { content };
       axios({
         url: drf.article.comments(articlePk),
         method: "post",
@@ -86,15 +114,7 @@ export default {
         .catch((error) => console.error(error.response));
     },
     updateComment({ commit, getters }, { articlePk, commentPk, content }) {
-      /* 댓글 수정
-      PUT: comment URL(댓글 입력 정보, token)
-        성공하면
-          응답으로 state.article의 comments 갱신
-        실패하면
-          에러 메시지 표시
-      */
       const comment = { content };
-
       axios({
         url: drf.article.comment(articlePk, commentPk),
         method: "put",
@@ -107,14 +127,6 @@ export default {
         .catch((error) => console.error(error.response));
     },
     deleteComment({ commit, getters, dispatch }, { articlePk, commentPk }) {
-      /* 댓글 삭제
-      사용자가 확인을 받고
-        DELETE: comment URL (token)
-          성공하면
-            응답으로 state.article의 comments 갱신
-          실패하면
-            에러 메시지 표시
-      */
       if (confirm("정말 삭제하시겠습니까?")) {
         axios({
           url: drf.article.comment(articlePk, commentPk),
@@ -129,6 +141,15 @@ export default {
 
           .catch((err) => console.error(err.response));
       }
+    },
+    commentLike({ commit, getters }, { articlePk, commentPk }) {
+      axios({
+        url: drf.article.commentLike(articlePk, commentPk),
+        method: "post",
+        headers: getters.authHeader,
+      })
+        .then((res) => commit("SET_ARTICLE_COMMENTS", res.data))
+        .catch((err) => console.error(err.response));
     },
   },
 };
