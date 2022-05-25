@@ -10,7 +10,7 @@ export default {
   name: "MovieDetailCard",
   computed: {
     imageUrl() {
-      return `https://image.tmdb.org/t/p/original${this.image}`;
+      return `https://image.tmdb.org/t/p/w500${this.image}`;
     },
   },
   props: {

@@ -82,7 +82,7 @@
       </ul>
       <!-- 페이지네이션! -->
 
-      <div class="movie-detail__review__pagenation" :class="isBlur">
+      <div class="movie-detail__review__pagenation">
         <div>
           <button
             :disabled="pageNum === 0"
@@ -91,7 +91,7 @@
           >
             <font-awesome-icon icon="fa-solid fa-angles-left" />
           </button>
-          <span class="movie-detail__review__pagenation__count font-icon-gray"
+          <span class="movie-detail__review__pagenation__count font-nav-black"
             >{{ pageNum + 1 }} / {{ pageCount }} 페이지</span
           >
           <button
@@ -143,13 +143,6 @@ export default {
   },
   computed: {
     ...mapGetters(["articles"]),
-    isBlur() {
-      if (this?.isLoggedIn !== true) {
-        return "blurEffect";
-      } else {
-        return "";
-      }
-    },
     pageCount() {
       let listing = this.articles.length;
       let listSize = this.pageSize;
@@ -262,6 +255,7 @@ export default {
   background-color: #eeeeee;
   display: flex;
   justify-content: center;
+  align-items: center;
   min-height: calc(100vh - 80px);
 }
 .article-list {
@@ -305,9 +299,10 @@ export default {
   background: #b9bbbe;
 }
 .article-table {
-  margin-top: 180px;
+  margin-top: 100px;
   width: 65%;
   max-width: 1300px;
+  margin-bottom: 100px;
 }
 .article-table-top {
   border-radius: 10px 10px 0 0;
@@ -350,7 +345,7 @@ export default {
   padding-bottom: 5px;
   border: 0;
   border-radius: 0.3rem;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 17px;
   line-height: 28px;
   letter-spacing: 0.15px;
@@ -369,6 +364,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 0.5em;
 }
 .article-type {
   text-align: center;
@@ -378,7 +374,7 @@ export default {
   padding-bottom: 5px;
   border: 0;
   border-radius: 0.3rem;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 17px;
   line-height: 28px;
   letter-spacing: 0.15px;
@@ -424,11 +420,11 @@ export default {
   resize: none;
   outline-color: #fe6b8b;
 }
+
 .select-box {
-  width: 100%;
+  width: 80%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  margin: 0 auto;
 }
 select {
   padding: 0.3rem;
@@ -452,5 +448,21 @@ select {
 }
 .search-button:hover {
   border: 1px solid #fe6b8b;
+}
+
+.movie-detail__review__pagenation {
+  margin: 2em;
+  display: flex;
+  align-items: center;
+}
+
+.movie-detail__review__pagenation button {
+  padding: 0.5em;
+  margin: 0em 1em;
+  font-size: 1.5em;
+}
+
+.movie-detail__review__pagenation__count {
+  font-size: 1.2em;
 }
 </style>
