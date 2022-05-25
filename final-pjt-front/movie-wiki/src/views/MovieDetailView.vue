@@ -62,6 +62,9 @@ export default {
       const url = `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`;
       return `linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url(${url})`;
     },
+    params() {
+      return this.$route.params.movieId;
+    },
   },
   methods: {
     ...mapActions([
@@ -77,6 +80,15 @@ export default {
     },
     showLogInModal() {
       this.$emit("show-log-in-modal", true);
+    },
+  },
+  watch: {
+    params() {
+      this.fetchMovieDetail(this.params);
+      const reviewPopularity = { movieId: this.params, type: 1 };
+      this.fetchMovieReview(reviewPopularity);
+      const reviewLatest = { movieId: this.params, type: 2 };
+      this.fetchMovieReview(reviewLatest);
     },
   },
   created() {
