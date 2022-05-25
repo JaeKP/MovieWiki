@@ -421,7 +421,7 @@ def data(request):
     print('--------------------------------------------------------------')
     cnt = 1
 
-    for i in range(316, 501):
+    for i in range(317, 501):
         
         print(f'page{i}')
 
