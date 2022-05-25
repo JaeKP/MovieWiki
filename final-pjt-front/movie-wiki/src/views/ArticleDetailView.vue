@@ -7,6 +7,7 @@
             <p class="article__title">{{ article.title }}</p>
             <button @click="showArticleModal">
               <font-awesome-icon
+                v-if="userProfile.username === username"
                 class="aritcle__title__icon"
                 icon="fa-solid fa-ellipsis-vertical"
               />
@@ -108,7 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isAuthor", "article"]),
+    ...mapGetters(["isAuthor", "article", "userProfile"]),
     username() {
       return this?.article?.user_id?.username;
     },

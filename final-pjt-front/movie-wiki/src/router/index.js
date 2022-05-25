@@ -43,9 +43,9 @@ const routes = [
           return routeInfo.meta.isLoggedIn;
         })
       ) {
-        console.log(isLogin);
+        // console.log(isLogin);
         if (isLogin) {
-          console.log("routing success : '" + to.path + "'");
+          // console.log("routing success : '" + to.path + "'");
           next(); // 페이지 전환
         } else {
           // 이동할 페이지에 인증 정보가 필요하면 경고 창을 띄우고 페이지 전환은 하지 않음

@@ -8,7 +8,7 @@
     <img
       v-if="posterPath"
       class="card__image"
-      :src="`https://image.tmdb.org/t/p/original${posterPath}`"
+      :src="`https://image.tmdb.org/t/p/w300${posterPath}`"
     />
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
 .card {
   width: 15rem;
   border-radius: 5%;
-  background-color: black;
+  background-color: #2f3136;
   height: 23rem;
   /* box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, 0.05); */
   border: 0;
