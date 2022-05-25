@@ -16,6 +16,7 @@ from django.db.models import Count
 from django.db.models import Q
 from django.utils import timezone
 from datetime import timedelta
+from django.core.paginator import Paginator
 
 
 @api_view(['GET'])
@@ -139,9 +140,17 @@ def moviedetail_review_update_or_delete_or_like(request):
 
 # 트레일러 게시판
 @api_view(['GET'])
-def movie_trailer_list(reuquest):
+def movie_trailer_list(request):
     movie = Movie.objects.filter(~Q(trailer_youtube_key='nothing') ,popularity__gt=99).order_by('?')
-    serializer = MovieTrailerSerializer(movie, many=True)
+    
+    # 페이지 개수 제한
+    paginator = Paginator(movie, 1)
+    
+    # 페이지 번호를 params로 받는다. 
+    page = request.GET.get('page')
+
+    page_obj = paginator.get_page(page)
+    serializer = MovieTrailerSerializer(page_obj, many=True)
     return Response(serializer.data)    
 
 # 검색 기능

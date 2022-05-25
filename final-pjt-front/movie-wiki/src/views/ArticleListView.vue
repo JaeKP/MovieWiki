@@ -254,9 +254,6 @@ export default {
       // const a = article.created_at.slice(5, 10);
     },
   },
-  created() {
-    this.fetchArticles(this.payload);
-  },
 };
 </script>
 
