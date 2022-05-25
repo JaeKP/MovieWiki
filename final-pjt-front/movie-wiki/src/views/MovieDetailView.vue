@@ -93,9 +93,9 @@ export default {
   align-items: center;
   padding-top: 80px;
   gap: 5em;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: 100%;
 }
 
 .movie-detail__info {

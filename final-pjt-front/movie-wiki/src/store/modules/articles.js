@@ -32,12 +32,6 @@ export default {
         content: content,
         nickname: nickname,
       };
-      // console.log("#####################");
-      // console.log("타입", type);
-      // console.log("쿼리", query);
-      // console.log("제목", title);
-      // console.log("내용", content);
-      // console.log("작성자", nickname);
       axios({
         url: drf.article.articleSearch(),
         method: "get",
@@ -59,6 +53,36 @@ export default {
             router.push({ name: "NotFound404" });
           }
         });
+    },
+
+    updateArticle({ commit, getters }, { pk, title, content, article_type }) {
+      axios({
+        url: drf.article.article(pk),
+        method: "put",
+        data: { title, content, article_type },
+        headers: getters.authHeader,
+      }).then((res) => {
+        commit("SET_ARTICLE", res.data);
+        router.push({
+          name: "article",
+          params: { articlePk: getters.article.pk },
+        });
+      });
+    },
+
+    deleteArticle({ commit, getters }, articlePk) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        axios({
+          url: drf.article.article(articlePk),
+          method: "delete",
+          headers: getters.authHeader,
+        })
+          .then(() => {
+            commit("SET_ARTICLE", {});
+            router.push({ name: "articles" });
+          })
+          .catch((err) => console.error(err.response));
+      }
     },
 
     likeArticle({ commit, getters }, articlePk) {
@@ -85,24 +109,8 @@ export default {
         });
       });
     },
-    updateArticle({ commit, getters }, { pk, title, content }) {
-      axios({
-        url: drf.article.article(pk),
-        method: "put",
-        data: { title, content },
-        headers: getters.authHeader,
-      }).then((res) => {
-        commit("SET_ARTICLE", res.data);
-        router.push({
-          name: "article",
-          params: { articlePk: getters.article.pk },
-        });
-      });
-    },
-
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };
-
       axios({
         url: drf.article.comments(articlePk),
         method: "post",
@@ -116,7 +124,6 @@ export default {
     },
     updateComment({ commit, getters }, { articlePk, commentPk, content }) {
       const comment = { content };
-
       axios({
         url: drf.article.comment(articlePk, commentPk),
         method: "put",

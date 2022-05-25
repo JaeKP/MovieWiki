@@ -310,6 +310,7 @@ export default {
 .article-table {
   margin-top: 180px;
   width: 65%;
+  max-width: 1300px;
 }
 .article-table-top {
   border-radius: 10px 10px 0 0;
@@ -430,13 +431,14 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 select {
   padding: 0.3rem;
   border-radius: 0.4rem 0 0 0.4rem;
   border: 1px solid #dcddde;
   border-right: 0px;
+  width: 10rem;
   font-family: "Noto Sans KR";
   outline-color: #fe6b8b;
 }
@@ -448,10 +450,10 @@ select {
   font-size: 17px;
   color: white;
   background-color: #36393f;
-  width: 100px;
+  width: 10rem;
   border-radius: 0 0.4rem 0.4rem 0;
 }
 .search-button:hover {
-  border: 1px solid #eeeeee;
+  border: 1px solid #fe6b8b;
 }
 </style>
