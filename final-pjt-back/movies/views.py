@@ -187,12 +187,14 @@ def weather(area):
     weather = weather_data.get("weather")[0].get("main")
 
     Weather_condition_codes = {
-        'Thunderstorm': 53, 'Rain': 53, 'Drizzle': 18, 'Clouds': 18, 'Clear': 10402, 'Snow': 10751,
+        'Thunderstorm': 27, 'Rain': 27, 'Drizzle': 18, 'Clouds': 18, 'Clear': 10402, 'Snow': 10751,
     }
     if Weather_condition_codes.get(weather):
         return Weather_condition_codes.get(weather)
     else:
         return 80
+    
+    
 
 
 # 종류별 필터
@@ -204,16 +206,18 @@ def movie_filter(request):
     if filter_type == 'genre':
         movies = Movie.objects.filter(genre_ids=query).order_by('-popularity')[:21]
     elif filter_type == 'country':
-        movies = Movie.objects.filter(production_countries=query).order_by('-popularity')[:21]
+        movies = Movie.objects.filter(production_countries=query).filter(popularity__gt=99).order_by('-popularity')[:21]
     elif filter_type == 'director':
-        movies = Movie.objects.filter(director=query).order_by('-popularity')[:21]
+        movies = Movie.objects.filter(director=query).order_by('?')[:21]
     elif filter_type == 'actor':
-        movies = Movie.objects.filter(actors=query).order_by('-popularity')[:21]
+        movies = Movie.objects.filter(actors=query).order_by('?')[:21]
     elif filter_type == 'year':
-        movies = Movie.objects.filter(released_date__startswith=query).order_by('-popularity')[:21]
+        movies = Movie.objects.filter(released_date__startswith=query).filter(popularity__gt=99).order_by('?')[:21]
     elif filter_type == 'weather':
         genre_id = weather(query)
-        movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[:21]
+        movies = Movie.objects.filter(genre_ids=genre_id).order_by('-popularity')[22:43]
+    elif filter_type == 'score':
+        movies = Movie.objects.filter(popularity__gt=99).filter(vote_avg__gt=8).order_by('?')[:21]
 
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -265,10 +269,11 @@ def recommendation(request, type):
     
     # 영화 추천 10. 같은 나이대의 유저가 좋아요한 랭크
     elif type == 'age':
+        age =int(request.GET.get('age')) 
         movies = Movie.objects.annotate(
             like_users_count=Count(
                 'like_users', distinct=True, filter = Q(
-                    like_users__age__range=[request.user.age -3, request.user.age + 3]
+                    like_users__age__range=[age -3, age + 3]
                     ))).order_by('-like_users_count')[:21]
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
