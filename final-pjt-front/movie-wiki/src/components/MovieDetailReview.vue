@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-detail__review" ref="top">
+  <div class="movie-detail__review">
     <!-- 로그인을 안 했고 리뷰가 작성 되어 있는 경우 회원가입 유도-->
     <div class="sign-up__recommend" v-if="!isLoggedIn && !isEmpty">
       <p>로그인하고 한줄 평 보기 🎉</p>
@@ -19,7 +19,7 @@
       :filterType="filterType"
     ></movie-detail-review-form>
     <!-- 필터 -->
-    <div class="movie-detail__review__filter" :class="isBlur">
+    <div class="movie-detail__review__filter" :class="isBlur" v-if="!isEmpty">
       <div>
         <a @click="changefilterTypeLatest" :class="fontColor2">최신 순</a>
         <a @click="changefilterTypePopular" :class="fontColor1">인기 순</a>
@@ -240,7 +240,6 @@ export default {
 }
 
 .movie-detail__review__empty {
-  margin-top: 10em;
   width: 100%;
   height: 200px;
   display: flex;

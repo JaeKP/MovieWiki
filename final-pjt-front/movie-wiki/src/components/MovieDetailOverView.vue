@@ -17,16 +17,16 @@
         </div>
       </div>
       <p class="font-basic movie-detail__overview__content__title">
-        {{ movieDetail.title }}
+        {{ title }}
       </p>
       <p class="font-gray movie-detail__overview__content__tagline">
-        {{ movieDetail.tagline }}
+        {{ tagLine }}
       </p>
       <p class="font-gray movie-detail__overview__content__overview">
-        {{ movieDetail.overview }}
+        {{ overview }}
       </p>
       <p class="font-basic movie-detail__overview__content__runtime">
-        상영시간: {{ movieDetail.runtime }}분
+        상영시간: {{ runtime }}분
       </p>
       <div class="movie-detail__overview__content__overview__icon">
         <p>
@@ -34,7 +34,7 @@
             icon="fa-solid fa-star"
             id="movie-detail__overview__content__overview__icon__star"
           />
-          {{ movieDetail.vote_avg }}
+          {{ voteAvg }}
         </p>
         <p v-if="!isLike" @click="likeMovie(movieDetail.id)">
           <font-awesome-icon
@@ -69,6 +69,21 @@ export default {
   },
   computed: {
     ...mapGetters(["userProfile", "movieDetail"]),
+    title() {
+      return this?.movieDetail?.title;
+    },
+    tagLine() {
+      return this?.movieDetail?.tagline;
+    },
+    overview() {
+      return this?.movieDetail?.overview;
+    },
+    runtime() {
+      return this?.movieDetail?.runtime;
+    },
+    voteAvg() {
+      return this?.movieDetail?.vote_avg;
+    },
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;

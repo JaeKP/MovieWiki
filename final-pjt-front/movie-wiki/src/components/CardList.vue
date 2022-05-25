@@ -20,6 +20,7 @@ import "swiper/css/swiper.css";
 import CardListItem from "./CardListItem.vue";
 
 export default {
+  name: "CardList",
   components: {
     swiper,
     swiperSlide,

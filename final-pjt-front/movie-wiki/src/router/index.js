@@ -113,6 +113,10 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  // 라우터 이동 시 스크롤 위로
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
 });
 
 // const guardRoutes = [
