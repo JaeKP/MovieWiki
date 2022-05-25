@@ -51,7 +51,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class MovieSerializer(serializers.ModelSerializer):
         class Meta:
             model = Movie
-            fields = ('pk', 'title', 'poster_path',)
+            fields = ('id', 'title', 'poster_path','overview')
 
     # article 시리얼라이저
     class ArticleSerializer(serializers.ModelSerializer):
@@ -71,7 +71,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         class Meta: 
             model = ArticleComment
 
-            fields = ('content', 'like_users', 'created_at','like_count')
+            fields = ('content', 'like_users', 'created_at','like_count', 'pk')
 
 
     # movie review 시리얼라이저
@@ -79,7 +79,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         class MovieSerializer(serializers.ModelSerializer):
             class Meta:
                 model = Movie
-                fields = ('pk', 'title', 'poster_path',)
+                fields = ('pk', 'title', 'poster_path','overview')
 
         movie_id = MovieSerializer(read_only=True)
         like_count = serializers.IntegerField(source="like_users.count", read_only=True)

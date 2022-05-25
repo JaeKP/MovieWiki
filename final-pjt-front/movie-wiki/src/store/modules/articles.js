@@ -102,7 +102,6 @@ export default {
 
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };
-
       axios({
         url: drf.article.comments(articlePk),
         method: "post",
@@ -116,7 +115,6 @@ export default {
     },
     updateComment({ commit, getters }, { articlePk, commentPk, content }) {
       const comment = { content };
-
       axios({
         url: drf.article.comment(articlePk, commentPk),
         method: "put",

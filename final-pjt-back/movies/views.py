@@ -1,3 +1,4 @@
+from multiprocessing import managers
 import requests
 import json
 import re
@@ -53,7 +54,7 @@ def moviedetail_review_or_create(request):
     filter_type  = request.GET.get('type')
     movie = get_object_or_404(Movie, pk=movie_id) 
     def moviedetail_review():
-        if filter_type == 1: 
+        if filter_type == "1": 
             review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
         else : 
             review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
@@ -64,12 +65,12 @@ def moviedetail_review_or_create(request):
         serializer = MovieReviewSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=request.user, movie_id=movie)
-            if filter_type == 1: 
-                review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
-            else: 
-                review = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
-            serializer = MovieReviewSerializer(review, many=True)
-            return Response(serializer.data)
+            review_popularity = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            review_latest = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer_popularity = MovieReviewSerializer(review_popularity, many=True)
+            serializer_latest = MovieReviewSerializer(review_latest, many=True)
+            datas= {'popularity': serializer_popularity.data,'latest':serializer_latest.data }
+            return Response(datas)
 
     if request.method == 'GET':
         return moviedetail_review()
@@ -89,20 +90,20 @@ def moviedetail_review_update_or_delete_or_like(request):
         user = request.user
         if review.like_users.filter(pk=user.pk).exists():
             review.like_users.remove(user)
-            if filter_type == 1: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
-            else: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
-            serializer = MovieReviewSerializer(review_list, many=True)
-            return Response(serializer.data)
+            review_popularity = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            review_latest = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer_popularity = MovieReviewSerializer(review_popularity, many=True)
+            serializer_latest = MovieReviewSerializer(review_latest, many=True)
+            datas= {'popularity': serializer_popularity.data,'latest':serializer_latest.data }
+            return Response(datas)
         else:
             review.like_users.add(user)
-            if filter_type == 1: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
-            else: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
-            serializer = MovieReviewSerializer(review_list, many=True)
-            return Response(serializer.data)
+            review_popularity = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            review_latest = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer_popularity = MovieReviewSerializer(review_popularity, many=True)
+            serializer_latest = MovieReviewSerializer(review_latest, many=True)
+            datas= {'popularity': serializer_popularity.data,'latest':serializer_latest.data }
+            return Response(datas)
     
     # 업데이트
     def moviedetail_review_update():
@@ -110,7 +111,7 @@ def moviedetail_review_update_or_delete_or_like(request):
             serializer = MovieReviewSerializer(instance=review, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-                if filter_type == 1: 
+                if filter_type == "1": 
                     review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
                 else: 
                     review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
@@ -121,13 +122,13 @@ def moviedetail_review_update_or_delete_or_like(request):
     def moviedatail_review_delete():
         if request.user == review.user_id:
             review.delete()
-            if filter_type == 1: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
-            else: 
-                review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
-            serializer = MovieReviewSerializer(review_list, many=True)
-            return Response(serializer.data)
-
+            review_popularity = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+            review_latest = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+            serializer_popularity = MovieReviewSerializer(review_popularity, many=True)
+            serializer_latest = MovieReviewSerializer(review_latest, many=True)
+            datas= {'popularity': serializer_popularity.data,'latest':serializer_latest.data }
+            return Response(datas)
+            
     if request.method == 'POST':
         return moviedetail_like()
     elif request.method == 'PUT':
