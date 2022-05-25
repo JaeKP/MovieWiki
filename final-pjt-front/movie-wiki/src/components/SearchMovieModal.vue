@@ -55,7 +55,7 @@ export default {
   margin-top: 80px;
   min-width: 350px;
   padding: 3em 2em 20em 2em;
-  z-index: 2;
+  z-index: 15;
   display: flex;
 
   flex-direction: column;

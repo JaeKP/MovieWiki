@@ -13,6 +13,7 @@
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
       @show-review-modal="showReviewModal"
+      :key="$route.fullPath"
     />
     <the-sign-up-modal
       v-if="signUp"

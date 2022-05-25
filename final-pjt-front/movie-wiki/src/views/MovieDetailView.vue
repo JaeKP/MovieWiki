@@ -1,5 +1,6 @@
 <template>
   <div>
+    <progress-bar class="progress-bar"></progress-bar>
     <div
       class="movie-detail"
       :style="{
@@ -30,12 +31,14 @@ import MovieDetailOverView from "@/components/MovieDetailOverView.vue";
 import MovieDetailInfo from "@/components/MovieDetailInfo.vue";
 import MovieDetailReview from "@/components/MovieDetailReview.vue";
 import { mapActions, mapGetters } from "vuex";
+import ProgressBar from "@/components/ProgressBar.vue";
 export default {
   name: "MovieDetailView",
   components: {
     MovieDetailOverView,
     MovieDetailInfo,
     MovieDetailReview,
+    ProgressBar,
   },
   data() {
     return {
@@ -125,5 +128,9 @@ export default {
   font-size: 1.8em;
   margin-right: 1em;
   font-weight: 500;
+}
+
+.progress-bar {
+  margin-top: 80px;
 }
 </style>
