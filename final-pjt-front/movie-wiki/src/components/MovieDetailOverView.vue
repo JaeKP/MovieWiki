@@ -54,12 +54,20 @@
             >찜하기 취소</span
           >
         </p>
+        <p>
+          <a id="create-kakao-link-btn" @click="kakaoLink">
+            <img
+              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+              alt="카카오링크 보내기 버튼"
+            />
+          </a>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -68,7 +76,7 @@ export default {
     MovieDetailCard,
   },
   computed: {
-    ...mapGetters(["userProfile", "movieDetail"]),
+    ...mapGetters(["userProfile", "movieDetail", "movieReviewPopularity"]),
     title() {
       return this?.movieDetail?.title;
     },
@@ -107,6 +115,41 @@ export default {
   },
   methods: {
     ...mapActions(["likeMovie"]),
+    kakaoLink() {
+      window.Kakao.Link.createDefaultButton({
+        container: "#create-kakao-link-btn",
+        objectType: "feed",
+        content: {
+          title: this.movieDetail.title,
+          description: this.movieDetail.overview,
+          imageUrl: `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`,
+          link: {
+            mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+            webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          },
+        },
+        social: {
+          likeCount: this.movieDetail.like_count,
+          commentCount: this.movieReviewPopularity.length,
+        },
+        buttons: [
+          {
+            title: "웹으로 보기",
+            link: {
+              mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+              webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+            },
+          },
+          // {
+          //   title: "앱으로 보기",
+          //   link: {
+          //     mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          //     webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          //   },
+          // },
+        ],
+      });
+    },
   },
 };
 </script>
