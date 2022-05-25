@@ -30,6 +30,10 @@ const routes = [
     path: "/articles",
     name: "articles",
     component: ArticleListView,
+    props: true,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/articles/:articlePk",

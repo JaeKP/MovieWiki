@@ -1,5 +1,6 @@
 <template>
   <div>
+    <progress-bar class="progress-bar"></progress-bar>
     <!-- 계절별 추천 -->
     <card-list
       URL="http://localhost:8000/api/v1/movie/recommendation/season/"
@@ -93,9 +94,10 @@ import CardList from "@/components/CardList.vue";
 import _ from "lodash";
 
 import { mapGetters } from "vuex";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 export default {
-  components: { CardList },
+  components: { CardList, ProgressBar },
   name: "HomeView",
   data() {
     return {
@@ -267,4 +269,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.progress-bar {
+  margin-top: 80px;
+}
+</style>

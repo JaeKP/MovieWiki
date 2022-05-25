@@ -127,6 +127,11 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ArticleListView",
+  props: {
+    newPayload: {
+      type: Object,
+    },
+  },
   data() {
     return {
       pageSize: 10,
@@ -142,7 +147,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["articles"]),
+    ...mapGetters(["articles", "payLoad"]),
     pageCount() {
       let listing = this.articles.length;
       let listSize = this.pageSize;
@@ -163,18 +168,22 @@ export default {
       "fetchArticles",
       "fetchArticlesPopular",
       "fetchArticlesSelect",
+      "setPayLoad",
     ]),
     allArticle() {
       this.payload.type = "all";
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     popularArticle() {
       this.payload.type = "popular";
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     selectArticle(num) {
       this.payload.type = num;
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     articlesSearch() {
       if (this.searchType === "1") {
@@ -196,6 +205,7 @@ export default {
       }
 
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     nextPage() {
       this.pageNum += 1;
@@ -246,6 +256,29 @@ export default {
       }
       // const a = article.created_at.slice(5, 10);
     },
+    unLoadEvent() {
+      const data = {
+        type: "all",
+        query: null,
+        title: null,
+        content: null,
+        nickname: null,
+      };
+      this.setPayLoad(data);
+    },
+  },
+  mounted() {
+    window.addEventListener("beforeunload", this.unLoadEvent);
+  },
+  beforeUnmount() {
+    window.removeEventListener("beforeunload", this.unLoadEvent);
+  },
+  created() {
+    if (this.newPayload) {
+      this.fetchArticles(this.newPayload);
+    } else {
+      this.fetchArticles(this.payLoad);
+    }
   },
 };
 </script>
