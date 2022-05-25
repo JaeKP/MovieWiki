@@ -1,14 +1,14 @@
 <template>
   <div class="card" @click="moveMovieDetail">
     <div class="text">
-      <div class="title font-basic h2">{{ movie.title }}</div>
+      <div class="title font-basic h2">{{ title }}</div>
       <hr />
-      <div class="content font-basic">{{ movie.overview }}</div>
+      <div class="content font-basic">{{ overview }}</div>
     </div>
     <img
-      v-if="movie.poster_path"
+      v-if="posterPath"
       class="card__image"
-      :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
+      :src="`https://image.tmdb.org/t/p/original${posterPath}`"
     />
   </div>
 </template>
@@ -27,6 +27,17 @@ export default {
         name: "movieDetail",
         params: { movieId: this.movie.id },
       });
+    },
+  },
+  computed: {
+    title() {
+      return this?.movie?.title;
+    },
+    overview() {
+      return this?.movie?.overview;
+    },
+    posterPath() {
+      return this?.movie?.poster_path;
     },
   },
 };

@@ -123,7 +123,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 select {
   padding: 0.3rem;
@@ -152,6 +152,6 @@ select {
 .article-create-button {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 </style>

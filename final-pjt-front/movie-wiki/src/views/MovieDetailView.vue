@@ -64,7 +64,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["fetchMovieDetail", "fetchMovieReview"]),
+    ...mapActions([
+      "fetchMovieDetail",
+      "fetchMovieReview",
+      "fetchMovieSimilar",
+    ]),
     changeComponent(page) {
       this.currentTabComponent = page;
     },
@@ -81,6 +85,9 @@ export default {
     this.fetchMovieReview(reviewPopularity);
     const reviewLatest = { movieId: this.$route.params.movieId, type: 2 };
     this.fetchMovieReview(reviewLatest);
+  },
+  beforeUpdate() {
+    console.log(this.movieDetail);
   },
 };
 </script>

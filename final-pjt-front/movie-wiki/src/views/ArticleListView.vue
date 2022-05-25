@@ -430,7 +430,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 select {
   padding: 0.3rem;
