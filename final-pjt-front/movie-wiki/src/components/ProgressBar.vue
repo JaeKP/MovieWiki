@@ -36,7 +36,7 @@ export default {
   top: 0;
   left: 0;
   background-color: black;
-  z-index: 10;
+  z-index: 6;
 }
 .bar {
   position: absolute;
@@ -45,6 +45,6 @@ export default {
   top: 0;
   left: 0;
   background-color: #ed4245;
-  z-index: 10;
+  z-index: 6;
 }
 </style>

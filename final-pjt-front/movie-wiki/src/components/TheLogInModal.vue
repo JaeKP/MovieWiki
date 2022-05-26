@@ -48,7 +48,7 @@ export default {
   padding: 2em;
   border-radius: 0.8em;
   background-color: white;
-  z-index: 2;
+  z-index: 99;
   display: flex;
   flex-direction: column;
   gap: 1em;
