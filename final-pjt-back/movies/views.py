@@ -158,7 +158,6 @@ def movie_trailer_list(request):
 def search(request):
     query = request.GET.get('query')
     filter_type = request.GET.get('type')
-
     if filter_type == 'title':
         results = Movie.objects.filter(title__icontains = query)[:21]
         serializer = MovieListSerializer(results, many=True)

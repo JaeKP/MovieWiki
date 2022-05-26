@@ -12,7 +12,14 @@
           <router-link :to="{ name: 'trailer' }"> 트레일러 </router-link>
         </li>
         <li @click="hideSearchModal">
-          <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
+          <router-link
+            :to="{
+              name: 'articles',
+              params: { newPayload: newPayload },
+            }"
+          >
+            게시판
+          </router-link>
         </li>
       </ul>
     </div>
@@ -70,6 +77,18 @@ export default {
   name: "NavBar",
   components: {
     UserProfileImage,
+  },
+  data() {
+    return {
+      searchBar: true,
+      newPayload: {
+        type: "all",
+        query: null,
+        title: null,
+        content: null,
+        nickname: null,
+      },
+    };
   },
   computed: {
     ...mapGetters(["isLoggedIn", "userProfile", "searchBar"]),

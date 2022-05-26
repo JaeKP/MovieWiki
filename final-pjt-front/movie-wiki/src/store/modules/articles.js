@@ -8,6 +8,13 @@ export default {
   state: {
     articles: [],
     article: {},
+    payLoad: {
+      type: "all",
+      query: null,
+      title: null,
+      content: null,
+      nickname: null,
+    },
   },
   getters: {
     articles: (state) => state.articles,
@@ -16,6 +23,7 @@ export default {
       return state.article.user?.username === getters.currentUser.username;
     },
     isArticle: (state) => !_.isEmpty(state.article),
+    payLoad: (state) => state.payLoad,
   },
 
   mutations: {
@@ -23,6 +31,7 @@ export default {
     SET_ARTICLE: (state, article) => (state.article = article),
     SET_ARTICLE_COMMENTS: (state, comments) =>
       (state.article.comment = comments),
+    SET_PAY_LOAD: (state, payload) => (state.payLoad = payload),
   },
   actions: {
     fetchArticles({ commit }, { type, query, title, content, nickname }) {
@@ -187,6 +196,9 @@ export default {
       })
         .then((res) => commit("SET_ARTICLE_COMMENTS", res.data))
         .catch((err) => console.error(err.response));
+    },
+    setPayLoad({ commit }, payload) {
+      commit("SET_PAY_LOAD", payload);
     },
   },
 };
