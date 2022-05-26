@@ -22,112 +22,93 @@
 <script>
 export default {
   name: "MagicHome",
-  created() {
-    let human;
-    let bg;
-    let glass1;
-    let glass2;
-    let glass3;
-    let glass4;
-    let glass5;
-    let glass6;
-    let glass7;
-    let glass8;
-    let glass9;
-    let glass10;
-    let glass11;
-    let glass12;
-    let glass13;
-    let glass14;
-    let x = 0;
-    let y = 0;
-    let mx = 0;
-    let my = 0;
-    let speed = 0.1;
-
-    window.onload = function () {
-      human = document.getElementsByClassName("human")[0];
-      bg = document.getElementsByClassName("bg")[0];
-      glass1 = document.getElementsByClassName("glass1")[0];
-      glass2 = document.getElementsByClassName("glass2")[0];
-      glass3 = document.getElementsByClassName("glass3")[0];
-      glass4 = document.getElementsByClassName("glass4")[0];
-      glass5 = document.getElementsByClassName("glass5")[0];
-      glass6 = document.getElementsByClassName("glass6")[0];
-      glass7 = document.getElementsByClassName("glass7")[0];
-      glass8 = document.getElementsByClassName("glass8")[0];
-      glass9 = document.getElementsByClassName("glass9")[0];
-      glass10 = document.getElementsByClassName("glass10")[0];
-      glass11 = document.getElementsByClassName("glass11")[0];
-      glass12 = document.getElementsByClassName("glass12")[0];
-      glass13 = document.getElementsByClassName("glass13")[0];
-      glass14 = document.getElementsByClassName("glass14")[0];
-
-      window.addEventListener("mousemove", mouseFunc, false);
-
-      function mouseFunc(e) {
-        x = e.clientX - window.innerWidth / 2;
-        y = e.clientY - window.innerHeight / 2;
-      }
-      loop();
+  data() {
+    return {
+      x: 0,
+      y: 0,
     };
+  },
+  methods: {
+    mouseMove(e) {
+      this.x = e.clientX - window.innerWidth / 2;
+      this.y = e.clientY - window.innerHeight / 2;
+      console.log(this.x, this.y);
+    },
 
-    function loop() {
-      mx += (x - mx) * speed;
-      my += (y - my) * speed;
+    magicHome() {
+      let mx = 0;
+      let my = 0;
+      let speed = 0.1;
+      let human = document.getElementsByClassName("human")[0];
+      let bg = document.getElementsByClassName("bg")[0];
+      let glass1 = document.getElementsByClassName("glass1")[0];
+      let glass2 = document.getElementsByClassName("glass2")[0];
+      let glass3 = document.getElementsByClassName("glass3")[0];
+      let glass4 = document.getElementsByClassName("glass4")[0];
+      let glass5 = document.getElementsByClassName("glass5")[0];
+      let glass6 = document.getElementsByClassName("glass6")[0];
+      let glass7 = document.getElementsByClassName("glass7")[0];
+      let glass8 = document.getElementsByClassName("glass8")[0];
+      let glass9 = document.getElementsByClassName("glass9")[0];
+      let glass10 = document.getElementsByClassName("glass10")[0];
+      let glass11 = document.getElementsByClassName("glass11")[0];
+      let glass12 = document.getElementsByClassName("glass12")[0];
+      let glass13 = document.getElementsByClassName("glass13")[0];
+      let glass14 = document.getElementsByClassName("glass14")[0];
+
+      mx += (this.x - mx) * speed;
+      my += (this.y - my) * speed;
 
       human.style.transform =
-        "translate(" + -mx / 100 + "px," + -my / 100 + "px)";
+        "translate(" + -mx / 15 + "px," + -my / 15 + "px)";
 
       bg.style.transform = "translate(" + -(mx / 50) + "px," + 0 + "px)";
 
-      // 3d 텍스트 모션
-      // rotate3d 속성
       glass1.style.transform =
         "translate3d(" +
         -(mx / 50) +
         "px," +
         -(my / 50) +
         "px,0) rotate3d(0,1,0," +
-        mx / 5 +
+        mx * 1.5 +
         "deg)";
       glass2.style.transform =
         "translate3d(" +
         mx / 200 +
         "px," +
-        my / 70 +
+        my / 7 +
         "px,0) rotate3d(-1,1,0.3," +
-        -mx / 200 +
+        -mx / 20 +
         "deg)";
       glass3.style.transform =
         "translate3d(" +
-        mx / 40 +
+        mx / 4 +
         "px," +
-        -my / 20 +
+        -my / 2 +
         "px,0) rotate3d(0.2,1,0," +
-        -mx / 200 +
+        -mx / 20 +
         "deg)";
       glass4.style.transform =
         "translate3d(" +
-        -mx / 20 +
+        -mx / 2 +
         "px," +
-        -my / 20 +
+        -my / 2 +
         "px,0) rotate3d(-1,0.5,0," +
-        mx / 200 +
+        mx / 20 +
         "deg)";
       glass5.style.transform =
         "translate3d(" +
-        -mx / 70 +
+        -mx / 7 +
         "px," +
-        my / 10 +
+        my / 1 +
         "px,0) rotate3d(1,1,0," +
-        -mx / 40 +
+        -mx / 4 +
         "deg)";
-      glass6.style.transform = "rotate3d(-1,-1,0," + mx / 200 + "deg)";
-      glass7.style.transform = "rotate3d(0,1,0," + mx / 5 + "deg)";
-      glass8.style.transform = "rotate3d(-0.5,1,0," + mx / 200 + "deg)";
+      glass6.style.transform = "rotate3d(-1,-1,0," + mx / 20 + "deg)";
+      glass7.style.transform = "rotate3d(0,1,0," + mx * 1.5 + "deg)";
+      glass8.style.transform = "rotate3d(-0.5,1,0," + mx / 20 + "deg)";
       glass9.style.transform = "rotate3d(-0.1,0.5,0," + mx / 40 + "deg)";
-      glass10.style.transform = "rotate3d(0.3,0.2,0," + mx / 200 + "deg)";
+      glass10.style.transform = "rotate3d(0.3,0.2,0," + mx / 20 + "deg)";
       glass11.style.transform =
         "translate3d(" +
         -mx / 20 +
@@ -142,12 +123,21 @@ export default {
         "px," +
         -(my / 20) +
         "px,0) rotate3d(0,1,0," +
-        -mx / 10 +
+        -mx * 1.5 +
         "deg)";
       glass13.style.transform = "rotate3d(1,-0.3,0," + mx / 200 + "deg)";
       glass14.style.transform = "rotate3d(-1,0.7,0," + mx / 200 + "deg)";
-
-      window.requestAnimationFrame(loop);
+    },
+  },
+  mounted() {
+    window.addEventListener("mousemove", this.mouseMove);
+    this.progressbarHandler = setInterval(this.magicHome, 10);
+  },
+  beforeDestroy() {
+    window.removeEventListener("mousemove", this.mouseMove);
+    if (this.progressbarHandler != null) {
+      clearInterval(this.progressbarHandler);
+      this.progressbarHandler = null;
     }
   },
 };
