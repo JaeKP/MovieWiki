@@ -48,7 +48,7 @@ export default {
   margin-top: 80px;
   min-width: 350px;
   padding: 3em 2em 20em 2em;
-  z-index: 15;
+  z-index: 50;
   display: flex;
   height: 600px;
   flex-direction: column;
@@ -64,7 +64,7 @@ input {
   height: 2.5em;
   padding: 0 0 0 3rem;
   font-size: 1rem;
-  width: 75%;
+  width: 90vw;
   font-weight: 1rem;
   outline-color: #fe6b8b;
   /* color: #b9bbbe; */
@@ -79,7 +79,7 @@ input {
   top: 0;
   bottom: 0;
   background-color: rgba(32, 34, 37, 0.8);
-  z-index: 1;
+  z-index: 30;
 }
 .input-box {
   width: 100%;

@@ -29,6 +29,19 @@
           <p>>> 확인하기</p>
         </div>
       </div>
+      <!-- 수정 폼-->
+      <form
+        v-if="updateForm"
+        class="movie-detail__review__list__update"
+        @submit.prevent="[submitUpdateForm(), hideUpdateForm()]"
+      >
+        <textarea v-model="reivewInfo.content"></textarea>
+        <div>
+          <a @click="hideUpdateForm">되돌리기</a>
+          <button>수정하기</button>
+        </div>
+      </form>
+      <!-- 좋아요 -->
       <div class="movie-detail__review__list__item__div2">
         <font-awesome-icon
           :class="isLike"
@@ -44,8 +57,16 @@
         <span v-if="filterType == 2" class="font-basic">{{
           userCreatedAt
         }}</span>
-        <button v-if="isAuthor" @click="deleteReview">
-          <font-awesome-icon icon="fa-solid fa-x" />
+        <!-- 작성자인지 아닌지 체크 -->
+        <button
+          v-if="isAuthor"
+          class="movie-detail__review__list__item__button"
+        >
+          <font-awesome-icon
+            icon="fa-solid fa-pencil"
+            @click="showUpdateFrom"
+          />
+          <font-awesome-icon icon="fa-solid fa-x" @click="deleteReview" />
         </button>
       </div>
     </div>
@@ -66,8 +87,11 @@ export default {
         type: this.filterType,
         movieId: this.reviewData.movie_id,
         reviewId: this.reviewData.id,
+        spoiler: this.reviewData.spoiler,
+        content: this.reviewData.content,
       },
       isSpoiler: this.reviewData.spoiler,
+      updateForm: false,
     };
   },
   props: {
@@ -110,7 +134,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["likeMovieReview"]),
+    ...mapActions(["likeMovieReview", "updateMovieReview"]),
     checkSpoiler() {
       this.isSpoiler = false;
     },
@@ -119,6 +143,15 @@ export default {
     },
     deleteReview() {
       this.$emit("delete-review", this.reivewInfo);
+    },
+    showUpdateFrom() {
+      this.updateForm = true;
+    },
+    hideUpdateForm() {
+      this.updateForm = false;
+    },
+    submitUpdateForm() {
+      this.updateMovieReview(this.reivewInfo);
     },
   },
 };
@@ -143,12 +176,6 @@ export default {
   gap: 0.3em;
 }
 
-@media (max-width: 1000px) {
-  .movie-detail__review__list__item {
-    width: 100%;
-  }
-}
-
 .movie-detail__review__list__item__div {
   background-color: #40444b;
   color: #eeeeee;
@@ -159,6 +186,19 @@ export default {
   align-items: center;
 }
 
+@media (max-width: 1300px) {
+  .movie-detail__review__list__item {
+    width: 50%;
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .movie-detail__review__list__item {
+    width: 100%;
+  }
+}
+
 .movie-detail__review__list__item__div__isSpoiler {
   background-color: #dcddde;
   color: #40444b;
@@ -167,6 +207,7 @@ export default {
   border-radius: 0.5em;
   display: flex;
   align-items: center;
+  z-index: 1;
 }
 
 .movie-detail__review__list__item__div__isSpoiler * {
@@ -231,7 +272,7 @@ p {
   overflow: hidden;
 }
 
-button {
+.movie-detail__review__list__item__button {
   padding: 0.5em;
   border-radius: 0.2em;
   margin-left: 1em;
@@ -240,9 +281,50 @@ button {
   right: 0px;
 }
 
-button > * {
+.movie-detail__review__list__item__button > * {
   font-weight: 800;
   font-size: 1.5em;
+  color: #eeeeee;
+  margin: 0.2em 0.5em;
+}
+
+.movie-detail__review__list__item__button > *:hover {
+  color: #ed4245;
+}
+
+form {
+  background-color: #dcddde;
+  position: absolute;
+  top: 0px;
+  color: #40444b;
+  width: 100%;
+  height: 130px;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  padding: 0.5em;
+  align-items: flex-end;
+}
+
+textarea {
+  background-color: #dcddde;
+}
+
+.movie-detail__review__list__update__button {
+  font-size: 1rem;
+}
+
+.movie-detail__review__list__update > div {
+  display: flex;
+  align-items: baseline;
   color: black;
+  font-weight: 500;
+}
+
+.movie-detail__review__list__update > div > button {
+  font-size: 16.5px;
+  font-weight: 500;
 }
 </style>

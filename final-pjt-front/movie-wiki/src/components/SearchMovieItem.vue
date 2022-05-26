@@ -79,13 +79,13 @@ export default {
 
 <style scoped>
 li {
-  width: 75vw;
+  width: 90vw;
   align-items: flex-start;
 }
 
 p {
   /* color: white; */
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .searh-title {
   text-decoration: none;
@@ -95,7 +95,49 @@ p {
   padding-bottom: 0;
 }
 .route-title {
-  height: 54.39px;
+  height: 50.39px;
   padding-bottom: 0;
+}
+
+@media (max-width: 950px) {
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  p {
+    font-size: 1rem;
+  }
+  .searh-title {
+    height: 30px;
+  }
+  .route-title {
+    height: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 500px) {
+  p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  p {
+    font-size: 0.7rem;
+  }
 }
 </style>
