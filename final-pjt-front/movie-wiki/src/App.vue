@@ -6,7 +6,6 @@
       @show-profile-modal="showProfileModal"
       @show-search-modal="showSearchModal"
       @hide-search-modal="hideSearchModal"
-      :SearchMovieModal="SearchMovieModal"
       class="nav-bar"
     ></nav-bar>
     <router-view
@@ -33,15 +32,10 @@
       class="modal__profile"
     ></the-profile-modal>
     <search-movie-modal
-      v-if="SearchMovieModal"
+      v-if="searchModal"
       class="modal__search"
       @hide-search-modal="hideSearchModal"
     ></search-movie-modal>
-    <the-review-modal
-      v-if="reviewModal"
-      class="modal"
-      @hide-review-modal="hideReviewModal"
-    ></the-review-modal>
   </div>
 </template>
 
@@ -51,8 +45,7 @@ import TheSignUpModal from "@/components/TheSignUpModal.vue";
 import TheLogInModal from "@/components/TheLogInModal.vue";
 import TheProfileModal from "@/components/TheProfileModal.vue";
 import SearchMovieModal from "./components/SearchMovieModal.vue";
-import TheReviewModal from "@/components/TheReviewModal.vue";
-
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -60,8 +53,6 @@ export default {
       signUp: false,
       logIn: false,
       profileModal: false,
-      SearchMovieModal: false,
-      reviewModal: false,
     };
   },
   components: {
@@ -70,7 +61,12 @@ export default {
     TheLogInModal,
     TheProfileModal,
     SearchMovieModal,
-    TheReviewModal,
+  },
+  computed: {
+    ...mapGetters(["searchBar"]),
+    searchModal() {
+      return this.searchBar;
+    },
   },
   methods: {
     showSignUpModal(data) {
@@ -91,11 +87,11 @@ export default {
     hideProfileModal(data) {
       this.profileModal = data;
     },
-    hideSearchModal() {
-      this.SearchMovieModal = false;
+    hideSearchModal(data) {
+      this.searchMovieModal = data;
     },
-    showSearchModal() {
-      this.SearchMovieModal = true;
+    showSearchModal(data) {
+      this.searchMovieModal = data;
     },
     showReviewModal(data) {
       this.reviewModal = data;
@@ -126,7 +122,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(32, 34, 37, 0.8);
-  z-index: 4;
+  z-index: 10;
 }
 
 .modal__profile {
