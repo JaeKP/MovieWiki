@@ -17,6 +17,7 @@ import {
   faAnglesRight,
   faAnglesLeft,
   faShare,
+  faArrowUpFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import AOS from "aos";
@@ -41,7 +42,8 @@ library.add(
   faStar,
   faAnglesRight,
   faAnglesLeft,
-  faShare
+  faShare,
+  faArrowUpFromBracket
 );
 
 // 폰트어썸
