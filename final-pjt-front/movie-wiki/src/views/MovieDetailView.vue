@@ -101,9 +101,6 @@ export default {
     const reviewLatest = { movieId: this.$route.params.movieId, type: 2 };
     this.fetchMovieReview(reviewLatest);
   },
-  beforeUpdate() {
-    console.log(this.movieDetail);
-  },
 };
 </script>
 <style scoped>
