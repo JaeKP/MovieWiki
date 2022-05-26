@@ -143,12 +143,6 @@ export default {
   gap: 0.3em;
 }
 
-@media (max-width: 1000px) {
-  .movie-detail__review__list__item {
-    width: 100%;
-  }
-}
-
 .movie-detail__review__list__item__div {
   background-color: #40444b;
   color: #eeeeee;
@@ -157,6 +151,19 @@ export default {
   border-radius: 0.5em;
   display: flex;
   align-items: center;
+}
+
+@media (max-width: 1300px) {
+  .movie-detail__review__list__item {
+    width: 50%;
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .movie-detail__review__list__item {
+    width: 100%;
+  }
 }
 
 .movie-detail__review__list__item__div__isSpoiler {
