@@ -7,6 +7,13 @@ export default {
   state: {
     articles: [],
     article: {},
+    payLoad: {
+      type: "all",
+      query: null,
+      title: null,
+      content: null,
+      nickname: null,
+    },
   },
   getters: {
     articles: (state) => state.articles,
@@ -15,6 +22,7 @@ export default {
       return state.article.user?.username === getters.currentUser.username;
     },
     isArticle: (state) => !_.isEmpty(state.article),
+    payLoad: (state) => state.payLoad,
   },
 
   mutations: {
@@ -22,6 +30,7 @@ export default {
     SET_ARTICLE: (state, article) => (state.article = article),
     SET_ARTICLE_COMMENTS: (state, comments) =>
       (state.article.comment = comments),
+    SET_PAY_LOAD: (state, payload) => (state.payLoad = payload),
   },
   actions: {
     fetchArticles({ commit }, { type, query, title, content, nickname }) {
@@ -32,12 +41,6 @@ export default {
         content: content,
         nickname: nickname,
       };
-      // console.log("#####################");
-      // console.log("타입", type);
-      // console.log("쿼리", query);
-      // console.log("제목", title);
-      // console.log("내용", content);
-      // console.log("작성자", nickname);
       axios({
         url: drf.article.articleSearch(),
         method: "get",
@@ -61,6 +64,36 @@ export default {
         });
     },
 
+    updateArticle({ commit, getters }, { pk, title, content, article_type }) {
+      axios({
+        url: drf.article.article(pk),
+        method: "put",
+        data: { title, content, article_type },
+        headers: getters.authHeader,
+      }).then((res) => {
+        commit("SET_ARTICLE", res.data);
+        router.push({
+          name: "article",
+          params: { articlePk: getters.article.pk },
+        });
+      });
+    },
+
+    deleteArticle({ commit, getters }, articlePk) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        axios({
+          url: drf.article.article(articlePk),
+          method: "delete",
+          headers: getters.authHeader,
+        })
+          .then(() => {
+            commit("SET_ARTICLE", {});
+            router.push({ name: "articles" });
+          })
+          .catch((err) => console.error(err.response));
+      }
+    },
+
     likeArticle({ commit, getters }, articlePk) {
       axios({
         url: drf.article.likeArticle(articlePk),
@@ -77,29 +110,16 @@ export default {
         method: "post",
         data: article,
         headers: getters.authHeader,
-      }).then((res) => {
-        commit("SET_ARTICLE", res.data);
-        router.push({
-          name: "article",
-          params: { articlePk: getters.article.pk },
-        });
-      });
+      })
+        .then((res) => {
+          commit("SET_ARTICLE", res.data);
+          router.push({
+            name: "article",
+            params: { articlePk: getters.article.pk },
+          });
+        })
+        .catch((err) => console.log(err));
     },
-    updateArticle({ commit, getters }, { pk, title, content }) {
-      axios({
-        url: drf.article.article(pk),
-        method: "put",
-        data: { title, content },
-        headers: getters.authHeader,
-      }).then((res) => {
-        commit("SET_ARTICLE", res.data);
-        router.push({
-          name: "article",
-          params: { articlePk: getters.article.pk },
-        });
-      });
-    },
-
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };
       axios({
@@ -150,6 +170,9 @@ export default {
       })
         .then((res) => commit("SET_ARTICLE_COMMENTS", res.data))
         .catch((err) => console.error(err.response));
+    },
+    setPayLoad({ commit }, payload) {
+      commit("SET_PAY_LOAD", payload);
     },
   },
 };

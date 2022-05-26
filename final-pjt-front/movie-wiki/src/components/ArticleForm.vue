@@ -2,8 +2,8 @@
   <form @submit.prevent="onSubmit">
     <div class="editor">
       <div class="select-box">
-        <select name="게시판" id="asdasdasd" v-model="newArticle.article_type">
-          <option value="1">자유 게시판</option>
+        <select name="게시판" id="asdasdasd" v-model="article_type">
+          <option value="1" selected>자유 게시판</option>
           <option value="2">영화 게시판</option>
           <option value="3">배우 게시판</option>
         </select>
@@ -19,7 +19,7 @@
         class="editor-main first"
         ref="toastuiEditor"
         :options="editorOptions"
-        height="40rem"
+        height="50vh"
         language="ko-KR"
         initialEditType="wysiwyg"
         previewStyle="vertical"
@@ -58,8 +58,8 @@ export default {
       newArticle: {
         title: this.article.title,
         content: this.article.content,
-        article_type: this.article.type,
       },
+      article_type: this.article.article_type ? this.article.article_type : "1",
     };
   },
 
@@ -69,14 +69,15 @@ export default {
       const articleData = {
         title: this.newArticle.title,
         content: this.$refs.toastuiEditor.invoke("getMarkdown"),
-        article_type: this.newArticle.article_type,
+        article_type: this.article_type,
       };
       if (this.action === "작성") {
         this.createArticle(articleData);
-      } else if (this.action === "update") {
+      } else if (this.action === "수정") {
         const payload = {
           pk: this.article.pk,
           ...this.newArticle,
+          article_type: this.article_type,
         };
         this.updateArticle(payload);
       }
@@ -86,6 +87,11 @@ export default {
     content() {
       return this.$refs.toastuiEditor.invoke("getMarkdown");
     },
+  },
+  mounted() {
+    this.$refs.toastuiEditor.invoke("setMarkdown", this?.newArticle?.content);
+    // this.articlePk = this.$route.params.articlePk;
+    // this.userId = JSON.parse(localStorage.getItem("user")).user.id;
   },
 };
 </script>
@@ -98,6 +104,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 70vw;
+  max-width: 1200px;
   margin-top: 60px;
 }
 
@@ -118,12 +125,13 @@ export default {
   margin-top: 30px;
   width: 100%;
   font-family: "Noto Sans KR";
+  min-height: 40rem;
 }
 .select-box {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 select {
   padding: 0.3rem;
@@ -152,6 +160,6 @@ select {
 .article-create-button {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 </style>

@@ -12,7 +12,14 @@
           <router-link :to="{ name: 'trailer' }"> 트레일러 </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
+          <router-link
+            :to="{
+              name: 'articles',
+              params: { newPayload: newPayload },
+            }"
+          >
+            게시판
+          </router-link>
         </li>
       </ul>
     </div>
@@ -78,7 +85,14 @@ export default {
   },
   data() {
     return {
-      searchBar: this.SearchMovieModal,
+      searchBar: true,
+      newPayload: {
+        type: "all",
+        query: null,
+        title: null,
+        content: null,
+        nickname: null,
+      },
     };
   },
   computed: {
@@ -151,10 +165,10 @@ a:hover {
   text-align: center;
   margin: 0px;
   width: 100px;
-  background-image: url("@/assets/MovieWiki.png");
+  background-image: url("@/assets/logo.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 130%;
+  background-size: 80%;
   height: 70px;
 }
 

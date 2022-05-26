@@ -65,7 +65,7 @@ export default {
     //          type(actor, director, title)
     filter: () => HOST + MOVIE + "filter",
     // 영화 트레일러
-    trailer: HOST + MOVIE + "trailer/",
+    trailer: () => HOST + MOVIE + "trailer/",
     // latest: 최근에 개봉한 영화 , interest: 최근 관심 , season: 계절 추천
     recommendation: (type) => HOST + MOVIE + "recommendation/" + `${type}/`,
   },

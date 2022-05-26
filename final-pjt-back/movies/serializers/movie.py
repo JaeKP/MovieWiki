@@ -39,4 +39,4 @@ class MovieTrailerSerializer(serializers.ModelSerializer):
     like_count = serializers.IntegerField(source="like_users.count", read_only=True)
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'trailer_youtube_key', 'like_users', 'like_count',)
+        fields = ('id', 'title', 'trailer_youtube_key', 'like_users', 'like_count','poster_path',)

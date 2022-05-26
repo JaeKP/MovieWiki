@@ -82,7 +82,7 @@
       </ul>
       <!-- 페이지네이션! -->
 
-      <div class="movie-detail__review__pagenation" :class="isBlur">
+      <div class="movie-detail__review__pagenation">
         <div>
           <button
             :disabled="pageNum === 0"
@@ -91,7 +91,7 @@
           >
             <font-awesome-icon icon="fa-solid fa-angles-left" />
           </button>
-          <span class="movie-detail__review__pagenation__count font-icon-gray"
+          <span class="movie-detail__review__pagenation__count font-nav-black"
             >{{ pageNum + 1 }} / {{ pageCount }} 페이지</span
           >
           <button
@@ -127,6 +127,11 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ArticleListView",
+  props: {
+    newPayload: {
+      type: Object,
+    },
+  },
   data() {
     return {
       pageSize: 10,
@@ -142,14 +147,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["articles"]),
-    isBlur() {
-      if (this?.isLoggedIn !== true) {
-        return "blurEffect";
-      } else {
-        return "";
-      }
-    },
+    ...mapGetters(["articles", "payLoad"]),
     pageCount() {
       let listing = this.articles.length;
       let listSize = this.pageSize;
@@ -170,18 +168,22 @@ export default {
       "fetchArticles",
       "fetchArticlesPopular",
       "fetchArticlesSelect",
+      "setPayLoad",
     ]),
     allArticle() {
       this.payload.type = "all";
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     popularArticle() {
       this.payload.type = "popular";
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     selectArticle(num) {
       this.payload.type = num;
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     articlesSearch() {
       if (this.searchType === "1") {
@@ -203,6 +205,7 @@ export default {
       }
 
       this.fetchArticles(this.payload);
+      this.setPayLoad(this.payload);
     },
     nextPage() {
       this.pageNum += 1;
@@ -253,9 +256,29 @@ export default {
       }
       // const a = article.created_at.slice(5, 10);
     },
+    unLoadEvent() {
+      const data = {
+        type: "all",
+        query: null,
+        title: null,
+        content: null,
+        nickname: null,
+      };
+      this.setPayLoad(data);
+    },
+  },
+  mounted() {
+    window.addEventListener("beforeunload", this.unLoadEvent);
+  },
+  beforeUnmount() {
+    window.removeEventListener("beforeunload", this.unLoadEvent);
   },
   created() {
-    this.fetchArticles(this.payload);
+    if (this.newPayload) {
+      this.fetchArticles(this.newPayload);
+    } else {
+      this.fetchArticles(this.payLoad);
+    }
   },
 };
 </script>
@@ -265,6 +288,7 @@ export default {
   background-color: #eeeeee;
   display: flex;
   justify-content: center;
+  align-items: center;
   min-height: calc(100vh - 80px);
 }
 .article-list {
@@ -308,8 +332,10 @@ export default {
   background: #b9bbbe;
 }
 .article-table {
-  margin-top: 180px;
+  margin-top: 100px;
   width: 65%;
+  max-width: 1300px;
+  margin-bottom: 100px;
 }
 .article-table-top {
   border-radius: 10px 10px 0 0;
@@ -352,7 +378,7 @@ export default {
   padding-bottom: 5px;
   border: 0;
   border-radius: 0.3rem;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 17px;
   line-height: 28px;
   letter-spacing: 0.15px;
@@ -371,6 +397,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 0.5em;
 }
 .article-type {
   text-align: center;
@@ -380,7 +407,7 @@ export default {
   padding-bottom: 5px;
   border: 0;
   border-radius: 0.3rem;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 17px;
   line-height: 28px;
   letter-spacing: 0.15px;
@@ -426,17 +453,18 @@ export default {
   resize: none;
   outline-color: #fe6b8b;
 }
+
 .select-box {
-  width: 100%;
+  width: 80%;
   display: flex;
-  flex-direction: row;
-  justify-content: end;
+  margin: 0 auto;
 }
 select {
   padding: 0.3rem;
   border-radius: 0.4rem 0 0 0.4rem;
   border: 1px solid #dcddde;
   border-right: 0px;
+  width: 10rem;
   font-family: "Noto Sans KR";
   outline-color: #fe6b8b;
 }
@@ -448,10 +476,26 @@ select {
   font-size: 17px;
   color: white;
   background-color: #36393f;
-  width: 100px;
+  width: 10rem;
   border-radius: 0 0.4rem 0.4rem 0;
 }
 .search-button:hover {
-  border: 1px solid #eeeeee;
+  border: 1px solid #fe6b8b;
+}
+
+.movie-detail__review__pagenation {
+  margin: 2em;
+  display: flex;
+  align-items: center;
+}
+
+.movie-detail__review__pagenation button {
+  padding: 0.5em;
+  margin: 0em 1em;
+  font-size: 1.5em;
+}
+
+.movie-detail__review__pagenation__count {
+  font-size: 1.2em;
 }
 </style>

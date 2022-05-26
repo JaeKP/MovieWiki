@@ -16,6 +16,7 @@ import {
   faStar,
   faAnglesRight,
   faAnglesLeft,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import AOS from "aos";
@@ -39,10 +40,14 @@ library.add(
   faMessage,
   faStar,
   faAnglesRight,
-  faAnglesLeft
+  faAnglesLeft,
+  faShare
 );
 
+// 폰트어썸
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+//  오류 메시지, 무한 스크롤 관련 라이브러리
 Vue.use(VueSweetalert2, AOS);
 
 Vue.config.productionTip = false;

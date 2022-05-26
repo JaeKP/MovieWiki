@@ -5,6 +5,7 @@ import router from "@/router";
 export default {
   state: {
     movieDetail: {},
+    similarMovie: [],
     movieReviewPopularity: {},
     movieReviewLatest: {},
     // searchInfos: null,
@@ -13,11 +14,14 @@ export default {
   getters: {
     // 영화 상세 정보
     movieDetail: (state) => state.movieDetail,
+    similarMovie: (state) => state.similarMovie,
     movieReviewPopularity: (state) => state.movieReviewPopularity,
     movieReviewLatest: (state) => state.movieReviewLatest,
   },
   mutations: {
     SET_MOVIE_DETAIL: (state, data) => (state.movieDetail = data),
+    SET_SIMINILAR_MOVIE: (state, data) => (state.similarMovie = data),
+    PUSH_SIMILAR_MOVIE: (state, data) => state.similarMovie.push(data),
     SET_MOVIE_REVIEW_POPULARITY: (state, data) =>
       (state.movieReviewPopularity = data),
     SET_MOVIE_REVIEW_LATEST: (state, data) => (state.movieReviewLatest = data),
@@ -26,6 +30,11 @@ export default {
     // 영화 상세정보 vuex에 저장하기
     setMovieDetail({ commit }, data) {
       commit("SET_MOVIE_DETAIL", data);
+    },
+
+    // 비슷한 영화 정보 vuex에 저장하기
+    setSimilarMovie({ commit }, data) {
+      commit("SET_SIMINILAR_MOVIE", data);
     },
 
     //영화 리뷰 정보 vuex에 저장하기
@@ -44,7 +53,10 @@ export default {
         method: "get",
       })
         .then((response) => {
+          const movie = response.data;
           dispatch("setMovieDetail", response.data);
+          const array = movie?.movie_similar?.slice(0, 5);
+          dispatch("fetchMovieSimilar", array);
         })
         .catch((error) => {
           if (error.response.status === 404) {
@@ -53,6 +65,19 @@ export default {
         });
     },
 
+    fetchMovieSimilar({ commit }, array) {
+      commit("SET_SIMINILAR_MOVIE", []);
+      array.forEach((item) => {
+        axios({
+          url: drf.movie.movieDetail(item),
+          method: "get",
+        }).then((response) => {
+          commit("PUSH_SIMILAR_MOVIE", response.data);
+        });
+      });
+      // console.log(data);
+      // dispatch("setSimilarMovie", data);
+    },
     // 영화 좋아요
     likeMovie({ getters, dispatch }, movieId) {
       axios({
@@ -81,6 +106,7 @@ export default {
         }
       });
     },
+
     // 영화 리뷰 작성
     createMovieReview(
       { getters, dispatch },

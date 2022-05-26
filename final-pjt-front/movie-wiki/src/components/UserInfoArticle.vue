@@ -1,6 +1,6 @@
 <template>
   <div class="profile-detail__article">
-    <ul>
+    <ul v-if="!isEmpty">
       <div class="bg-medium-gray article-table-top">
         <div class="article-list">
           <p class="article__type text-top font-white">게시판</p>
@@ -35,17 +35,27 @@
         </div>
       </div>
     </ul>
+    <empty-component v-else data="아직 작성한 게시글이"></empty-component>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import EmptyComponent from "@/components/EmptyComponent.vue";
 export default {
   name: "ArticleListView",
+  components: { EmptyComponent },
   computed: {
     ...mapGetters(["userInfoDetail"]),
     articleList() {
       return this?.userInfoDetail?.article;
+    },
+    isEmpty() {
+      if (this?.articleList?.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   methods: {

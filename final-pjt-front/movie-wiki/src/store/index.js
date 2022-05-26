@@ -8,7 +8,7 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     searchInfos: {
       title: [],
@@ -70,3 +70,5 @@ export default new Vuex.Store({
   },
   modules: { accounts, movies, articles },
 });
+
+export default store;

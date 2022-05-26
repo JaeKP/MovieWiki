@@ -1,14 +1,14 @@
 <template>
   <div class="card" @click="moveMovieDetail">
     <div class="text">
-      <div class="title font-basic h2">{{ movie.title }}</div>
+      <div class="title font-basic h2">{{ title }}</div>
       <hr />
-      <div class="content font-basic">{{ movie.overview }}</div>
+      <div class="content font-basic">{{ overview }}</div>
     </div>
     <img
-      v-if="movie.poster_path"
+      v-if="posterPath"
       class="card__image"
-      :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
+      :src="`https://image.tmdb.org/t/p/w300${posterPath}`"
     />
   </div>
 </template>
@@ -29,6 +29,17 @@ export default {
       });
     },
   },
+  computed: {
+    title() {
+      return this?.movie?.title;
+    },
+    overview() {
+      return this?.movie?.overview;
+    },
+    posterPath() {
+      return this?.movie?.poster_path;
+    },
+  },
 };
 </script>
 
@@ -37,7 +48,7 @@ export default {
 .card {
   width: 15rem;
   border-radius: 5%;
-  background-color: black;
+  background-color: #2f3136;
   height: 23rem;
   /* box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, 0.05); */
   border: 0;

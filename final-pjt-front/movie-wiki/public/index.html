@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      window.Kakao.init("74c26b946e441adc41b4c153ada007cb");
+    </script>
   </head>
   <body>
     <noscript>
@@ -17,6 +21,8 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <!-- carousel 구현을 위한 라이브러리 CDN -->
+
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
       integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"

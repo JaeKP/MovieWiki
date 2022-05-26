@@ -17,16 +17,16 @@
         </div>
       </div>
       <p class="font-basic movie-detail__overview__content__title">
-        {{ movieDetail.title }}
+        {{ title }}
       </p>
       <p class="font-gray movie-detail__overview__content__tagline">
-        {{ movieDetail.tagline }}
+        {{ tagLine }}
       </p>
       <p class="font-gray movie-detail__overview__content__overview">
-        {{ movieDetail.overview }}
+        {{ overview }}
       </p>
       <p class="font-basic movie-detail__overview__content__runtime">
-        상영시간: {{ movieDetail.runtime }}분
+        상영시간: {{ runtime }}분
       </p>
       <div class="movie-detail__overview__content__overview__icon">
         <p>
@@ -34,7 +34,7 @@
             icon="fa-solid fa-star"
             id="movie-detail__overview__content__overview__icon__star"
           />
-          {{ movieDetail.vote_avg }}
+          {{ voteAvg }}
         </p>
         <p v-if="!isLike" @click="likeMovie(movieDetail.id)">
           <font-awesome-icon
@@ -54,12 +54,20 @@
             >찜하기 취소</span
           >
         </p>
+        <p>
+          <a id="create-kakao-link-btn" @click="kakaoLink">
+            <img
+              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+              alt="카카오링크 보내기 버튼"
+            />
+          </a>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -68,7 +76,22 @@ export default {
     MovieDetailCard,
   },
   computed: {
-    ...mapGetters(["userProfile", "movieDetail"]),
+    ...mapGetters(["userProfile", "movieDetail", "movieReviewPopularity"]),
+    title() {
+      return this?.movieDetail?.title;
+    },
+    tagLine() {
+      return this?.movieDetail?.tagline;
+    },
+    overview() {
+      return this?.movieDetail?.overview;
+    },
+    runtime() {
+      return this?.movieDetail?.runtime;
+    },
+    voteAvg() {
+      return this?.movieDetail?.vote_avg;
+    },
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;
@@ -92,6 +115,41 @@ export default {
   },
   methods: {
     ...mapActions(["likeMovie"]),
+    kakaoLink() {
+      window.Kakao.Link.createDefaultButton({
+        container: "#create-kakao-link-btn",
+        objectType: "feed",
+        content: {
+          title: this.movieDetail.title,
+          description: this.movieDetail.overview,
+          imageUrl: `https://image.tmdb.org/t/p/original${this.movieDetail.poster_path}`,
+          link: {
+            mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+            webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          },
+        },
+        social: {
+          likeCount: this.movieDetail.like_count,
+          commentCount: this.movieReviewPopularity.length,
+        },
+        buttons: [
+          {
+            title: "웹으로 보기",
+            link: {
+              mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+              webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+            },
+          },
+          // {
+          //   title: "앱으로 보기",
+          //   link: {
+          //     mobileWebUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          //     webUrl: `http://localhost:8080/movies/${this.movieDetail.id}`,
+          //   },
+          // },
+        ],
+      });
+    },
   },
 };
 </script>

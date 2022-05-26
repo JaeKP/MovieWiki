@@ -4,7 +4,7 @@
       class="movie-detail__info__detail__person"
       v-if="movieDetail !== undefined"
     >
-      <p class="font-white">감독 및 배우</p>
+      <p class="font-basic movie-detail__info__title">감독 및 배우</p>
       <div>
         <div
           v-for="item in diretor"
@@ -18,8 +18,8 @@
             class="movie-detail__info__detail__person__item__image"
           ></movie-detail-card>
           <div>
-            <p class="font-white">감독</p>
-            <p class="font-white">{{ item.name }}</p>
+            <p class="font-basic">감독</p>
+            <p class="font-basic">{{ item.name }}</p>
           </div>
         </div>
         <div
@@ -34,27 +34,29 @@
             class="movie-detail__info__detail__person__item__image"
           ></movie-detail-card>
           <div>
-            <p class="font-white">{{ item.character_name }}</p>
-            <p class="font-white">{{ item.actor_id.name }}</p>
+            <p class="font-basic">{{ item.character_name }}</p>
+            <p class="font-basic">{{ item.actor_id.name }}</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="movie-detail__info__detail__content">
-      <div class="movie-detail__info__detail__content__div">
-        <div>
-          <p class="font-white">트레일러</p>
-          <iframe
-            :src="trailerUrl"
-            frameborder="0"
-            width="100%"
-            height="350px"
-          ></iframe>
-        </div>
-        <div>
-          <p class="font-white">비슷한 영화</p>
-          <movie-detail-card></movie-detail-card>
-        </div>
+    <div class="movie-detail__info__detail__trailer">
+      <p class="font-basic movie-detail__info__title">트레일러</p>
+      <iframe
+        :src="trailerUrl"
+        frameborder="0"
+        width="100%"
+        height="400px"
+      ></iframe>
+    </div>
+    <div class="movie-detail__info__detail__similar">
+      <p class="font-basic movie-detail__info__title">비슷한 영화</p>
+      <div>
+        <user-info-movie-card
+          v-for="movie in movieSimilar"
+          :key="movie.id"
+          :movie="movie"
+        ></user-info-movie-card>
       </div>
     </div>
   </div>
@@ -62,21 +64,17 @@
 
 <script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
+import UserInfoMovieCard from "@/components/UserInfoMovieCard.vue";
+
 import { mapGetters } from "vuex";
-// import drf from "@/api/drf";
-// import axios from "axios";
 export default {
   name: "MovieDetailInfo",
   components: {
     MovieDetailCard,
-  },
-  data() {
-    return {
-      similar: [],
-    };
+    UserInfoMovieCard,
   },
   computed: {
-    ...mapGetters(["movieDetail"]),
+    ...mapGetters(["movieDetail", "similarMovie"]),
     diretor() {
       return this?.movieDetail?.director;
     },
@@ -91,20 +89,15 @@ export default {
       return videoId;
     },
     movieSimilar() {
-      const array = this?.movieDetail?.movie_similar;
-      return array?.slice(0, 3);
+      return this?.similarMovie;
     },
   },
-  // beforeUpdate() {
-  //   const array = this?.movieSimilar;
-  //   array.forEach((item) => {
-  //     axios({
-  //       url: drf.movie.movieDetail(item),
-  //       method: "get",
-  //     }).then((response) => {
-  //       this.similar.push(response);
-  //     });
-  //   });
+  // methods: {
+  //   ...mapActions(["fetchMovieSimilar"]),
+  // },
+  // beforeUpdated() {
+  //   const arr = this.movieDetail.movie_similar.slice(0, 5);
+  //   this.fetchMovieSimilar(arr);
   // },
 };
 </script>
@@ -142,39 +135,31 @@ p {
 
 .movie-detail__info__detail__person > div p {
   text-align: center;
+  font-weight: 200;
 }
 
-div > p:nth-child(2) {
-  font-weight: 300;
-}
-
-.movie-detail__info__detail__person > p {
+.movie-detail__info__title {
   font-size: 1.7em;
   margin-bottom: 0.5em;
+  font-weight: 700;
 }
 
-.movie-detail__info__detail__content {
-  width: 100%;
-}
-
-.movie-detail__info__detail__content__div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5em;
-}
-
-.movie-detail__info__detail__content__div > div:nth-child(1) {
-  width: 40%;
-  min-width: 400px;
-  max-width: 600px;
-}
-
-.movie-detail__info__detail__content__div > div:nth-child(2) {
+.movie-detail__info__detail__trailer {
   width: 50%;
 }
+
 iframe {
   min-width: 400px;
   border-radius: 0.5em;
+  margin-top: 2em;
+  max-width: 800px;
+}
+
+.movie-detail__info__detail__similar > div {
+  display: flex;
+  gap: 3em;
+  flex-wrap: wrap;
+  margin-top: 3em;
 }
 
 p {

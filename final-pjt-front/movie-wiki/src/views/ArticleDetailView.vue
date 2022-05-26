@@ -7,17 +7,19 @@
             <p class="article__title">{{ article.title }}</p>
             <button @click="showArticleModal">
               <font-awesome-icon
+                v-if="userProfile.username === username"
                 class="aritcle__title__icon"
                 icon="fa-solid fa-ellipsis-vertical"
               />
             </button>
           </div>
           <div class="article__modal">
-            <OptionMoadal
+            <article-option-modal
               v-if="optionModal"
               @hide-article-modal="hideArticleModal"
               type="글"
-            ></OptionMoadal>
+              :articleId="articlePk"
+            ></article-option-modal>
           </div>
           <div class="article__title-bar__user-info">
             <div class="flex-article">
@@ -87,17 +89,17 @@ import UserProfileImage from "@/components/UserProfileImage.vue";
 import { mapGetters, mapActions } from "vuex";
 import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
-import OptionMoadal from "@/components/OptionModal.vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/vue-editor";
+import ArticleOptionModal from "@/components/articleOptionModal.vue";
 
 export default {
   components: {
     UserProfileImage,
     CommentForm,
     CommentItem,
-    OptionMoadal,
     Viewer,
+    ArticleOptionModal,
   },
   name: "ArticleDetailView",
   data() {
@@ -107,7 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isAuthor", "article"]),
+    ...mapGetters(["isAuthor", "article", "userProfile"]),
     username() {
       return this?.article?.user_id?.username;
     },
