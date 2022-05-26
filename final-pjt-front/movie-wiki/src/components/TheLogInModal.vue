@@ -1,9 +1,6 @@
 <template>
   <div @click.self="hideLogInModal">
-    <form
-      @submit.prevent="[logIn(credential), hideLogInModal()]"
-      class="log-in-modal"
-    >
+    <form @submit="[logIn(credential), hideLogInModal()]" class="log-in-modal">
       <h1 class="font-medium-gray">로그인</h1>
       <input type="text" v-model="credential.username" placeholder="아이디" />
       <input
@@ -11,6 +8,7 @@
         v-model="credential.password"
         placeholder="비밀번호"
       />
+
       <button>로그인</button>
       <a @click.self="[hideLogInModal(), showSignUpModal()]">회원 가입</a>
     </form>

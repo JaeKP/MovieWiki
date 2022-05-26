@@ -18,7 +18,7 @@ export default {
   },
   getters: {
     articles: (state) => state.articles,
-    article: (state) => state?.article,
+    article: (state) => state.article,
     isAuthor: (state, getters) => {
       return state.article.user?.username === getters.currentUser.username;
     },
@@ -34,6 +34,9 @@ export default {
     SET_PAY_LOAD: (state, payload) => (state.payLoad = payload),
   },
   actions: {
+    setArticle({ commit }, data) {
+      commit("SET_ARTICLE", data);
+    },
     fetchArticles({ commit }, { type, query, title, content, nickname }) {
       const params = {
         type: type,

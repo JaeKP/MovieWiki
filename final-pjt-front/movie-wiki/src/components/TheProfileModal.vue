@@ -41,7 +41,7 @@ export default {
 <style scoped>
 .profile-modal {
   background-color: white;
-  z-index: 50;
+  z-index: 4;
   width: 200px;
   border-radius: 0.3em;
   padding: 1em;
