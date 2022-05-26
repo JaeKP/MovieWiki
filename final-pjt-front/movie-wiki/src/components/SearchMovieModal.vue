@@ -2,7 +2,10 @@
   <div class="modal-bg" @click.self="hideSearchModal">
     <div>
       <div class="search-modal bg-navbar-black">
-        <input type="text" @input="changeKeyword" />
+        <div class="input-box">
+          <input type="text" @input="changeKeyword" />
+        </div>
+
         <search-movie-item
           v-for="(searchInfo, i) in searchInfos"
           :key="i"
@@ -47,9 +50,10 @@ export default {
   padding: 3em 2em 20em 2em;
   z-index: 15;
   display: flex;
-
+  height: 600px;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   gap: 1em;
 }
 
@@ -76,6 +80,11 @@ input {
   bottom: 0;
   background-color: rgba(32, 34, 37, 0.8);
   z-index: 1;
+}
+.input-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* hr {

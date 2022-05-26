@@ -80,7 +80,6 @@ export default {
   },
   data() {
     return {
-      searchBar: true,
       newPayload: {
         type: "all",
         query: null,

@@ -10,13 +10,23 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    searchInfos: [],
+    searchInfos: null,
     keyword: null,
   },
   getters: {},
   mutations: {
     SEARCH_INFO(state, data) {
-      state.searchInfos = data[0];
+      data[0].sort(function (a, b) {
+        if (a.title.length > b.title.length) {
+          return 1;
+        }
+        if (a.title.length < b.title.length) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      state.searchInfos = data[0].slice(0, 5);
       state.keyword = data[1];
     },
   },
@@ -27,16 +37,6 @@ const store = new Vuex.Store({
         query: query,
         type: "title",
       };
-      const paramsActor = {
-        query: query,
-        type: "actor",
-      };
-      const paramsDirector = {
-        query: query,
-        type: "director",
-      };
-
-      const searchData = [];
 
       // 타이틀
       axios({
@@ -48,53 +48,12 @@ const store = new Vuex.Store({
           if (query == "") {
             response.data = [];
           }
-          response.data.forEach((el) => {
-            el.type = "movie";
-            searchData.push(el);
-          });
+          const data = [response.data, query];
+          context.commit("SEARCH_INFO", data);
         })
         .catch((err) => {
           console.log(err);
         });
-      // 배우
-      axios({
-        url: drf.movie.movieSearch(),
-        method: "get",
-        params: paramsActor,
-      })
-        .then((response) => {
-          if (query == "") {
-            response.data = [];
-          }
-          response.data.forEach((el) => {
-            el.type = "actor";
-            searchData.push(el);
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      // 감독
-      axios({
-        url: drf.movie.movieSearch(),
-        method: "get",
-        params: paramsDirector,
-      })
-        .then((response) => {
-          if (query == "") {
-            response.data = [];
-          }
-          response.data.forEach((el) => {
-            el.type = "director";
-            searchData.push(el);
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      console.log(searchData);
-      const data = [searchData, query];
-      context.commit("SEARCH_INFO", data);
     },
   },
   modules: { accounts, movies, articles },
