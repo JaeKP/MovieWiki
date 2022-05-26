@@ -112,12 +112,12 @@ def moviedetail_review_update_or_delete_or_like(request):
             serializer = MovieReviewSerializer(instance=review, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-                if filter_type == "1": 
-                    review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
-                else: 
-                    review_list = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
-                serializer = MovieReviewSerializer(review_list, many=True)
-                return Response(serializer.data)
+                review_popularity = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-like_count')
+                review_latest = movie.review.annotate(like_count=Count('like_users', distinct=True)).order_by('-created_at')
+                serializer_popularity = MovieReviewSerializer(review_popularity, many=True)
+                serializer_latest = MovieReviewSerializer(review_latest, many=True)
+                datas= {'popularity': serializer_popularity.data,'latest':serializer_latest.data }
+                return Response(datas)
 
     # 삭제
     def moviedatail_review_delete():
