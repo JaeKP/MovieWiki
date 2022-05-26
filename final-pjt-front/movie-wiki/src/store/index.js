@@ -10,61 +10,49 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    searchInfos: {
-      title: [],
-      actor: [],
-    },
+    searchInfos: null,
     keyword: null,
   },
   getters: {},
   mutations: {
     SEARCH_INFO(state, data) {
-      if ((data[2] === "title") & (state.searchInfos.actor.length < 5)) {
-        state.searchInfos[data[2]] = data[0].slice(
-          0,
-          5 - state.searchInfos.actor.length
-        );
-        // console.log(state.searchInfos.title.length);
-        // console.log(state.searchInfos.actor.length);
-      } else if ((data[2] === "actor") & (state.searchInfos.title.length < 5)) {
-        state.searchInfos[data[2]] = data[0].slice(
-          0,
-          5 - state.searchInfos.title.length
-        );
-      }
-
+      data[0].sort(function (a, b) {
+        if (a.title.length > b.title.length) {
+          return 1;
+        }
+        if (a.title.length < b.title.length) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      state.searchInfos = data[0].slice(0, 5);
       state.keyword = data[1];
-      // console.log(data[2]);
     },
   },
-  actions: {
-    searchInfo(context, querytype) {
-      const params = {
-        query: querytype[0],
-        type: querytype[1],
-      };
-      // console.log(keyword);
 
+  actions: {
+    searchInfo(context, query) {
+      const paramsTitle = {
+        query: query,
+        type: "title",
+      };
+
+      // 타이틀
       axios({
         url: drf.movie.movieSearch(),
         method: "get",
-        params,
+        params: paramsTitle,
       })
         .then((response) => {
-          // console.log(response.data);
-          if (querytype[0] == "") {
+          if (query == "") {
             response.data = [];
           }
-          const data = [response.data, querytype[0], querytype[1]];
-          // console.log(response.data);
+          const data = [response.data, query];
           context.commit("SEARCH_INFO", data);
-
-          // commit("SEARCH_RECENT", query);
         })
         .catch((err) => {
           console.log(err);
-          const data = [0, querytype[0], querytype[1]];
-          context.commit("SEARCH_INFO", data);
         });
     },
   },

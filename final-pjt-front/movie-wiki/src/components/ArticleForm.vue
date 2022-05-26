@@ -12,6 +12,7 @@
           v-model="newArticle.title"
           class="title__input"
           placeholder="제목을 입력하세요."
+          maxlength="50"
         />
       </div>
 

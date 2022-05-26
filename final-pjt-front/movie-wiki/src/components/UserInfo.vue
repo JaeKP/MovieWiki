@@ -77,6 +77,12 @@ export default {
   gap: 3em;
 }
 
+@media (max-width: 652px) {
+  .user-info {
+    flex-direction: column;
+  }
+}
+
 .user-info__content {
   display: flex;
   flex-direction: column;

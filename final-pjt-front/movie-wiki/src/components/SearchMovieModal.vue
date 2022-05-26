@@ -2,20 +2,15 @@
   <div class="modal-bg" @click.self="hideSearchModal">
     <div>
       <div class="search-modal bg-navbar-black">
-        <input type="text" @input="changeKeyword" />
+        <div class="input-box">
+          <input type="text" @input="changeKeyword" />
+        </div>
+
         <search-movie-item
-          v-for="searchInfo in searchInfos.title"
-          :key="searchInfo.id"
+          v-for="(searchInfo, i) in searchInfos"
+          :key="i"
           :searchInfo="searchInfo"
           :keyword="keyword"
-          type="title"
-        ></search-movie-item>
-        <search-movie-item
-          v-for="searchInfo in searchInfos.actor"
-          :key="searchInfo.id"
-          :searchInfo="searchInfo"
-          :keyword="keyword"
-          type="name"
         ></search-movie-item>
       </div>
     </div>
@@ -40,10 +35,7 @@ export default {
       this.setSearchBar(false);
     },
     changeKeyword(event) {
-      const querytype = [event.target.value, "title"];
-      this.searchInfo(querytype);
-      const querytype2 = [event.target.value, "actor"];
-      this.searchInfo(querytype2);
+      this.searchInfo(event.target.value);
     },
     ...mapActions(["searchInfo"]),
   },
@@ -58,9 +50,10 @@ export default {
   padding: 3em 2em 20em 2em;
   z-index: 15;
   display: flex;
-
+  height: 600px;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   gap: 1em;
 }
 
@@ -87,6 +80,11 @@ input {
   bottom: 0;
   background-color: rgba(32, 34, 37, 0.8);
   z-index: 1;
+}
+.input-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* hr {

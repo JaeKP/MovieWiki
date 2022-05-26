@@ -91,7 +91,7 @@ import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/vue-editor";
-import ArticleOptionModal from "@/components/articleOptionModal.vue";
+import ArticleOptionModal from "@/components/ArticleOptionModal.vue";
 
 export default {
   components: {
@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+.box-article {
+  margin-bottom: 50px;
+}
+
 .article {
   background-color: #dcddde;
   width: 100%;
@@ -254,5 +258,11 @@ export default {
   line-height: 18px;
   margin-top: 10px;
   color: #40444b;
+}
+
+@media (max-width: 1500px) {
+  .box-article {
+    width: 80vw;
+  }
 }
 </style>
