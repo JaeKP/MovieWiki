@@ -3,15 +3,15 @@
     <div class="nav__title">
       <div class="nav__title__logo"></div>
       <ul class="font-icon-gray nav__title__list">
-        <li>
+        <li @click="hideSearchModal">
           <router-link :to="{ name: 'home' }" class="nav__content">
             홈
           </router-link>
         </li>
-        <li>
+        <li @click="hideSearchModal">
           <router-link :to="{ name: 'trailer' }"> 트레일러 </router-link>
         </li>
-        <li>
+        <li @click="hideSearchModal">
           <router-link :to="{ name: 'articles' }"> 게시판 </router-link>
         </li>
       </ul>
@@ -25,13 +25,13 @@
       />
       <font-awesome-icon
         icon="fa-solid fa-x"
-        v-if="!searchBar"
+        v-else
         @click="hideSearchModal"
         class="font-real-white nav__icon nav__button__item"
       />
       <button
         class="bg-icon-blue font-real-white nav__button__item"
-        @click="showSignUpModal"
+        @click="hideSearchModal"
       >
         회원가입
       </button>
@@ -47,16 +47,16 @@
         @click="showSearchModal"
         icon="fa-solid fa-magnifying-glass"
         class="font-real-white nav__icon nav__profile__item"
-        v-if="searchBar"
+        v-if="!searchModal"
       />
       <font-awesome-icon
         @click="hideSearchModal"
         icon="fa-solid fa-x"
-        v-if="!searchBar"
+        v-else
         class="font-real-white nav__icon nav__profile__item"
       />
       <user-profile-image
-        @click.native="showProfileModal"
+        @click.native="[showProfileModal(), hideSearchModal()]"
         :image="userProfile.image"
       ></user-profile-image>
     </ul>
@@ -65,26 +65,20 @@
 
 <script>
 import UserProfileImage from "@/components/UserProfileImage.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "NavBar",
   components: {
     UserProfileImage,
   },
-  props: {
-    SearchMovieModal: {
-      type: Boolean,
+  computed: {
+    ...mapGetters(["isLoggedIn", "userProfile", "searchBar"]),
+    searchModal() {
+      return this.searchBar;
     },
   },
-  data() {
-    return {
-      searchBar: true,
-    };
-  },
-  computed: {
-    ...mapGetters(["isLoggedIn", "userProfile"]),
-  },
   methods: {
+    ...mapActions(["setSearchBar"]),
     showSignUpModal() {
       this.$emit("show-sign-up-modal", true);
     },
@@ -95,12 +89,10 @@ export default {
       this.$emit("show-profile-modal", true);
     },
     showSearchModal() {
-      this.$emit("show-search-modal", true);
-      this.searchBar = false;
+      this.setSearchBar(true);
     },
     hideSearchModal() {
-      this.$emit("hide-search-modal", true);
-      this.searchBar = true;
+      this.setSearchBar(false);
     },
   },
 };

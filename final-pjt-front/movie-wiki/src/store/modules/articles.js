@@ -2,6 +2,7 @@ import axios from "axios";
 import drf from "@/api/drf";
 import router from "@/router";
 import _ from "lodash";
+import Swal from "sweetalert2";
 
 export default {
   state: {
@@ -71,18 +72,32 @@ export default {
     },
 
     deleteArticle({ commit, getters }, articlePk) {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        axios({
-          url: drf.article.article(articlePk),
-          method: "delete",
-          headers: getters.authHeader,
-        })
-          .then(() => {
-            commit("SET_ARTICLE", {});
-            router.push({ name: "articles" });
+      Swal.fire({
+        title: "정말 삭제하시겠습니까",
+        icon: "error",
+        width: "400px",
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonText: "삭제",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#ED4245",
+        cancelButtonColor: "#5865F2",
+        position: "center",
+        heightAuto: false,
+      }).then((response) => {
+        if (response.isConfirmed === true) {
+          axios({
+            url: drf.article.article(articlePk),
+            method: "delete",
+            headers: getters.authHeader,
           })
-          .catch((err) => console.error(err.response));
-      }
+            .then(() => {
+              commit("SET_ARTICLE", {});
+              router.push({ name: "articles" });
+            })
+            .catch((err) => console.error(err.response));
+        }
+      });
     },
 
     likeArticle({ commit, getters }, articlePk) {
@@ -101,15 +116,13 @@ export default {
         method: "post",
         data: article,
         headers: getters.authHeader,
-      })
-        .then((res) => {
-          commit("SET_ARTICLE", res.data);
-          router.push({
-            name: "article",
-            params: { articlePk: getters.article.pk },
-          });
-        })
-        .catch((err) => console.log(err));
+      }).then((res) => {
+        commit("SET_ARTICLE", res.data);
+        router.push({
+          name: "article",
+          params: { articlePk: getters.article.pk },
+        });
+      });
     },
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };
@@ -138,20 +151,33 @@ export default {
         .catch((error) => console.error(error.response));
     },
     deleteComment({ commit, getters, dispatch }, { articlePk, commentPk }) {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        axios({
-          url: drf.article.comment(articlePk, commentPk),
-          method: "delete",
-          data: {},
-          headers: getters.authHeader,
-        })
-          .then((res) => {
-            commit("SET_ARTICLE_COMMENTS", res.data);
-            dispatch("fetchArticle", articlePk);
+      Swal.fire({
+        title: "정말 삭제하시겠습니까",
+        icon: "error",
+        width: "400px",
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonText: "삭제",
+        cancelButtonText: "취소",
+        confirmButtonColor: "#ED4245",
+        cancelButtonColor: "#5865F2",
+        position: "center",
+        heightAuto: false,
+      }).then((response) => {
+        if (response.isConfirmed === true) {
+          axios({
+            url: drf.article.comment(articlePk, commentPk),
+            method: "delete",
+            data: {},
+            headers: getters.authHeader,
           })
-
-          .catch((err) => console.error(err.response));
-      }
+            .then((res) => {
+              commit("SET_ARTICLE_COMMENTS", res.data);
+              dispatch("fetchArticle", articlePk);
+            })
+            .catch((err) => console.error(err.response));
+        }
+      });
     },
     commentLike({ commit, getters }, { articlePk, commentPk }) {
       axios({
