@@ -4,19 +4,19 @@
       <ul>
         <div class="article-list-buttons">
           <div>
-            <button @click="allArticle" class="article-type">
+            <button @click="allArticle" class="article-type type-all">
               전체 게시판
             </button>
-            <button @click="popularArticle" class="article-type">
+            <button @click="popularArticle" class="article-type type-popular">
               인기 게시판
             </button>
-            <button @click="selectArticle(1)" class="article-type">
+            <button @click="selectArticle(1)" class="article-type type-1">
               자유 게시판
             </button>
-            <button @click="selectArticle(2)" class="article-type">
+            <button @click="selectArticle(2)" class="article-type type-2">
               영화 게시판
             </button>
-            <button @click="selectArticle(3)" class="article-type">
+            <button @click="selectArticle(3)" class="article-type type-3">
               배우 게시판
             </button>
           </div>
@@ -140,6 +140,7 @@ export default {
         nickname: null,
       },
       searchType: "1",
+      currentType: "all",
     };
   },
   computed: {
@@ -165,19 +166,41 @@ export default {
       "fetchArticlesPopular",
       "fetchArticlesSelect",
       "setPayLoad",
+      "setArticle",
     ]),
     allArticle() {
+      let beforeType = document.getElementsByClassName(
+        `type-${this.payload.type}`
+      )[0];
       this.payload.type = "all";
+      this.pageNum = 0;
+      let nextType = document.getElementsByClassName("type-all")[0];
+      beforeType.style.backgroundColor = "#96989d";
+      nextType.style.backgroundColor = "#fe6b8b";
       this.fetchArticles(this.payload);
       this.setPayLoad(this.payload);
     },
     popularArticle() {
+      let beforeType = document.getElementsByClassName(
+        `type-${this.payload.type}`
+      )[0];
       this.payload.type = "popular";
+      this.pageNum = 0;
+      let nextType = document.getElementsByClassName("type-popular")[0];
+      beforeType.style.backgroundColor = "#96989d";
+      nextType.style.backgroundColor = "#fe6b8b";
       this.fetchArticles(this.payload);
       this.setPayLoad(this.payload);
     },
     selectArticle(num) {
+      let beforeType = document.getElementsByClassName(
+        `type-${this.payload.type}`
+      )[0];
       this.payload.type = num;
+      this.pageNum = 0;
+      let nextType = document.getElementsByClassName(`type-${num}`)[0];
+      beforeType.style.backgroundColor = "#96989d";
+      nextType.style.backgroundColor = "#fe6b8b";
       this.fetchArticles(this.payload);
       this.setPayLoad(this.payload);
     },
@@ -199,7 +222,14 @@ export default {
         this.payload.content = null;
         this.payload.nickname = "on";
       }
-
+      let beforeType = document.getElementsByClassName(
+        `type-${this.payload.type}`
+      )[0];
+      this.payload.type = "all";
+      this.pageNum = 0;
+      beforeType.style.backgroundColor = "#96989d";
+      let nextType = document.getElementsByClassName("type-all")[0];
+      nextType.style.backgroundColor = "#fe6b8b";
       this.fetchArticles(this.payload);
       this.setPayLoad(this.payload);
     },
@@ -275,6 +305,9 @@ export default {
     } else {
       this.fetchArticles(this.payLoad);
     }
+  },
+  destroyed() {
+    this.setArticle({});
   },
 };
 </script>
@@ -379,7 +412,7 @@ export default {
   line-height: 28px;
   letter-spacing: 0.15px;
   color: white;
-  background-color: #faa81a;
+  background-color: #36393f;
   width: 100px;
   height: 40px;
   text-decoration: none;
@@ -417,6 +450,9 @@ export default {
 }
 .article-type:hover {
   border: 1px solid #eeeeee;
+}
+.type-all {
+  background-color: #fe6b8b;
 }
 
 .movie-detail__review__pagenation {
