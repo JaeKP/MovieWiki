@@ -1,11 +1,20 @@
 <template>
   <div>
     <progress-bar class="progress-bar"></progress-bar>
+    <magic-home class="magic-home"></magic-home>
     <!-- 계절별 추천 -->
+    <!-- 최신 인기 -->
     <card-list
-      URL="http://localhost:8000/api/v1/movie/recommendation/season/"
-      :Tag="`${season} 이런 영화 어때요?`"
+      class="test-margin"
+      URL="http://localhost:8000/api/v1/movie/list"
     ></card-list>
+    <div>
+      <card-list
+        class="card-list"
+        URL="http://localhost:8000/api/v1/movie/recommendation/season/"
+        :Tag="`${season} 이런 영화 어때요?`"
+      ></card-list>
+    </div>
     <!-- 요즘 제일 핫 -->
     <card-list
       URL="http://localhost:8000/api/v1/movie/recommendation/interest/"
@@ -17,11 +26,7 @@
       :URL="`http://localhost:8000/api/v1/movie/recommendation/age/?age=${userProfile.age}`"
       :Tag="`${userProfile.nickname}님과 또래의 유저들이 좋아하는 영화`"
     ></card-list>
-    <!-- 최신 인기 -->
-    <card-list
-      URL="http://localhost:8000/api/v1/movie/list"
-      Tag="최신 인기 영화"
-    ></card-list>
+
     <!-- 년도 인기 영화 -->
     <card-list
       :URL="`http://127.0.0.1:8000/api/v1/movie/filter?type=year&query=${sampleYear}`"
@@ -95,9 +100,10 @@ import _ from "lodash";
 
 import { mapGetters } from "vuex";
 import ProgressBar from "@/components/ProgressBar.vue";
+import MagicHome from "@/components/MagicHome.vue";
 
 export default {
-  components: { CardList, ProgressBar },
+  components: { CardList, ProgressBar, MagicHome },
   name: "HomeView",
   data() {
     return {
@@ -269,5 +275,26 @@ export default {
 <style>
 .progress-bar {
   margin-top: 80px;
+}
+
+.test-margin {
+  /* position: absolute; */
+  margin-top: -140px;
+  z-index: 10;
+}
+.card-list {
+  z-index: 5;
+}
+.bg2 {
+  position: absolute;
+}
+
+@media (max-width: 500px) {
+  .magic-home {
+    display: none;
+  }
+  .test-margin {
+    margin-top: 1rem;
+  }
 }
 </style>

@@ -66,6 +66,7 @@ export default {
   opacity: 1;
 }
 .recommend-title {
+  z-index: 5;
   margin-top: 5rem;
   margin-bottom: 0.3rem;
   font-size: 23px;

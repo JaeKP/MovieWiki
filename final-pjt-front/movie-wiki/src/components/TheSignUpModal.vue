@@ -132,7 +132,7 @@ export default {
   padding: 2em;
   border-radius: 0.8em;
   background-color: white;
-  z-index: 2;
+  z-index: 100;
   display: flex;
   flex-direction: column;
 }

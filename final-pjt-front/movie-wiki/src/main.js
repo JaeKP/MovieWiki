@@ -10,15 +10,14 @@ import {
   faHeart,
   faThumbsUp,
   faX,
-  faCirclePlus,
   faEllipsisVertical,
   faMessage,
   faStar,
   faAnglesRight,
   faAnglesLeft,
-  faShare,
   faArrowUpFromBracket,
   faBars,
+  faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import AOS from "aos";
@@ -37,15 +36,14 @@ library.add(
   faHeart,
   faThumbsUp,
   faX,
-  faCirclePlus,
   faEllipsisVertical,
   faMessage,
   faStar,
   faAnglesRight,
   faAnglesLeft,
-  faShare,
   faArrowUpFromBracket,
-  faBars
+  faBars,
+  faPencil
 );
 
 // 폰트어썸

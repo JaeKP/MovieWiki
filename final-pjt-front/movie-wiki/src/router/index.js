@@ -54,7 +54,7 @@ const routes = [
           next(); // 페이지 전환
         } else {
           Swal.fire({
-            title: "로그인한 유저만 접근이 가능합니다.",
+            text: "로그인한 유저만 접근이 가능합니다.",
             icon: "info",
             width: "400px",
             toast: true,
@@ -62,7 +62,6 @@ const routes = [
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-            heightAuto: false,
           });
         }
       } else {
@@ -87,7 +86,7 @@ const routes = [
         } else {
           // 이동할 페이지에 인증 정보가 필요하면 경고 창을 띄우고 페이지 전환은 하지 않음
           Swal.fire({
-            title: "로그인한 유저만 접근이 가능합니다.",
+            text: "로그인한 유저만 접근이 가능합니다.",
             icon: "info",
             width: "400px",
             toast: true,
@@ -95,7 +94,6 @@ const routes = [
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-            heightAuto: false,
           });
         }
       } else {
