@@ -68,7 +68,6 @@ export default {
       return videoLink;
     },
     infiniteHandler() {
-      console.log("바닥!!!!");
       axios({
         url: drf.movie.trailer(),
         method: "get",

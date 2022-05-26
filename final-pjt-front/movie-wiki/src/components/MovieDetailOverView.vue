@@ -107,7 +107,6 @@ export default {
   methods: {
     ...mapActions(["likeMovie"]),
     kakaoLink() {
-      console.log("클릭");
       window.Kakao.Link.createDefaultButton({
         container: "#create-kakao-link-btn",
         objectType: "feed",
