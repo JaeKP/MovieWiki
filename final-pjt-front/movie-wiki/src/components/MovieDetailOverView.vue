@@ -36,7 +36,7 @@
           />
           {{ movieDetail.vote_avg }}
         </p>
-        <p v-if="!isLike" @click="likeMovie(movieDetail.id)">
+        <p v-if="!isLike" @click="likeMovies">
           <font-awesome-icon
             icon="fa-solid fa-heart"
             id="movie-detail__overview__content__overview__icon__heart__unlike"
@@ -45,7 +45,7 @@
             >찜하기</span
           >
         </p>
-        <p v-else @click="likeMovie(movieDetail.id)">
+        <p v-else @click="likeMovies">
           <font-awesome-icon
             icon="fa-solid fa-heart"
             id="movie-detail__overview__content__overview__icon__heart__like"
@@ -76,13 +76,19 @@
 <script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
 import { mapGetters, mapActions } from "vuex";
+import Swal from "sweetalert2";
 export default {
   name: "MovieDetailOverView",
   components: {
     MovieDetailCard,
   },
   computed: {
-    ...mapGetters(["userProfile", "movieDetail", "movieReviewPopularity"]),
+    ...mapGetters([
+      "userProfile",
+      "movieDetail",
+      "movieReviewPopularity",
+      "isLoggedIn",
+    ]),
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;
@@ -140,6 +146,22 @@ export default {
           // },
         ],
       });
+    },
+    likeMovies() {
+      if (this.isLoggedIn) {
+        this.likeMovie(this.movieDetail.id);
+      } else {
+        Swal.fire({
+          text: "로그인한 유저만 접근이 가능합니다.",
+          icon: "info",
+          width: "400px",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
     },
   },
 };

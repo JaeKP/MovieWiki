@@ -64,7 +64,7 @@ input {
   height: 2.5em;
   padding: 0 0 0 3rem;
   font-size: 1rem;
-  width: 75%;
+  width: 90vw;
   font-weight: 1rem;
   outline-color: #fe6b8b;
   /* color: #b9bbbe; */
