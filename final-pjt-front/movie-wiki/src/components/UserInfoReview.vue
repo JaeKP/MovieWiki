@@ -77,7 +77,6 @@ export default {
   flex-wrap: wrap;
   gap: 3em;
   height: 15rem;
-  margin-bottom: 4em;
 }
 
 .profile-detail__review__item {

@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+.box-article {
+  margin-bottom: 50px;
+}
+
 .article {
   background-color: #dcddde;
   width: 100%;
@@ -254,5 +258,11 @@ export default {
   line-height: 18px;
   margin-top: 10px;
   color: #40444b;
+}
+
+@media (max-width: 1500px) {
+  .box-article {
+    width: 80vw;
+  }
 }
 </style>

@@ -41,7 +41,7 @@
           <div v-for="article in pagenatedData" :key="article.pk">
             <div class="article-list">
               <p
-                class="article__type__list article-list-text"
+                class="article__type article__type__list article-list-text"
                 @click="selectArticle(article.article_type.pk)"
               >
                 {{ article.article_type.name }}
@@ -289,7 +289,7 @@ export default {
 }
 .article-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .article__type {
   width: 10%;
@@ -422,11 +422,14 @@ export default {
 .movie-detail__review__pagenation {
   width: 100%;
   display: flex;
-  gap: 2em;
   align-items: center;
   justify-content: center;
 }
 
+.movie-detail__review__pagenation > div {
+  text-align: center;
+  margin-left: -4rem;
+}
 .movie-detail__review__pagenation button {
   padding: 0.5em;
   font-size: 2em;
@@ -495,6 +498,90 @@ select {
   font-size: 1.2em;
 }
 
-@media (max-width) {
+@media (max-width: 1200px) {
+  .article-list > p {
+    font-size: 1rem;
+  }
+
+  .article-list-buttons {
+    font-size: 1rem;
+  }
+
+  .article-list-buttons * {
+    font-size: 1rem;
+  }
+  .article-list-buttons > div > .article-type {
+    width: 6rem;
+  }
+}
+
+@media (max-width: 1250px) {
+  .article__time {
+    display: none;
+  }
+  .article__like-users {
+    display: none;
+  }
+  .article-list {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 930px) {
+  .article-list > p {
+    font-size: 0.9rem;
+  }
+
+  .article-list-buttons {
+    font-size: 0.9rem;
+  }
+
+  .article-list-buttons * {
+    font-size: 0.8rem;
+  }
+  .article-list-buttons > div > .article-type {
+    width: 5rem;
+  }
+}
+
+@media (max-width: 810px) {
+  .article__type {
+    display: none;
+  }
+  .article-list-buttons {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+  .article__nickname {
+    width: 30%;
+  }
+}
+
+@media (max-width: 655px) {
+  .article-list-buttons {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+  .article-table {
+    width: 80vw;
+  }
+}
+@media (max-width: 500px) {
+  .article-list-buttons button {
+    font-size: 0.6rem;
+  }
+  .article-list-buttons > div > .article-type {
+    width: 4rem;
+  }
+}
+
+@media (max-width: 555px) {
+  .article-list-buttons {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+  .article-table {
+    width: 90vw;
+  }
 }
 </style>

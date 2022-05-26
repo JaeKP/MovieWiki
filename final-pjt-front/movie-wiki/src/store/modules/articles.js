@@ -125,13 +125,28 @@ export default {
         method: "post",
         data: article,
         headers: getters.authHeader,
-      }).then((res) => {
-        commit("SET_ARTICLE", res.data);
-        router.push({
-          name: "article",
-          params: { articlePk: getters.article.pk },
+      })
+        .then((res) => {
+          commit("SET_ARTICLE", res.data);
+          router.push({
+            name: "article",
+            params: { articlePk: getters.article.pk },
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            Swal.fire({
+              text: "내용을 입력해주세요.",
+              icon: "error",
+              width: "400px",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              position: "center",
+              heightAuto: false,
+            });
+          }
         });
-      });
     },
     createComment({ commit, getters }, { articlePk, content }) {
       const comment = { content };
