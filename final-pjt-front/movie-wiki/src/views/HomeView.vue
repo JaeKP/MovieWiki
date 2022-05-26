@@ -207,9 +207,6 @@ export default {
   methods: {},
   computed: {
     ...mapGetters(["userProfile", "isLoggedIn"]),
-    token() {
-      return JSON.parse(localStorage.getItem("token"));
-    },
     sampleActor1() {
       return _.sample(this.actor1);
     },

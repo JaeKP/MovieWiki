@@ -17,16 +17,16 @@
         </div>
       </div>
       <p class="font-basic movie-detail__overview__content__title">
-        {{ title }}
+        {{ movieDetail.title }}
       </p>
       <p class="font-gray movie-detail__overview__content__tagline">
-        {{ tagLine }}
+        {{ movieDetail.tagline }}
       </p>
       <p class="font-gray movie-detail__overview__content__overview">
-        {{ overview }}
+        {{ movieDetail.overview }}
       </p>
       <p class="font-basic movie-detail__overview__content__runtime">
-        상영시간: {{ runtime }}분
+        상영시간: {{ movieDetail.runtime }}분
       </p>
       <div class="movie-detail__overview__content__overview__icon">
         <p>
@@ -34,7 +34,7 @@
             icon="fa-solid fa-star"
             id="movie-detail__overview__content__overview__icon__star"
           />
-          {{ voteAvg }}
+          {{ movieDetail.vote_avg }}
         </p>
         <p v-if="!isLike" @click="likeMovie(movieDetail.id)">
           <font-awesome-icon
@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script type="text/javascript">
+<script>
 import MovieDetailCard from "@/components/MovieDetailCard.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -83,21 +83,6 @@ export default {
   },
   computed: {
     ...mapGetters(["userProfile", "movieDetail", "movieReviewPopularity"]),
-    title() {
-      return this?.movieDetail?.title;
-    },
-    tagLine() {
-      return this?.movieDetail?.tagline;
-    },
-    overview() {
-      return this?.movieDetail?.overview;
-    },
-    runtime() {
-      return this?.movieDetail?.runtime;
-    },
-    voteAvg() {
-      return this?.movieDetail?.vote_avg;
-    },
     // likeUsers() {
     //   if (this.movieDetail.like_users !== undefined) {
     //     return this.movieDetail.like_users;
@@ -122,6 +107,7 @@ export default {
   methods: {
     ...mapActions(["likeMovie"]),
     kakaoLink() {
+      console.log("클릭");
       window.Kakao.Link.createDefaultButton({
         container: "#create-kakao-link-btn",
         objectType: "feed",
@@ -176,6 +162,24 @@ export default {
   width: 70%;
 }
 
+@media (max-width: 1385px) {
+  .movie-detail__overview__content {
+    width: 60%;
+  }
+}
+
+@media (max-width: 1030px) {
+  .movie-detail__overview__content {
+    width: 50%;
+  }
+}
+
+@media (max-width: 834px) {
+  .movie-detail__overview__content {
+    width: 100% !important;
+  }
+}
+
 .movie-detail__overview__content__tag {
   display: flex;
   flex-wrap: wrap;
@@ -219,8 +223,7 @@ export default {
   font-size: 2.5em;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 1em;
+  gap: 2em;
   color: white;
   font-weight: 500;
 }

@@ -1,30 +1,33 @@
 <template>
   <div class="trailer-container">
     <div v-for="(movie, index) in trailerPath" :key="index">
-      <div class="tailer-container__iframe">
-        <div class="tailer-container__iframe__item">
-          <iframe
-            :src="trailerUrl(movie.trailer_youtube_key)"
-            frameborder="0"
-            width="480px"
-            height="270px"
-          ></iframe>
-        </div>
-        <div class="trailer-container__icon">
+      <!-- <div class="tailer-container__iframe"> -->
+      <div
+        class="tailer-container__iframe__item"
+        @click.self="moveMovieDetail(movie.id)"
+      >
+        <iframe
+          :src="trailerUrl(movie.trailer_youtube_key)"
+          frameborder="0"
+          width="480px"
+          height="270px"
+        ></iframe>
+      </div>
+      <!-- <div class="trailer-container__icon">
           <font-awesome-icon
             class="font-white"
             icon="fa-solid fa-share"
             @click="moveMovieDetail(movie.id)"
             id="move-icon"
-          />
-          <!-- <font-awesome-icon
+          /> -->
+      <!-- <font-awesome-icon
             class="font-white"
             icon="fa-solid fa-message"
             id="review-icon"
             @click="showReviewModal"
           /> -->
-        </div>
-      </div>
+      <!-- </div> -->
+      <!-- </div> -->
       <infinite-loading
         class="trail-container__infinite"
         @infinite="infiniteHandler"
@@ -100,25 +103,30 @@ export default {
   gap: 5em;
   height: 120vh;
   align-items: center;
+  justify-content: flex-start;
+  margin-top: 2em;
 }
 
 .tailer-container__iframe__item {
   scroll-snap-align: start;
   display: block;
-  width: 480px;
-  height: 853px;
+  min-width: 350px;
+  width: 60vw;
+  height: 80vh;
+  max-width: 480px;
+  /* max-height: 853px; */
   border-radius: 1em;
   background-color: black;
   display: flex;
   align-items: center;
 }
 
-.tailer-container__iframe {
+/* .tailer-container__iframe {
   display: flex;
   align-items: flex-end;
   justify-content: center;
   margin-right: -4em;
-}
+} */
 
 .trailer-container__icon {
   display: flex;

@@ -4,14 +4,13 @@
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
       @show-profile-modal="showProfileModal"
-      @show-search-modal="showSearchModal"
-      @hide-search-modal="hideSearchModal"
+      @hide-hamburger-modal="hideHamburgerModal"
+      @show-hamburger-modal="showHambuergerModal"
       class="nav-bar"
     ></nav-bar>
     <router-view
       @show-sign-up-modal="showSignUpModal"
       @show-log-in-modal="showLogInModal"
-      @show-review-modal="showReviewModal"
       :key="$route.fullPath"
     />
     <the-sign-up-modal
@@ -34,8 +33,12 @@
     <search-movie-modal
       v-if="searchModal"
       class="modal__search"
-      @hide-search-modal="hideSearchModal"
     ></search-movie-modal>
+    <the-hamburger-modal
+      class="modal__hamburger"
+      @hide-hamburger-modal="hideHamburgerModal"
+      v-if="hamburgerModal"
+    ></the-hamburger-modal>
   </div>
 </template>
 
@@ -45,6 +48,7 @@ import TheSignUpModal from "@/components/TheSignUpModal.vue";
 import TheLogInModal from "@/components/TheLogInModal.vue";
 import TheProfileModal from "@/components/TheProfileModal.vue";
 import SearchMovieModal from "./components/SearchMovieModal.vue";
+import TheHamburgerModal from "@/components/TheHamburgerModal.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "App",
@@ -53,6 +57,7 @@ export default {
       signUp: false,
       logIn: false,
       profileModal: false,
+      hamburgerModal: false,
     };
   },
   components: {
@@ -61,6 +66,7 @@ export default {
     TheLogInModal,
     TheProfileModal,
     SearchMovieModal,
+    TheHamburgerModal,
   },
   computed: {
     ...mapGetters(["searchBar"]),
@@ -71,9 +77,11 @@ export default {
   methods: {
     showSignUpModal(data) {
       this.signUp = data;
+      this.hamburgerModal = false;
     },
     showLogInModal(data) {
       this.logIn = data;
+      this.hamburgerModal = false;
     },
     hideSignUpModal(data) {
       this.signUp = data;
@@ -83,22 +91,29 @@ export default {
     },
     showProfileModal(data) {
       this.profileModal = data;
+      this.hamburgerModal = false;
     },
     hideProfileModal(data) {
       this.profileModal = data;
     },
-    hideSearchModal(data) {
-      this.searchMovieModal = data;
+    // hideSearchModal(data) {
+    //   this.searchMovieModal = data;
+    // },
+    // showSearchModal(data) {
+    //   this.searchMovieModal = data;
+    // },
+    hideHamburgerModal() {
+      this.hamburgerModal = false;
     },
-    showSearchModal(data) {
-      this.searchMovieModal = data;
+    showHambuergerModal() {
+      this.hamburgerModal = true;
     },
-    showReviewModal(data) {
-      this.reviewModal = data;
-    },
-    hideReviewModal(data) {
-      this.reviewModal = data;
-    },
+    // showReviewModal(data) {
+    //   this.reviewModal = data;
+    // },
+    // hideReviewModal(data) {
+    //   this.reviewModal = data;
+    // },
   },
 };
 </script>
@@ -130,6 +145,21 @@ export default {
   top: 80px;
   right: 30px;
   z-index: 4;
+}
+
+.modal__hamburger {
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(32, 34, 37, 0.8);
 }
 
 .modal__search {

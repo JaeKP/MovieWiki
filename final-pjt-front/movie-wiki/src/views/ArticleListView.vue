@@ -29,9 +29,7 @@
         <div class="bg-medium-gray article-table-top">
           <div class="article-list">
             <p class="article__type text-top font-white">게시판</p>
-            <p class="article__blank-left"></p>
             <p class="article__title-center text-top font-white">제목</p>
-            <p class="article__blank-right"></p>
             <p class="article__nickname text-top font-white">작성자</p>
             <p class="article__like-users text-top font-white">추천수</p>
             <p class="article__time text-top font-white">작성 시각</p>
@@ -48,7 +46,6 @@
               >
                 {{ article.article_type.name }}
               </p>
-              <p class="article__blank-left"></p>
               <p class="article__title article-list-text">
                 <router-link
                   class="router-txet"
@@ -57,7 +54,6 @@
                   {{ article.title }} [{{ article.comment_count }}]
                 </router-link>
               </p>
-              <p class="article__blank-right"></p>
               <p class="article__nickname article-list-text">
                 <router-link
                   class="router-txet"
@@ -497,5 +493,8 @@ select {
 
 .movie-detail__review__pagenation__count {
   font-size: 1.2em;
+}
+
+@media (max-width) {
 }
 </style>
