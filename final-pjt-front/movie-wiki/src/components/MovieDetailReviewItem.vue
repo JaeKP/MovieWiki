@@ -149,6 +149,7 @@ export default {
     },
     hideUpdateForm() {
       this.updateForm = false;
+      this.reviewDataInfo.content = this.reviewData.content;
     },
     submitUpdateForm() {
       this.updateMovieReview(this.reivewInfo);

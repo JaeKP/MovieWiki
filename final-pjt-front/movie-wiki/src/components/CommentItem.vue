@@ -114,6 +114,7 @@ export default {
     },
     closeIsEditing() {
       this.isEditing = !this.isEditing;
+      this.payload.content = this.comment.content;
     },
     onUpdate() {
       this.updateComment(this.payload);

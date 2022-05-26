@@ -32,7 +32,6 @@ export default {
     mouseMove(e) {
       this.x = e.clientX - window.innerWidth / 2;
       this.y = e.clientY - window.innerHeight / 2;
-      console.log(this.x, this.y);
     },
 
     magicHome() {
@@ -70,7 +69,7 @@ export default {
         "px," +
         -(my / 50) +
         "px,0) rotate3d(0,1,0," +
-        mx * 1.5 +
+        mx * 2 +
         "deg)";
       glass2.style.transform =
         "translate3d(" +
@@ -105,7 +104,7 @@ export default {
         -mx / 4 +
         "deg)";
       glass6.style.transform = "rotate3d(-1,-1,0," + mx / 20 + "deg)";
-      glass7.style.transform = "rotate3d(0,1,0," + mx * 1.5 + "deg)";
+      glass7.style.transform = "rotate3d(0,1,0," + mx * 2 + "deg)";
       glass8.style.transform = "rotate3d(-0.5,1,0," + mx / 20 + "deg)";
       glass9.style.transform = "rotate3d(-0.1,0.5,0," + mx / 40 + "deg)";
       glass10.style.transform = "rotate3d(0.3,0.2,0," + mx / 20 + "deg)";
