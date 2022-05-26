@@ -91,7 +91,7 @@ import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/vue-editor";
-import ArticleOptionModal from "@/components/articleOptionModal.vue";
+import ArticleOptionModal from "@/components/ArticleOptionModal.vue";
 
 export default {
   components: {

@@ -4,18 +4,10 @@
       <div class="search-modal bg-navbar-black">
         <input type="text" @input="changeKeyword" />
         <search-movie-item
-          v-for="searchInfo in searchInfos.title"
-          :key="searchInfo.id"
+          v-for="(searchInfo, i) in searchInfos"
+          :key="i"
           :searchInfo="searchInfo"
           :keyword="keyword"
-          type="title"
-        ></search-movie-item>
-        <search-movie-item
-          v-for="searchInfo in searchInfos.actor"
-          :key="searchInfo.id"
-          :searchInfo="searchInfo"
-          :keyword="keyword"
-          type="name"
         ></search-movie-item>
       </div>
     </div>
@@ -39,10 +31,7 @@ export default {
       this.$emit("hide-search-modal", false);
     },
     changeKeyword(event) {
-      const querytype = [event.target.value, "title"];
-      this.searchInfo(querytype);
-      const querytype2 = [event.target.value, "actor"];
-      this.searchInfo(querytype2);
+      this.searchInfo(event.target.value);
     },
     ...mapActions(["searchInfo"]),
   },
