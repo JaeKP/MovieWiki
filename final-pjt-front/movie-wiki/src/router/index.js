@@ -12,6 +12,7 @@ import TrailerView from "@/views/TrailerView.vue";
 import NotFound404View from "@/views/NotFound404View.vue";
 import UserInfoView from "@/views/UserInfoView.vue";
 import store from "@/store/index";
+import Swal from "sweetalert2";
 
 Vue.use(VueRouter);
 
@@ -52,8 +53,17 @@ const routes = [
           // console.log("routing success : '" + to.path + "'");
           next(); // 페이지 전환
         } else {
-          // 이동할 페이지에 인증 정보가 필요하면 경고 창을 띄우고 페이지 전환은 하지 않음
-          alert("로그인한 유저만 접근 가능합니다");
+          Swal.fire({
+            title: "로그인한 유저만 접근이 가능합니다.",
+            icon: "info",
+            width: "400px",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            heightAuto: false,
+          });
         }
       } else {
         next();
@@ -78,7 +88,17 @@ const routes = [
           next(); // 페이지 전환
         } else {
           // 이동할 페이지에 인증 정보가 필요하면 경고 창을 띄우고 페이지 전환은 하지 않음
-          alert("로그인한 유저만 접근 가능합니다");
+          Swal.fire({
+            title: "로그인한 유저만 접근이 가능합니다.",
+            icon: "info",
+            width: "400px",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            heightAuto: false,
+          });
         }
       } else {
         next();

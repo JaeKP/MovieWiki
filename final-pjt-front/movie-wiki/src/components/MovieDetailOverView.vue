@@ -54,14 +54,20 @@
             >찜하기 취소</span
           >
         </p>
-        <p>
-          <a id="create-kakao-link-btn" @click="kakaoLink">
-            <img
-              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-              alt="카카오링크 보내기 버튼"
-            />
-          </a>
-        </p>
+        <button
+          id="create-kakao-link-btn"
+          @click="kakaoLink"
+          class="font-white"
+        >
+          <font-awesome-icon
+            icon="fa-solid fa-arrow-up-from-bracket"
+            id="movie-detail__overview__content__overview__icon__share"
+          />
+          <span
+            class="movie-detail__overview__content__overview__icon__share__span"
+            >공유하기</span
+          >
+        </button>
       </div>
     </div>
   </div>
@@ -213,7 +219,8 @@ export default {
   font-size: 2.5em;
   display: flex;
   flex-wrap: wrap;
-  gap: 2em;
+  align-items: center;
+  gap: 1em;
   color: white;
   font-weight: 500;
 }
@@ -225,6 +232,20 @@ export default {
 #movie-detail__overview__content__overview__icon__heart__like {
   font-size: 1.2em;
   color: #ed4245;
+}
+
+#create-kakao-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+#movie-detail__overview__content__overview__icon__share {
+  font-size: 3em;
+}
+
+.movie-detail__overview__content__overview__icon__share__span {
+  font-size: 2em;
+  font-weight: 500;
 }
 
 #movie-detail__overview__content__overview__icon__heart__like:hover {

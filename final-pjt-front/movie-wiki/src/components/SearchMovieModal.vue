@@ -27,8 +27,9 @@ export default {
     ...mapState(["searchInfos", "keyword"]),
   },
   methods: {
+    ...mapActions(["setSearchBar"]),
     hideSearchModal() {
-      this.$emit("hide-search-modal", false);
+      this.setSearchBar(false);
     },
     changeKeyword(event) {
       this.searchInfo(event.target.value);
