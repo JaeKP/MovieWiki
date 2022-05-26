@@ -14,12 +14,12 @@
             </button>
           </div>
           <div class="article__modal">
-            <article-option-modal
+            <the-article-option-modal
               v-if="optionModal"
               @hide-article-modal="hideArticleModal"
               type="글"
               :articleId="articlePk"
-            ></article-option-modal>
+            ></the-article-option-modal>
           </div>
           <div class="article__title-bar__user-info">
             <div class="flex-article">
@@ -91,7 +91,7 @@ import CommentForm from "@/components/CommentForm.vue";
 import CommentItem from "@/components/CommentItem.vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/vue-editor";
-import ArticleOptionModal from "@/components/ArticleOptionModal.vue";
+import TheArticleOptionModal from "@/components/TheArticleOptionModal.vue";
 
 export default {
   components: {
@@ -99,7 +99,7 @@ export default {
     CommentForm,
     CommentItem,
     Viewer,
-    ArticleOptionModal,
+    TheArticleOptionModal,
   },
   name: "ArticleDetailView",
   data() {

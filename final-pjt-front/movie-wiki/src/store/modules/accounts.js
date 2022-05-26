@@ -86,7 +86,6 @@ export default {
           dispatch("setUserInfoDetail", response.data);
         })
         .catch((error) => {
-          console.log(error.response.data);
           if (error.response.status === 404) {
             router.push({ name: "NotFound" });
           }
@@ -254,7 +253,6 @@ export default {
     },
     // 정보 수정 중 업로드한 이미지
     temporaryImageUpload({ getters, dispatch }, { username, profile_image }) {
-      console.log("된다!");
       const formdata = new FormData();
       for (let i = 0; i < profile_image.length; i++) {
         formdata.append("profile_image", profile_image[i]);

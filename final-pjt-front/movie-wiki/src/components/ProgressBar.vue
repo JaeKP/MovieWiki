@@ -18,7 +18,6 @@ export default {
   },
   created() {
     this.progressbarHandler = setInterval(this.updateProgressbar, 30);
-    console.log(window.outerHeight);
   },
   destroyed() {
     if (this.progressbarHandler != null) {

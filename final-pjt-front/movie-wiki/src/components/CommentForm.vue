@@ -12,12 +12,13 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
+import Swal from "sweetalert2";
 export default {
   name: "CommentForm",
   data() {
     return {
       content: "",
+      badWords: ["바보", "멍청이", "시발", "병신"],
     };
   },
   computed: {
@@ -25,9 +26,31 @@ export default {
   },
   methods: {
     ...mapActions(["createComment"]),
+    checkAvailability(arr, val) {
+      return arr.some((arrVal) => val.includes(arrVal));
+    },
+    checkWord() {
+      return this.checkAvailability(this.badWords, this.content);
+    },
     onSubmit() {
-      this.createComment({ articlePk: this.article.pk, content: this.content });
-      this.content = "";
+      if (!this.checkWord()) {
+        this.createComment({
+          articlePk: this.article.pk,
+          content: this.content,
+        });
+        this.content = "";
+      } else {
+        Swal.fire({
+          text: "부적절한 단어가 포함되어 있습니다.",
+          icon: "error",
+          width: "400px",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          position: "center",
+          heightAuto: false,
+        });
+      }
     },
   },
 };

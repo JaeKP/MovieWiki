@@ -68,7 +68,6 @@ export default {
       return part;
     },
     hideSearchBar() {
-      console.log(1);
       this.setSearchBar(false);
     },
   },

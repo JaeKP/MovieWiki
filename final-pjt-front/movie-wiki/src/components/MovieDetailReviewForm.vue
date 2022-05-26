@@ -14,6 +14,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import Swal from "sweetalert2";
 export default {
   name: "MovieDetailReviewForm",
   data() {
@@ -24,6 +25,7 @@ export default {
         type: this.filterType,
         movieId: this.movieDetail.id,
       },
+      badWords: ["바보", "멍청이", "시발", "죽음", "죽어", "병신"],
     };
   },
   props: {
@@ -36,11 +38,33 @@ export default {
   },
   methods: {
     ...mapActions(["createMovieReview"]),
+    checkAvailability(arr, val) {
+      return arr.some((arrVal) => val.includes(arrVal));
+    },
+    checkWord() {
+      const reviewData = this?.inputData?.content;
+      return this.checkAvailability(this.badWords, reviewData);
+    },
     onSubmit() {
-      console.log(this.filterType);
-      this.createMovieReview(this.inputData);
-      this.inputData.content = "";
-      this.inputData.spoiler = false;
+      if (!this.checkWord()) {
+        this.createMovieReview(this.inputData);
+        this.inputData.content = "";
+        this.inputData.spoiler = false;
+      } else {
+        Swal.fire({
+          text: "부적절한 단어가 포함되어 있습니다.",
+          icon: "error",
+          width: "400px",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          position: "center",
+          heightAuto: false,
+        });
+      }
+      // this.createMovieReview(this.inputData);
+      // this.inputData.content = "";
+      // this.inputData.spoiler = false;
     },
   },
 };
