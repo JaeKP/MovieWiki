@@ -158,5 +158,25 @@ export default {
         dispatch("setMovieReviewLatest", response.data.latest);
       });
     },
+    // 영화 리뷰 업데이트
+    updateMovieReview(
+      { getters, dispatch },
+      { type, movieId, reviewId, content, spoiler }
+    ) {
+      axios({
+        url: drf.movie.movieReviewDetail(),
+        method: "put",
+        params: {
+          movie_id: movieId,
+          type: type,
+          review_id: reviewId,
+        },
+        data: { content, spoiler },
+        headers: getters.authHeader,
+      }).then((response) => {
+        dispatch("setMovieReviewPopularity", response.data.popularity);
+        dispatch("setMovieReviewLatest", response.data.latest);
+      });
+    },
   },
 };

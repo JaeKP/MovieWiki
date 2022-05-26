@@ -7,7 +7,6 @@
     <card-list
       class="test-margin"
       URL="http://localhost:8000/api/v1/movie/list"
-      Tag="최신 인기 영화"
     ></card-list>
     <div>
       <card-list
@@ -288,5 +287,14 @@ export default {
 }
 .bg2 {
   position: absolute;
+}
+
+@media (max-width: 500px) {
+  .magic-home {
+    display: none;
+  }
+  .test-margin {
+    margin-top: 1rem;
+  }
 }
 </style>
