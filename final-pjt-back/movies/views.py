@@ -160,7 +160,7 @@ def search(request):
     filter_type = request.GET.get('type')
     if filter_type == 'title':
         results = Movie.objects.filter(title__icontains = query)[:21]
-        serializer = MovieListSerializer(results, many=True)
+        serializer = MovieSerializer(results, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif filter_type == 'actor':
         results = Actor.objects.filter(name__icontains = query)[:21]

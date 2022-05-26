@@ -17,7 +17,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "OptionModal",
+  name: "ArticleOptionModal",
   methods: {
     ...mapActions(["deleteArticle"]),
     hideArticleModal() {

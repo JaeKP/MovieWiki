@@ -1,23 +1,33 @@
 <template>
-  <ul @click="searchSelect">
-    <!-- <router-link
+  <div @click="hideSearchBar" class="route-title">
+    <router-link
       :to="{
         name: 'movieDetail',
         params: { movieId: searchInfo.id },
       }"
-    > -->
-    <li style="display: flex">
-      <p class="font-gray">{{ start() }}</p>
-      <p class="font-basic">{{ bold() }}</p>
-      <p class="font-gray">{{ end() }}</p>
-    </li>
-    <!-- </router-link> -->
-  </ul>
+      class="searh-title"
+    >
+      <li style="display: flex">
+        <p class="font-gray">{{ start() }}</p>
+        <p class="font-basic">{{ bold() }}</p>
+        <p class="font-gray">{{ end() }}</p>
+        <p class="font-medium-gray">
+          ({{ searchInfo.released_date.slice(0, 4) }})
+        </p>
+      </li>
+    </router-link>
+  </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "SearchMovieItem",
+  data() {
+    return {
+      type: "",
+    };
+  },
   props: {
     searchInfo: {
       type: Object,
@@ -25,47 +35,45 @@ export default {
     keyword: {
       type: String,
     },
-    type: {
-      type: String,
-    },
   },
   methods: {
+    ...mapActions(["setSearchBar"]),
     bold() {
-      const start = this.searchInfo[this.type].indexOf(this.keyword);
+      const start = this.searchInfo.title.indexOf(this.keyword);
       const end = start + this.keyword.length;
-      let part = this.searchInfo[this.type].slice(start, end);
-      if (this.searchInfo[this.type][end - 1] === " ") {
-        part = this.searchInfo[this.type].slice(start, end) + "\u200b";
+      let part = this.searchInfo.title.slice(start, end);
+      if (this.searchInfo.title[end - 1] === " ") {
+        part = this.searchInfo.title.slice(start, end) + "\u200b";
       }
       return part;
     },
     start() {
-      const start = this.searchInfo[this.type].indexOf(this.keyword);
-      let part = this.searchInfo[this.type].slice(0, start);
+      const start = this.searchInfo.title.indexOf(this.keyword);
+      let part = this.searchInfo.title.slice(0, start);
 
-      if (this.searchInfo[this.type][start - 1] === " ") {
-        part = this.searchInfo[this.type].slice(0, start) + "\u200b";
+      if (this.searchInfo.title[start - 1] === " ") {
+        part = this.searchInfo.title.slice(0, start) + "\u200b";
       }
       return part;
     },
     end() {
-      const start = this.searchInfo[this.type].indexOf(this.keyword);
+      const start = this.searchInfo.title.indexOf(this.keyword);
       const end = start + this.keyword.length;
-      let part = this.searchInfo[this.type].slice(
-        end,
-        this.searchInfo[this.type].length
-      );
-      if (this.searchInfo[this.type][end] === " ") {
+      let part = this.searchInfo.title.slice(end, this.searchInfo.title.length);
+      if (this.searchInfo.title[end] === " ") {
         part =
           "\u200b" +
-          this.searchInfo[this.type].slice(
-            end,
-            this.searchInfo[this.type].length
-          );
+          this.searchInfo.title.slice(end, this.searchInfo.title.length);
       }
       return part;
     },
-    searchSelect() {},
+    hideSearchBar() {
+      console.log(1);
+      this.setSearchBar(false);
+    },
+  },
+  computed: {
+    ...mapGetters(["searchBar"]),
   },
 };
 </script>
@@ -73,11 +81,22 @@ export default {
 <style scoped>
 li {
   width: 75vw;
-  align-items: start;
+  align-items: flex-start;
 }
 
 p {
   /* color: white; */
   font-size: 2rem;
+}
+.searh-title {
+  text-decoration: none;
+  height: 54.39px;
+  margin-bottom: 0;
+  margin-top: 16px;
+  padding-bottom: 0;
+}
+.route-title {
+  height: 54.39px;
+  padding-bottom: 0;
 }
 </style>
