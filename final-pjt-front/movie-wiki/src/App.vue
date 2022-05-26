@@ -122,7 +122,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 @import "@/assets/default.css";
 .nav-bar {
-  z-index: 10;
+  z-index: 12;
 }
 
 .modal {
@@ -137,18 +137,18 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(32, 34, 37, 0.8);
-  z-index: 10;
+  z-index: 12;
 }
 
 .modal__profile {
   position: fixed;
   top: 80px;
   right: 30px;
-  z-index: 4;
+  z-index: 8;
 }
 
 .modal__hamburger {
-  z-index: 5;
+  z-index: 8;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -168,7 +168,7 @@ export default {
   position: fixed;
   top: 80px;
   /* right: 30px; */
-  z-index: 3;
+  z-index: 10;
   background-color: rgba(32, 34, 37, 0.8);
 }
 </style>

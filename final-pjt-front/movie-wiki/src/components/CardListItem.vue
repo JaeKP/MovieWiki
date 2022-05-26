@@ -52,6 +52,7 @@ export default {
   height: 23rem;
   /* box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, 0.05); */
   border: 0;
+  z-index: 4;
   /* Swiper의 자체 overflow:hidden 때문에 하단 그림자가 사라짐.. 야매로 해결 */
   /* margin-bottom: 0.1rem; */
 }
@@ -75,7 +76,7 @@ export default {
 .text {
   display: none;
   color: white;
-  z-index: 1;
+  z-index: 7;
   padding: 1rem;
   font-weight: 400;
 }
