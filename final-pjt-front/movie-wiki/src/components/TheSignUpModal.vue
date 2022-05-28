@@ -35,6 +35,7 @@
             maxlength="10"
             required
             placeholder="nickname"
+            minlength="2"
           />
         </div>
         <div class="sign-up__password1">
@@ -140,10 +141,13 @@ export default {
 @media (max-width: 800px) {
   .sign-up-modal {
     width: 300px;
+    padding: 1.5em;
   }
+
   .sign-up-modal > .sign-up {
     display: flex;
     flex-direction: column;
+    gap: 0.8rem;
   }
 }
 
@@ -156,9 +160,6 @@ export default {
   #email,
   #nickname {
     height: 1.7em;
-  }
-  .sign-up__username > label {
-    font-size: 1em;
   }
 }
 

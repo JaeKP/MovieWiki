@@ -107,8 +107,8 @@ export default {
     ...mapGetters(["userProfile"]),
     userNickName() {
       const nickname = this.reviewData.user_id.nickname;
-      const length = nickname.length - 2;
-      const hiddenName1 = nickname.substr(0, 2);
+      const length = nickname.length - 1;
+      const hiddenName1 = nickname.substr(0, 1);
       const array = new Array(length).fill("*");
       const hiddenName2 = array.join("");
       return hiddenName1 + hiddenName2;
