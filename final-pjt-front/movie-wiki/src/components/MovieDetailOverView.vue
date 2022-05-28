@@ -179,7 +179,7 @@ export default {
 .movie-detail__overview__content {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1.5em;
   width: 70%;
 }
 
@@ -244,7 +244,8 @@ export default {
   font-size: 2.5em;
   display: flex;
   flex-wrap: wrap;
-  gap: 2em;
+  align-items: center;
+  gap: 1em;
   color: white;
   font-weight: 500;
 }

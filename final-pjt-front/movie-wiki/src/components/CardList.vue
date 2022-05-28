@@ -51,6 +51,7 @@ export default {
   async created() {
     const response = await fetch(this.URL);
     this.movieDatas = await response.json();
+    console.log(this.Tag);
   },
 };
 </script>
