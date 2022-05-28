@@ -156,6 +156,10 @@
 
 ![MovieWikiCollabo](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/MovieWikiCollabo.png)
 
+![image-20220527051845428](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527051845428.png)
+
+![image-20220527051854324](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527051854324.png)
+
 <br>
 
 ## 3. 프로젝트 소개
@@ -164,9 +168,7 @@
 
 ![Honeycam 2022-05-27 05-28-26](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-28-26.gif)
 
-
-
-
+<br>
 
 #### 1.메인페이지 인터렉티브 이미지
 
@@ -174,20 +176,18 @@
 
 ![Honeycam 2022-05-27 05-18-27](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-18-27.gif)
 
-
+<br>
 
 #### 2. 영화 프리뷰와 Carousel 기능
 
 - 화살표와 마우스 스크롤으로 좌우로 이동할 수 있는 Carousel입니다.
 - 영화 포스터에 마우스를 올려놓을 시 영화의 타이틀과 오버뷰를 보여 줍니다.
 
-![Honeycam 2022-05-27 05-24-59](../../Users/T.M/Documents/Honeycam/Honeycam 2022-05-27 05-24-59.gif)
-
 - 영화 포스터를 클릭하면 영화의 상세 페이지로 이동합니다.
 
 ![Honeycam 2022-05-27 06-03-15](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-03-15.gif)
 
-
+<br>
 
 #### 3. 영화 추천 기능들
 
@@ -255,27 +255,119 @@
 
   ![image-20220527054716171](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/image-20220527054716171.png)
 
+<br>
+
+### 2) 네비 바
+
+#### (1) 회원 가입 모달 
+
+![image-20220527060319863](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060319863.png)
+
+<br>
+
+#### (2) 로그인 모달
+
+![image-20220527060341848](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060341848.png)
+
+<br>
+
+#### (3) 프로필 모달
+
+![image-20220527060427400](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060427400.png)
+
+<br>
+
+#### (4) 스크롤 프로그래스 바
+
+- 우측 스크롤 바를 없애는 대신 네비 바 하단에 스크롤의 정보를 표시해 줍니다.
+
+![Honeycam 2022-05-27 05-23-24](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-23-24.gif)
+
+<br>
+
+#### (5)검색 모달
+
+- 돋보기 모양을 누르면 검색을 할 수 있는 모달이 등장합니다.
+- 검색은 실시간 자동완성으로 영화의 제목을 5개씩 보여 줍니다.
+- 찾은 검색 결과에서 키워드에 해당되는 부분은 흰색으로 하이라이팅해서 보여 줍니다.
+
+![Honeycam 2022-05-27 05-50-25](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-50-25.gif)
+
+- 검색 결과를 클릭 할 경우 해당 영화의 상세 페이지로 이동합니다.
+
+![Honeycam 2022-05-27 06-04-12](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-04-12.gif)
 
 
-### 2) 유저 프로필 (ACCOUNT 관련) 
+
+<br>
+
+### 4) 유저 프로필 (ACCOUNT 관련) 
+
+#### (1) 정보페이지
+
+![image-20220527060524231](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060524231.png)
+
+<br>
+
+#### (2) 회원 정보 수정 모달
+
+![image-20220527060651746](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060651746.png)
+
+<br>
+
+### 4) 영화 상세페이지
+
+#### (1) 영화 상세 페이지 들어가기
+
+![Honeycam 2022-05-27 06-11-20](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 06-11-20.gif)
+
+<br>
+
+#### (2) 영화 좋아요, 공유하기 
+
+![Honeycam 2022-05-27 06-15-45](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 06-15-45.gif)
 
 
 
-### 3) 영화 상세페이지
+<br>
 
+#### (3) 영화 한줄평 작성  , 욕설 필터링 기능
 
+![Honeycam 2022-05-27 06-17-50](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 06-17-50.gif)
 
-### 4) 게시판 (커뮤니티)
+<br>
 
+#### (4) 영화 한줄평 조희, 스포일러 기능 
 
+![Honeycam 2022-05-27 08-39-00](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 08-39-00.gif)
 
-#### 1. 게시글 리스트
+<br>
+
+#### (5) 영화 한줄평 필터와 좋아요 
+
+![Honeycam 2022-05-27 08-40-07](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 08-40-07.gif)
+
+<br>
+
+#### (6) 영화 한줄평 수정, 삭제 
+
+![Honeycam 2022-05-27 08-45-44](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 08-45-44.gif)
+
+<br>
+
+![Honeycam 2022-05-27 08-46-58](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 08-46-58.gif)
+
+<br>
+
+### 5) 게시판 (커뮤니티)
+
+#### (1) 게시글 리스트
 
 ![image-20220527060621640](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/image-20220527060621640.png)
 
+<br>
 
-
-#### 2. 게시판 필터 기능
+#### (2) 게시판 필터 기능
 
 - 전체를 보여주는 전체 게시판과 인기글을 보여주는 인기 게시판, 3가지 타입의 게시글을 분류 해주는 자유, 영화, 배우 게시판으로 나누어져있다.
 - 게시판을 선택하면 선택한 게시판이 활성화 되면서 버튼의 색이 변한다.
@@ -290,9 +382,9 @@
 
 ![Honeycam 2022-05-27 06-12-47](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-12-47.gif)
 
+<br>
 
-
-#### 3. 게시판 검색 기능
+#### (3) 게시판 검색 기능
 
 ![image-20220527061413637](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/image-20220527061413637.png)
 
@@ -305,9 +397,9 @@
 
 ![Honeycam 2022-05-27 06-15-45](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-15-45.gif)
 
+<br>
 
-
-#### 4. 게시글 작성
+#### (4) 게시글 작성
 
 ![image-20220527061759843](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/image-20220527061759843.png)
 
@@ -316,9 +408,9 @@
 
 ![Honeycam 2022-05-27 06-20-26](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-20-26.gif)
 
+<br>
 
-
-#### 5. 게시글 상세 페이지
+#### (5) 게시글 상세 페이지
 
 - 상단에서 게시글의 정보와 작성자 정보가 나온다.
 - 작성자 프로필 이미지를 클릭하면 상세정보로 이동한다.
@@ -349,43 +441,27 @@
 
 ![image-20220527063323626](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/image-20220527063323626.png)
 
+<br>
 
+### 6) 트레일러 
 
+![Honeycam 2022-05-27 08-40-57](C:/Users/user/Documents/Honeycam/Honeycam 2022-05-27 08-40-57.gif)
 
+<br>
 
+#### (7) 알럿
 
+<br>
 
-### 5) 트레일러 
-
-
-
-### 6) 네비 바
-
-#### 1. 스크롤 프로그래스 바
-
-- 우측 스크롤 바를 없애는 대신 네비 바 하단에 스크롤의 정보를 표시해 줍니다.
-
-![Honeycam 2022-05-27 05-23-24](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-23-24.gif)
-
-
-
-#### 2. 검색 모달
-
-- 돋보기 모양을 누르면 검색을 할 수 있는 모달이 등장합니다.
-- 검색은 실시간 자동완성으로 영화의 제목을 5개씩 보여 줍니다.
-- 찾은 검색 결과에서 키워드에 해당되는 부분은 흰색으로 하이라이팅해서 보여 줍니다.
-
-![Honeycam 2022-05-27 05-50-25](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2005-50-25.gif)
-
-- 검색 결과를 클릭 할 경우 해당 영화의 상세 페이지로 이동합니다.
-
-![Honeycam 2022-05-27 06-04-12](https://raw.githubusercontent.com/shrewslampe/image_sever/master/img/Honeycam%202022-05-27%2006-04-12.gif)
-
-
+#### (8) 반응형 웹페이지
 
 <br>
 
 ## 4. 프로젝트 회고 
+
+#### 박재경
+
+난 감자다, 
 
 #### 황상윤
 

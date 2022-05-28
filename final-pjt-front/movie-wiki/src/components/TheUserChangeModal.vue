@@ -31,12 +31,13 @@
           id="nickname"
           v-model="credential.nickname"
           maxlength="10"
+          minlength="2"
         />
       </div>
       <div>
         <div>
           <label for="region">거주 지역</label>
-          <select type="text" id="region" v-model="credential.region">
+          <select type="text" id="region" v-model="credential.region" required>
             <option disabled value="">선택해주세요</option>
             <option>서울</option>
             <option>인천</option>
@@ -60,8 +61,9 @@
             type="number"
             id="age"
             v-model.number="credential.age"
-            min="0"
-            max="100"
+            min="10"
+            max="99"
+            required
           />
         </div>
       </div>
@@ -131,6 +133,37 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 2em;
+}
+
+@media (max-width: 1000px) {
+  .change-modal {
+    width: 50%;
+  }
+}
+
+@media (max-width: 900px) {
+  .change-modal {
+    width: 60%;
+  }
+}
+
+@media (max-width: 700px) {
+  .change-modal {
+    width: 70%;
+  }
+}
+
+@media (max-width: 550px) {
+  .change-modal {
+    width: 80%;
+  }
+}
+
+@media (max-width: 400px) {
+  .change-modal {
+    width: 90%;
+    padding: 2em;
+  }
 }
 .change-modal > div,
 h1 {
