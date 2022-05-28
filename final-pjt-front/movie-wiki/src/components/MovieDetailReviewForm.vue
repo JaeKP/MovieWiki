@@ -7,7 +7,7 @@
     <div>
       <input type="checkbox" id="spoiler" v-model="inputData.spoiler" />
       <label for="spoiler" class="font-white"> 스포일러가 있습니다.</label>
-      <button class="comment-submit">댓글 남기기</button>
+      <button class="comment-submit">작성 하기</button>
     </div>
   </form>
 </template>
