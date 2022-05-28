@@ -22,21 +22,21 @@
     ></card-list>
     <!-- 유저와 또래의 유저가 좋아요한 수 -->
     <card-list
-      v-if="isLoggedIn"
+      v-if="isLoggedIn && userProfile.age !== undefined"
       :URL="`http://localhost:8000/api/v1/movie/recommendation/age/?age=${userProfile.age}`"
       :Tag="`${userProfile.nickname}님과 또래의 유저들이 좋아하는 영화`"
     ></card-list>
 
+    <!-- 날씨별 -->
+    <card-list
+      v-if="isLoggedIn && userProfile.region !== undefined"
+      :URL="`http://127.0.0.1:8000/api/v1/movie/filter?type=weather&query=${userProfile.region}`"
+      :Tag="Weather_condition_codes[weather]"
+    ></card-list>
     <!-- 년도 인기 영화 -->
     <card-list
       :URL="`http://127.0.0.1:8000/api/v1/movie/filter?type=year&query=${sampleYear}`"
       :Tag="`${sampleYear}0년대 인기 영화`"
-    ></card-list>
-    <!-- 날씨별 -->
-    <card-list
-      v-if="isLoggedIn"
-      :URL="`http://127.0.0.1:8000/api/v1/movie/filter?type=weather&query=${userProfile.region}`"
-      :Tag="Weather_condition_codes[weather]"
     ></card-list>
     <!-- 장르 추천 -->
     <card-list
@@ -268,6 +268,21 @@ export default {
     } else {
       this.season = "추운 겨울";
     }
+  },
+  watch: {
+    userProfile: async function () {
+      if (this.userProfile.region) {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${
+            this.area_data[this.userProfile.region][0]
+          }&lon=${this.area_data[this.userProfile.region][1]}&appid=${
+            this.API_KEY
+          }&units=metric`
+        );
+        const weather = await response.json();
+        this.weather = weather.weather[0].main;
+      }
+    },
   },
 };
 </script>
