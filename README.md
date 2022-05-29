@@ -44,18 +44,18 @@
 
 #### (1) 기획 단계 
 
-- 기능 명세서 ( 05월 13일 )
-  - [기능 명세서](https://docs.google.com/spreadsheets/d/13-9IrDFRCBZyD7dkMfqYZtNMpP68iiz1fK5H-jnfsAM/edit?usp=sharing)
+- **기능 명세서 ( 05월 13일 )**
+  - [링크](https://docs.google.com/spreadsheets/d/13-9IrDFRCBZyD7dkMfqYZtNMpP68iiz1fK5H-jnfsAM/edit?usp=sharing)
   - 구글 스프레드 시트를 활용하여 채택된 아이디어들을 기반으로 웹사이트에 필요한 기능을 구체적으로 나열했습니다.
-- 와이어 프레임(05월 14일)
-  - [와이어 프레임](https://www.figma.com/file/CqrSKHWMJg6BryWXfnyvXL/%EB%91%98%EC%BD%94%EC%BD%94-team-library?node-id=0%3A1)
+- **와이어 프레임(05월 14일)**
+  - [링크](https://www.figma.com/file/CqrSKHWMJg6BryWXfnyvXL/%EB%91%98%EC%BD%94%EC%BD%94-team-library?node-id=0%3A1)
   - 피그마를 활용하여 앞서 나온 기능들을 어떻게 표현할지 구체적으로 설계했습니다. 
-- ERD 설계 (05월 16일)
-  - [ERD 설계](https://evanescent-tuba-146.notion.site/Project-65922167b74447a49f2d13dcb46b7352)
+- **ERD 설계 (05월 16일)**
+  - [링크](https://evanescent-tuba-146.notion.site/Project-65922167b74447a49f2d13dcb46b7352)
   - 앞서 정한 기능을 구현하기 위해 필요한 데이터를 구조화 했습니다. 또한, TMDB API를 활용하여 영화 데이터를 저장하기 위한 코드를 준비했습니다. 
   - 이미 기능을 구현하기 위한 필요한 데이터가 정해져있었기 때문에, 비교적 쉽게 설계할 수 있었습니다. 효율은.,,몰루,,🙄
-- 컴포넌트 설계 (05월 16일)
-  - [컴포넌트 설계](https://evanescent-tuba-146.notion.site/Project-65922167b74447a49f2d13dcb46b7352)
+- **컴포넌트 설계 (05월 16일)**
+  - [링크](https://evanescent-tuba-146.notion.site/Project-65922167b74447a49f2d13dcb46b7352)
   - 원활한 협업을 위해 미리 컴포넌트를 설계했습니다.
   - 물론 이대로 진행되지는 않았습니다..😅
 
@@ -71,8 +71,8 @@
 
 기능단위로 업무를 진행하기 때문에, 의사소통이 가장 중요하다고 생각했습니다. 
 
-- Notion을 활용하여 매일 아침 9시에 스크럼 회의를 진행하고 기록하였고, 일일 회고 기록도 함께 작성하여 전반적인 일정 관리를 했습니다.
-- 깃허브의 이슈, 풀 리퀴를 통해 실시간으로 서로의 진행 현황을 공유했습니다.
+- Notion을 활용하여 매일 아침 9시에 스크럼 회의를 진행한 내역을 기록하였습니다. 또한, 일일 회고 및 칸반보드를 활용하여 전반적인 일정 관리를 했습니다.
+- 깃허브의 이슈, 풀 리퀘를 통해 실시간으로 서로의 진행 현황을 공유했습니다.
 - 디스코드를 통해 문제 상황이 발생했을경우 빠른 해결을 할 수 있었습니다. 
 
 <br>
