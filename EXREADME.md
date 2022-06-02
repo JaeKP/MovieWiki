@@ -257,11 +257,13 @@
 
 #### (1) 회원 가입 모달 
 
+| <img src="https://github.com/JaeKP/image_repo/blob/main/img/Honeycam%202022-05-27%2006-01-05.gif?raw=true" > | <img src="https://github.com/JaeKP/image_repo/blob/main/img/Honeycam%202022-05-27%2005-57-28.gif?raw=true" > |
+| :----------------------------------------------------------: | ------------------------------------------------------------ |
+
 <figure>
 <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220527060319863.png" width="40%" >
 <img src="https://github.com/JaeKP/image_repo/blob/main/img/Honeycam%202022-05-27%2005-57-28.gif?raw=true" width="40%" >
 </figure>
-
 
 
 <br>
