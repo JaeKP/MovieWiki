@@ -162,8 +162,7 @@
 - 욕설 필터링
 
   - 욕설로 설정한 단어를 한줄평에 작성할 경우 아래와 같은 알럿이 뜬다.
-
-    <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220604010235245.png" width="300" align="left">
+  - <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220604010235245.png" width="300" align="left">
 
 <br>
 
