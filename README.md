@@ -278,7 +278,9 @@
 
 <br>
 
-### 5) 반응형 웹사이트
+### 5) 모바일
+
+![MovieWiki반응형](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/MovieWiki%EB%B0%98%EC%9D%91%ED%98%95.png)
 
 <br>
 
