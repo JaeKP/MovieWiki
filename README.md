@@ -99,9 +99,9 @@
 
 ### 2) 영화 상세 정보 조회
 
-![MovieWiki영화상세페이지](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/MovieWiki%EC%98%81%ED%99%94%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
-
 #### 영화 상세 페이지: 영화 상세 정보 조회 및 좋아요와 공유하기
+
+![MovieWiki영화상세페이지](https://raw.githubusercontent.com/JaeKP/image_repo/main/img/MovieWiki%EC%98%81%ED%99%94%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
 
 - **영화에 대한 상세한 정보를 제공한다.** 
   - 포스터, 영화 장르, 개봉일, 줄거리, 평점
@@ -159,10 +159,17 @@
 
 <br>
 
-- 욕설 필터링
+- 욕설 제재 문구와 필터링 기능
 
-  - 욕설로 설정한 단어를 한줄평에 작성할 경우 아래와 같은 알럿이 뜬다.
-  <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220604010235245.png" width="300">
+  - 한줄평을 작성하는 란에 광고 및 욕설을 제재하는 문구가 적혀 있다. 
+
+    ```
+    광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하면 비공개 될 수 있습니다.
+    ```
+
+  - 욕설로 설정한 단어를 한줄평에 작성할 경우 아래와 같은 알럿이 뜨고 해당 한줄평은 등록되지 않는다. 
+    <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220604010235245.png" width="300">
+
 
 <br>
 
