@@ -276,7 +276,9 @@
 <br>
 
 - **빈 내용을 업로드하려고 할 시, 알럿창이 뜬다.**
-  <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220613203056789.png" width="300">
+
+  | <img src="https://raw.githubusercontent.com/JaeKP/image_repo/main/img/image-20220613203056789.png" width="250"> |
+  | ------------------------------------------------------------ |
 
 <br>
 
