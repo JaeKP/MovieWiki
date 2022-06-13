@@ -2,12 +2,13 @@
   <div>
     <progress-bar class="progress-bar"></progress-bar>
     <magic-home class="magic-home"></magic-home>
-    <!-- 계절별 추천 -->
+
     <!-- 최신 인기 -->
     <card-list
       class="test-margin"
       URL="http://localhost:8000/api/v1/movie/list"
     ></card-list>
+    <!-- 계절별 추천 -->
     <div>
       <card-list
         class="card-list"
@@ -258,7 +259,7 @@ export default {
     }
 
     const nowdate = new Date();
-    const month = nowdate.getMonth();
+    const month = nowdate.getMonth() + 1;
     if (month === 3 || month === 4 || month === 5) {
       this.season = "따사로운 봄날";
     } else if (month === 6 || month === 7 || month === 8) {
